@@ -1,0 +1,10 @@
+body, html{
+    height: 100%;
+}
+
+.bg{
+    background-image: url("../images/ctfletcher.jpg");
+    background-repeat: no-repeat;
+    background-attachment: fixed;
+    background-size: cover;
+}
