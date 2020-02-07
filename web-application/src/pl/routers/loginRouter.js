@@ -7,5 +7,4 @@ router.get("/", function(request, response){
     response.render("login.hbs")
 })
 
-
 module.exports = router

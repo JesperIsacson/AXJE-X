@@ -27,6 +27,10 @@ app.get('/', function(request, response){
     response.render("home.hbs")
 })
 
+app.get("/register", function(request, response){
+    response.render("register.hbs")
+})
+
 app.listen(8080, function(){
     console.log("App listening on port 8080")
 })
