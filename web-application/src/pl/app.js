@@ -4,6 +4,9 @@
 
 //docker-compose up --build      (Använd vid start eller vid ändring i en image)
 //docker-compose up     (Kör den senaste builden på imagen)
+//git add .
+//git commit -m "content"
+//git push origin (branch)
 
 const expressHandlebars = require('express-handlebars')
 const express = require('express')
@@ -14,6 +17,7 @@ const redisStore = require('connect-redis')(expressSession)
 const bodyParser = require('body-parser')
 
 const loginRouter = require("./routers/loginRouter")
+const activityRouter = require("./routers/activityRouter")
 
 const app = express()
 
@@ -41,12 +45,18 @@ app.use(expressSession({
 
 app.use("/login", loginRouter)
 
+app.use("/activities", activityRouter)
+
 app.get('/', function(request, response){
     response.render("home.hbs")
 })
 
 app.get("/register", function(request, response){
     response.render("register.hbs")
+})
+
+app.get("/activities", function(request, response){
+    response.render("activities.hbs")
 })
 
 app.listen(8080, function(){

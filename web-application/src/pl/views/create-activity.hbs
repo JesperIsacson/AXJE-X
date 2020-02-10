@@ -1,0 +1,20 @@
+<h1>Create Activity</h1>
+
+{{#if validationErrors.length}}
+<p>Errors:</p>
+<ul>
+    {{#each validationErrors}}
+    <li>{{this}}</li>
+    {{/each}}
+</ul>
+{{/if}}
+
+<form action="/activities/create" method="POST">
+    <fieldset>
+        <label for="title">Title</label><br>
+        <input type="text" id="input-title" name="title" {{!value ="title"}} placeholder="Title" class="form-input"><br><br>
+        <label for="description">Description</label><br>
+        <textarea name="description" id="input-content" cols="20" rows="10" type="text" class="form-input"></textarea><br><br>
+        <input type="submit" value="Create Activity" class="btn btn-primary">
+    </fieldset>
+</form>
