@@ -1,6 +1,6 @@
 version: '3'
 services:
-    "web-application":
+    web-application:
         build: web-application
         ports:
             - "8080:8080"
@@ -16,3 +16,7 @@ services:
         environment: 
             - MYSQL_ROOT_PASSWORD=hemligt
             - MYSQL_DATABASE=webAppDatabase
+    session-database:
+        build: session-database
+        ports:
+            - "6379:6379"
