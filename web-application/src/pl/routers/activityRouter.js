@@ -16,4 +16,14 @@ router.get("/create", function(request, response){
     response.render("create-activity.hbs", model)
 })
 
+router.post("/createActivity", function(request, response){
+    const activity = {
+        title: request.body.title.trim(),
+        location: request.body.location.trim(),
+        date: request.body.date.trim(),
+        time: request.body.time.trim(),
+        description: request.body.description.trim()
+    }
+})
+
 module.exports = router

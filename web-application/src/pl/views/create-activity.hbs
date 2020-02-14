@@ -11,18 +11,18 @@
 
 <div class="col-md-3 col-sm-12">
     <div class="createactivity-form">
-        <form action="/activities/create" method="POST">
+        <form action="/activities/createActivity" method="POST">
             <fieldset>
                 <label for="title">Title</label><br>
                 <input type="text" id="input-title" name="title" placeholder="Title" class="form-input"><br>
                 <label for="location">Location</label><br>
-                <input type="text" id="input-location" name="title" placeholder="Location" class="form-input"><br>
+                <input type="text" id="input-location" name="location" placeholder="Location" class="form-input"><br>
                 <label for="date">Date</label><br>
-                <input type="text" id="input-date" name="date" placeholder="YYYY-MM-DD" class="form-input"><br>
+                <input type="date" id="input-date" name="date" class="form-input"><br>
                 <label for="time">Time</label><br>
-                <input type="text" id="input-time" name="time" placeholder="HH:MM" class="form-input"><br>
+                <input type="time" id="input-time" name="time" placeholder="HH:MM" class="form-input"><br>
                 <label for="description">Description</label><br>
-                <textarea name="description" id="input-content" cols="20" rows="10" type="text"
+                <textarea name="description" id="input-description" name="description" cols="20" rows="10" type="text"
                     class="form-input"></textarea><br><br>
                 <input type="submit" value="Create Activity" class="btn btn-primary">
             </fieldset>
