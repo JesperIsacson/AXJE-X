@@ -1,6 +1,7 @@
 const express = require('express')
 
 const router = express.Router()
+const activityManger = require('../../bll/activityManager')
 
 router.get("/", function(request, response){
     response.render("activities.hbs")
@@ -24,6 +25,15 @@ router.post("/createActivity", function(request, response){
         time: request.body.time.trim(),
         description: request.body.description.trim()
     }
+
+    activityManager.createActivity(activity, function(error, activity){
+        if(error){
+            console.log(error)
+            response.render("login.hbs", error, activity)
+        } else{
+            response.render("activities.hbs")
+        }
+    })  
 })
 
 module.exports = router

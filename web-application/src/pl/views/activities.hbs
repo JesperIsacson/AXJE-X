@@ -15,22 +15,16 @@
                 {{!#each activity}}
                 <div class="card mb-4">
                     <div class="card-body">
-                        <h2 class="card-title">{{!title}}</h2>
-                        <p class="card-text">{{!content}}</p>
-                        {{!activity/id}}
-                        <a href="#" class="btn btn-primary">Read more</a>
-                        {{!#if../isLoggedIn}}
-                        {{!activity/edit/id}}
-                        <a href="#" class="btn btn-secondary">Edit</a>
-                        {{!activity/delete/id}}
-                        <form action="#" method="POST">
+                        <h2 class="card-title">{{title}}</h2>
+                        <p class="card-text">{{description}}</p>
+                        <a href="/activies/{{id}}" class="btn btn-primary">Read more</a>
+                        <a href="/activities/edit/{{id}}" class="btn btn-secondary">Edit</a>
+                        <form action="/activities/delete/{{id}}" method="POST">
                             <input type="submit" value="Delete" class="btn btn-secondary">
                         </form>
-                        {{!/if}}
                     </div>
                     <div class="card-footer text-muted">
-                        Posted on: {{!datePosted}} by
-                        {{!user/id}}
+                        Posted on: {{date}} by
                         <a href="#">User</a>
                     </div>
                 </div>
