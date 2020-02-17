@@ -10,7 +10,7 @@ services:
         depends_on:
             - database
     database:
-        build: database
+        build: ./database
         ports:
             - "3306:3306"
         environment: 
