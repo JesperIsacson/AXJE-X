@@ -14,6 +14,7 @@ const redisStore = require('connect-redis')(expressSession)
 const bodyParser = require('body-parser')
 
 const loginRouter = require("./routers/loginRouter")
+const profileRotuer = require("./routers/profileRouter")
 
 const app = express()
 
@@ -46,6 +47,7 @@ app.use(function(request, response, next){
 })
 
 app.use("/login", loginRouter)
+app.use("/profile", profileRotuer)
 
 app.get('/', function(request, response){
     response.render("home.hbs")

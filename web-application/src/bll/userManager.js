@@ -54,8 +54,6 @@ exports.login = function(usernameOrPassword, password, callback){
             else{
                 const userEmail = user[0]._email.toString()
                 const fetchedPassword = user[0]._password.toString()
-                console.log(userEmail)
-                console.log(fetchedPassword)
                 bcrypt.compare(password, fetchedPassword, function(error, success){
                     if(error){
                         console.log(error)

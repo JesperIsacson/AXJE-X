@@ -17,7 +17,6 @@ router.post("/", function(request, response){
             response.render("login.hbs", error)
         }
         else{
-            console.log(reqEmail)
             request.session.isLoggdIn = reqEmail
             response.render("home.hbs")
         }
