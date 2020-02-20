@@ -1,6 +1,6 @@
 CREATE TABLE Users(
     _email VARCHAR(100) PRIMARY KEY NOT NULL,
-    _username VARCHAR(100) NOT NULL,
+    _username VARCHAR(100) UNIQUE NOT NULL,
     _firstName VARCHAR(100) NOT NULL,
     _lastName VARCHAR(100) NOT NULL,
     _dateOfBirth DATE NOT NULL,

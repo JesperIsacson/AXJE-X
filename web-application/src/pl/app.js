@@ -35,9 +35,15 @@ redisClient.on("error", function(error) {
 
 app.use(expressSession({
     secret: "l97hvfdi96590mc72j3ndjhh6qwmdmcnhatwpjf76381036ynf38",
+    saveUninitialized: false,
     resave: false,
     store: new redisStore({client: redisClient}),
 }))
+
+app.use(function(request, response, next){
+    response.locals.isLoggedIn = request.session.isLoggedIn
+    next()
+})
 
 app.use("/login", loginRouter)
 

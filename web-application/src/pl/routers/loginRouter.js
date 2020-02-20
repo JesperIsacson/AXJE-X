@@ -3,20 +3,25 @@ const userManager = require('../../bll/userManager')
 
 const router=express.Router()
 
-const username = "tsar"
-const password = "hemligt"
-
 router.get("/", function(request, response){
     response.render("login.hbs")
 })
 
-router.get("/login", function(request, response){
-    if(username == request.body.username && password == request.body.password){
-        response.redirect("/")
-    }
-    else{
-        console.log("Nej")
-    }
+router.post("/", function(request, response){
+    const usernameOrEmail = request.body.usernameOrEmail
+    const password = request.body.password
+
+    userManager.login(usernameOrEmail, password, function(error, reqEmail){
+        if(error){
+            console.log(error)
+            response.render("login.hbs", error)
+        }
+        else{
+            console.log(reqEmail)
+            request.session.isLoggdIn = reqEmail
+            response.render("home.hbs")
+        }
+    })
 })
 
 router.post("/createAccount", function(request, respone){
@@ -31,12 +36,13 @@ router.post("/createAccount", function(request, respone){
         dateOfBirth : request.body.dateOfBirth.trim()
     }
 
-    userManager.createAccount(account, function(error, account){
+    userManager.createAccount(account, function(error, userEmail){
         if(error){
             console.log(error)
             respone.render("register.hbs", error, account)
         }
         else{
+            request.session.isLoggdIn = userEmail
             respone.render("home.hbs")
         }
     })
