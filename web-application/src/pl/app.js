@@ -35,7 +35,7 @@ redisClient.on("error", function(error) {
 })
 
 app.use(expressSession({
-    secret: "l97hvfdi96590mc72j3ndjhh6qwmdmcnhatwpjf76381036ynf38",
+    secret: "l97hvfdi96590mc72j3nd",
     saveUninitialized: false,
     resave: false,
     store: new redisStore({client: redisClient}),

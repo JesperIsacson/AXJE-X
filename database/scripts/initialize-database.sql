@@ -3,7 +3,7 @@ CREATE TABLE IF NOT EXISTS Users(
     _username VARCHAR(100) UNIQUE NOT NULL,
     _firstName VARCHAR(100) NOT NULL,
     _lastName VARCHAR(100) NOT NULL,
-    _dateOfBirth DATE NOT NULL,
+    _dateOfBirth TEXT NOT NULL,
     _gender TEXT NOT NULL,
     _password VARCHAR(100) NOT NULL,
     _weight FLOAT,

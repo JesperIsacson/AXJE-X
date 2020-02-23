@@ -17,8 +17,8 @@ router.post("/", function(request, response){
             response.render("login.hbs", error)
         }
         else{
-            request.session.isLoggdIn = reqEmail
-            response.render("home.hbs")
+            request.session.isLoggedIn = reqEmail
+            response.redirect("/")
         }
     })
 })
@@ -41,10 +41,15 @@ router.post("/createAccount", function(request, respone){
             respone.render("register.hbs", error, account)
         }
         else{
-            request.session.isLoggdIn = userEmail
+            request.session.isLoggedIn = userEmail
             respone.render("home.hbs")
         }
     })
+})
+
+router.post("/logout", function(request, response){
+    request.session.isLoggedIn = null
+    response.redirect("/")
 })
 
 

@@ -1,0 +1,14 @@
+{{#if user}}
+    <div class="container p-3 my-3 bg-dark text-white">
+        <div class="jumobotron">
+            <h5 class="text-center">{{_username}}</h5>
+            <p>Name: {{_firstName}} {{_lastName}}</p>
+            <p>Birth date: {{_dateOfBirth}}</p>
+            <p>Height: </p>
+            <p>Weight: </p>
+            <a class="btn btn-success" href="#">View activities</a>
+        </div>
+    </div>
+{{else}}
+    <h1>INGEN PROFIL HÄR!!!!</h1>
+{{/if}}

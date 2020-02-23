@@ -25,15 +25,25 @@
         <li class="nav-item">
             <a class="nav-link" href="#">Features</a>
         </li>
-        <li class="nav-item">
-            <a class="nav-link" href="/login">Login</a>
-        </li>
+        {{#if isLoggedIn.length}}
+            <li class="nav-item">
+                <form action="login/logout" method="POST">
+                    <button class ="nav-link button-borderless" type="submit">Logout</button>
+                </form>
+            </li>
+        {{else}}
+            <li class="nav-item">
+                <a class="nav-link" href="/login">Login</a>
+            </li>
+        {{/if}}
         <li class="nav-item">
             <a class="nav-link" href="/register">Register</a>
         </li>
-        <li class="nav-item">
-            <a class="nav-link" href="/profile">Profile</a>
-        </li>
+        {{#if isLoggedIn.length}}
+            <li class="nav-item">
+                <a class="nav-link" href="/profile">Profile</a>
+            </li>
+        {{/if}}
         </ul>
     </div>
     </nav>
