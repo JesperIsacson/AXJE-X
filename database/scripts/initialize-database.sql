@@ -13,8 +13,10 @@ CREATE TABLE IF NOT EXISTS Users(
 CREATE TABLE IF NOT EXISTS Activities(
     _id INT AUTO_INCREMENT PRIMARY KEY NOT NULL,
     _activityName TEXT NOT NULL,
-    _activityDate DATE NOT NULL,
-    _activityTIme TIME NOT NULL
+    _activityDate TEXT NOT NULL,
+    _activityTime TIME NOT NULL,
+    _activityLocation TEXT NOT NULL,
+    _activityDescription TEXT NOT NULL
 );
 
 CREATE TABLE IF NOT EXISTS Locations(
