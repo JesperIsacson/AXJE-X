@@ -1,11 +1,4 @@
-const mysql = require("mysql")
-
-const db = mysql.createConnection({
-    host: "database",
-    user: "root",
-    password: "hemligt",
-    database: "myDB"
-})
+const db = require("./db")
 
 exports.getAllActivities = function(callback){
     const query = "SELECT * FROM activities"

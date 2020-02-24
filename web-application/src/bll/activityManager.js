@@ -1,5 +1,7 @@
 const activityRepository = require('../dal/activityRepository')
 
+
+
 exports.createActivity = function(activity, callback){
     const validationErrors = []
 
@@ -24,6 +26,8 @@ exports.createActivity = function(activity, callback){
     if(activity.time.length = ""){
         validationErrors.push("Invalid time")
     }
+
+    
 }
 
 

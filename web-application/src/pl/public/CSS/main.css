@@ -8,3 +8,11 @@ body, html{
     background-attachment: fixed;
     background-size: cover;
 }
+
+.text-center{
+    text-align: center;
+}
+
+.button-borderless{
+    border: none
+}

@@ -1,9 +1,10 @@
 const express = require('express')
 
 const router = express.Router()
-const activityManger = require('../../bll/activityManager')
+const activityManager = require('../../bll/activityManager')
 
 router.get("/", function(request, response){
+    
     response.render("activities.hbs")
 })
 

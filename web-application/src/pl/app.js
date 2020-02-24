@@ -17,7 +17,11 @@ const redisStore = require('connect-redis')(expressSession)
 const bodyParser = require('body-parser')
 
 const loginRouter = require("./routers/loginRouter")
+<<<<<<< HEAD
 const activityRouter = require("./routers/activityRouter")
+=======
+const profileRotuer = require("./routers/profileRouter")
+>>>>>>> 3bbbe392930f4574fa332c19f2f35738f0b4beca
 
 const app = express()
 
@@ -38,12 +42,19 @@ redisClient.on("error", function(error) {
 })
 
 app.use(expressSession({
-    secret: "l97hvfdi96590mc72j3ndjhh6qwmdmcnhatwpjf76381036ynf38",
+    secret: "l97hvfdi96590mc72j3nd",
+    saveUninitialized: false,
     resave: false,
     store: new redisStore({client: redisClient}),
 }))
 
+app.use(function(request, response, next){
+    response.locals.isLoggedIn = request.session.isLoggedIn
+    next()
+})
+
 app.use("/login", loginRouter)
+app.use("/profile", profileRotuer)
 
 app.use("/activities", activityRouter)
 
