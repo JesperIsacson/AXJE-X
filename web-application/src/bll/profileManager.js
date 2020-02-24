@@ -1,6 +1,6 @@
 const profileRepository = require('../dal/profileRepository')
 
-exports.viewProfile = function(username, callback){
+exports.getUserByUsername = function(username, callback){
     const validationErrors = []
 
     if(username == "")
@@ -9,16 +9,58 @@ exports.viewProfile = function(username, callback){
     }
 
     if(validationErrors == 0){
-        profileRepository.viewProfile(username, function(error, user){
+        profileRepository.getUserByUsername(username, function(error, user){
             if(error){
                 callback(error)
             }
-            else{
+            else if(user != 0){
                 callback(null, user)
+            }
+            else{
+                validationErrors.push("No one by that username")
+                callback(validationErrors)
             }
         })
     }
     else{
         callback(validationErrors)
+    }
+}
+
+exports.getUserByEmail = function(email, callback){
+    const validationErrors = []
+    
+    if(email == null){
+        console.log("Must be logged in")
+    }
+
+    if(validationErrors == 0){
+        profileRepository.getUserByEmail(email, function(error, user){
+            if(error){
+                callback(error)
+            }
+            else if(user != 0){
+                callback(null, user)
+            }
+            else{
+                validationErrors.push("You need to be logged in")
+                callback(validationErrors)
+            }
+        })
+    }
+    else{
+        callback(validationErrors)
+    }
+}
+
+exports.manageProfile = function(email, callback){
+    const validationErrors = []
+
+    if(email == null){
+        console.log("Must be logged in")
+    }
+
+    if(validationErrors == 0){
+
     }
 }

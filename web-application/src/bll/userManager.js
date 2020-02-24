@@ -64,6 +64,7 @@ exports.login = function(usernameOrPassword, password, callback){
                     }
                     else{
                         validationErrors.push("WRONG PASSWORD")
+                        callback(validationErrors)
                     }
                 })
             }

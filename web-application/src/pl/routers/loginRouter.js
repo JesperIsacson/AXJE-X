@@ -42,7 +42,7 @@ router.post("/createAccount", function(request, respone){
         }
         else{
             request.session.isLoggedIn = userEmail
-            respone.render("home.hbs")
+            respone.redirect("/")
         }
     })
 })
