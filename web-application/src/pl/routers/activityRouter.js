@@ -9,7 +9,30 @@ router.get("/", function(request, response){
             console.log(error)
             response.render("login.hbs")
         } else{
-            response.render("activities.hbs")
+            console.log(activity)
+
+            let packet = []
+
+            for(i = 0; i < activity.length; i += 1){
+               let act = {
+                   title: activity[i]._activityName, 
+                   date: activity[i]._activityDate,
+                   time: activity[i]._activityTime,
+                   location: activity[i]._activityLocation,
+                   description: activity[i]._activityDescription 
+                }
+
+                packet.push(act)
+            }
+
+            console.log(packet)
+
+            packet.reverse()
+            const model = {
+                packet
+            }
+
+            response.render("activities.hbs", model)
         }
     })
 })
@@ -24,7 +47,7 @@ router.get("/create", function(request, response){
     response.render("create-activity.hbs", model)
 })
 
-router.post("/createActivity", function(request, response){
+router.post("/create", function(request, response){
     const activity = {
         title: request.body.title.trim(),
         location: request.body.location.trim(),
@@ -38,7 +61,7 @@ router.post("/createActivity", function(request, response){
             console.log(error)
             response.render("create-activity.hbs", error, activity)
         } else{
-            response.render("activities.hbs")
+            response.redirect("/activities")
         }
     })  
 })
