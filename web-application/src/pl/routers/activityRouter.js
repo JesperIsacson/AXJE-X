@@ -14,11 +14,13 @@ router.get("/", function(request, response){
             let packet = []
 
             for(i = 0; i < activity.length; i += 1){
-               let act = {
+               
+                let act = {
+                   id: activity[i]._id,
                    title: activity[i]._activityName, 
+                   location: activity[i]._activityLocation,
                    date: activity[i]._activityDate,
                    time: activity[i]._activityTime,
-                   location: activity[i]._activityLocation,
                    description: activity[i]._activityDescription 
                 }
 
@@ -28,11 +30,35 @@ router.get("/", function(request, response){
             console.log(packet)
 
             packet.reverse()
+
             const model = {
                 packet
             }
 
             response.render("activities.hbs", model)
+        }
+    })
+})
+
+router.get("/:id", function(request, response){
+
+    const id = request.params.id
+
+    activityManager.getActivityById(id, function(error, activity){
+
+        if(error){
+            console.log(error)
+            response.render("login.hbs")
+        } else{
+            const model = {
+                activity,
+                title: activity[0]._activityName,
+                location: activity[0]._activityLocation,
+                date: activity[0]._activityDate,
+                time: activity[0]._activityTime,
+                description: activity[0]._activityDescription
+            }
+            response.render("activity-detailed.hbs", model)
         }
     })
 })

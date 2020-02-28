@@ -10,6 +10,16 @@ exports.getAllActivities = function(callback){
     })
 }
 
+exports.getActivityById = function(id, callback){
+    activityRepository.getActivityById(id, function(error, activity){
+        if(error){
+            callback(error)
+        } else{
+            callback(null, activity)
+        }
+    })
+}
+
 exports.createActivity = function(activity, callback){
     const validationErrors = []
 
