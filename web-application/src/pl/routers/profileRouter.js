@@ -68,6 +68,31 @@ router.get("/manageProfile", function(request, response){
 })
 
 
+router.post("/updateProfile", function(request, response){
+    if(response.locals.isLoggedIn != null){
+        const user = {
+            _email : response.locals.isLoggedIn,
+            _username : request.body.username.trim(),
+            _firstName : request.body.firstName.trim(),
+            _lastName : request.body.lastName.trim(),
+            _height : request.body.height.trim(),
+            _weight : request.body.weight.trim()
+        }
+
+        profileManager.updateProfile(user, function(error, user){
+            if(error){
+                console.log(error)
+                response.render("home.hbs")
+            }
+            else{
+                console.log(user[0]._username)
+                response.redirect("/profile/" + user[0]._username)
+            }
+        })
+    }
+})
+
+
 router.get("/:username", function(request, response){
     const username = request.params.username
     

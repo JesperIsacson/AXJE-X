@@ -64,3 +64,37 @@ exports.manageProfile = function(email, callback){
 
     }
 }
+
+exports.updateProfile = function(user, callback){
+    const validationErrors = []
+
+    if(user._firstName.length < 2 || user._firstName.length > 20){
+        validationErrors.push("Invalid first name")
+    }
+    if(user._lastName.length < 2 || user._lastName.length > 20){
+        validationErrors.push("Invalid last name")
+    }
+    if(user._username.length < 3 || user._username.length > 14){
+        validationErrors.push("Invalid username")
+    }
+    if(isNaN(user._height)){
+        validationErrors.push("Invalid height")
+    }
+    if(isNaN(user._weight)){
+        validationErrors.push("Invalid weight")
+    }
+
+    if(validationErrors == 0){
+        profileRepository.updateProfile(user, function(error, user){
+            if(error){
+                callback(error)
+            }
+            else{
+                callback(null, user)
+            }
+        })
+    }
+    else{
+        callback(error)
+    }
+}
