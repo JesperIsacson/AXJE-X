@@ -85,12 +85,24 @@ exports.updateProfile = function(user, callback){
     }
 
     if(validationErrors == 0){
-        profileRepository.updateProfile(user, function(error, user){
+        profileRepository.updateProfile(user, function(error){
             if(error){
                 callback(error)
             }
             else{
-                callback(null, user)
+                profileRepository.getUserByEmail(user._email, function(error, user){
+                    if(error){
+                        console.log(error)
+                        callback(error)
+                    }
+                    else if(user != 0){
+                        callback(null, user)
+                    }
+                    else{
+                        validationErrors.push("You need to be logged in")
+                        callback(validationErrors)
+                    }
+                })
             }
         })
     }

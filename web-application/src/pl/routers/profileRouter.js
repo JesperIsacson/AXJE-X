@@ -85,7 +85,6 @@ router.post("/updateProfile", function(request, response){
                 response.render("home.hbs")
             }
             else{
-                console.log(user[0]._username)
                 response.redirect("/profile/" + user[0]._username)
             }
         })
