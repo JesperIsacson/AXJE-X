@@ -1,4 +1,6 @@
-<h1>Create Activity</h1>
+<title>Update {{title}}</title>
+
+<h1>Update Activity</h1>
 
 {{#if validationErrors.length}}
 <p>Errors:</p>
@@ -11,7 +13,7 @@
 
 <div class="col-md-3 col-sm-12">
     <div class="createactivity-form">
-        <form action="/activities/create" method="POST">
+        <form action="/activities/update/{{id}}" method="POST">
             <fieldset>
                 <label for="title">Title</label><br>
                 <input type="text" id="input-title" name="title" value="{{title}}" placeholder="Title" class="form-input"><br>
@@ -22,9 +24,9 @@
                 <label for="time">Time</label><br>
                 <input type="time" id="input-time" name="time" value="{{time}}" placeholder="HH:MM" class="form-input"><br>
                 <label for="description">Description</label><br>
-                <textarea name="description" id="input-description" name="description" value="{{description}}" cols="20" rows="10" type="text"
-                    class="form-input"></textarea><br><br>
-                <input type="submit" value="Create Activity" class="btn btn-primary">
+                <textarea name="description" id="input-description" name="description" cols="20" rows="10" type="text"
+                    class="form-input">{{description}}</textarea><br><br>
+                <input type="submit" value="Update Post" class="btn btn-primary">
             </fieldset>
         </form>
     </div>

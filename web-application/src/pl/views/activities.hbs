@@ -1,33 +1,32 @@
+<title>Activities</title>
+
 <div class="container">
     <div class="row">
         <div class="col-md-8">
-
             <h1 class="my-4">Activities</h1>
-            {{!#if isLoggedIn}}
             <div class="container" id="container">
                 <div class="jumbotron" id="jumbotron">
                     <h1 class="display-4">Create Activity</h1>
                     <hr class="my-4">
-                    {{!/activity/create}}
                     <a class="btn btn-primary btn-lg" href="/activities/create" role="button">Create</a>
                 </div>
-                {{!/if}}
-                {{!#each activity}}
+                {{#each packet}}
                 <div class="card mb-4">
                     <div class="card-body">
                         <h2 class="card-title">{{title}}</h2>
                         <p class="card-text">{{description}}</p>
-                        <a href="/activies/{{id}}" class="btn btn-primary">Read more</a>
-                        <a href="/activities/edit/{{id}}" class="btn btn-secondary">Edit</a>
+                        <a href="/activities/{{id}}" class="btn btn-primary">Read more</a>
+                        <a href="/activities/update/{{id}}" class="btn btn-secondary">Update</a>
                         <form action="/activities/delete/{{id}}" method="POST">
                             <input type="submit" value="Delete" class="btn btn-secondary">
                         </form>
                     </div>
                     <div class="card-footer text-muted">
-                        Posted on: {{date}} by
+                        Posted on: {{datePosted}} by
                         <a href="#">User</a>
                     </div>
                 </div>
+                {{/each}}
             </div>
         </div>
     </div>
