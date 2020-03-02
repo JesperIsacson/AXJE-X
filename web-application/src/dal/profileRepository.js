@@ -1,40 +1,45 @@
 const db = require('./db')
 
-exports.getUserByUsername = function(username, callback){
-    const query = "SELECT * FROM Users WHERE _username = ?"
-    const values = [username]
+module.exports = function({}){
 
-    db.query(query, values, function(error, user){
-        callback(error, user)
-    })
-}
+    return{
+        getUserByUsername: function(username, callback){
+            const query = "SELECT * FROM Users WHERE _username = ?"
+            const values = [username]
 
-
-exports.getUserByEmail = function(email, callback){
-    const query = "SELECT * FROM Users WHERE _email = ?"
-    const values = [email]
-
-    db.query(query, values, function(error, user){
-        callback(error, user)
-    })
-}
+            db.query(query, values, function(error, user){
+                callback(error, user)
+            })
+        },
 
 
-exports.updateProfile = function(newUser, callback){
-    const query = "UPDATE Users SET _username = ?, _firstName = ?, _lastName = ?, _weight = ?, _height = ? WHERE _email = ?"
-    const values = [newUser._username, newUser._firstName, newUser._lastName, newUser._weight, newUser._height, newUser._email]
+        getUserByEmail: function(email, callback){
+            const query = "SELECT * FROM Users WHERE _email = ?"
+            const values = [email]
 
-    db.query(query, values, function(error){
-        callback(error)
-    })
-}
+            db.query(query, values, function(error, user){
+                callback(error, user)
+            })
+        },
 
 
-exports.deleteProfile = function(email, callback){
-    const query = "DELETE FROM Users WHERE _email = ?"
-    const values = [email]
+        updateProfile: function(newUser, callback){
+            const query = "UPDATE Users SET _username = ?, _firstName = ?, _lastName = ?, _weight = ?, _height = ? WHERE _email = ?"
+            const values = [newUser._username, newUser._firstName, newUser._lastName, newUser._weight, newUser._height, newUser._email]
 
-    db.query(query, values, function(error){
-        callback(error)
-    })
+            db.query(query, values, function(error){
+                callback(error)
+            })
+        },
+
+
+        deleteProfile: function(email, callback){
+            const query = "DELETE FROM Users WHERE _email = ?"
+            const values = [email]
+
+            db.query(query, values, function(error){
+                callback(error)
+            })
+        }
+    }
 }

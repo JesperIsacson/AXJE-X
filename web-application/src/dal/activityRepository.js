@@ -1,50 +1,56 @@
 const db = require("./db")
 
-exports.getAllActivities = function(callback){
-    
-    const query = "SELECT * FROM Activities"
+module.exports = function({}){
 
-    db.query(query, function(error, activity){
-        callback(error, activity)
-    })
-}
+    return{
+        getAllActivities: function(callback){
+            
+            const query = "SELECT * FROM Activities"
 
-exports.getActivityById = function(id, callback){
-    
-    const query = "SELECT * FROM Activities WHERE _id = ?"
-    const values = [id]
+            db.query(query, function(error, activity){
+                callback(error, activity)
+            })
+        },
 
-    db.query(query, values, function(error, activity){
-        callback(error, activity)
-    })
-}
+        getActivityById: function(id, callback){
+            
+            const query = "SELECT * FROM Activities WHERE _id = ?"
+            const values = [id]
 
-exports.createActivity = function(activity, callback){
-    
-    const query = "INSERT INTO Activities (_activityName, _activityDate, _activityTime, _activityLocation, _activityDescription, _datePosted) VALUES (?, ?, ?, ?, ?, ?)"
-    const values = [activity.title, activity.date, activity.time, activity.location, activity.description, activity.datePosted]
+            db.query(query, values, function(error, activity){
+                callback(error, activity)
+            })
+        },
 
-    db.query(query, values, function(error){
-        const id = this.lastID
-        callback(error, id)
-    })
-}
+        createActivity: function(activity, callback){
+            
+            const query = "INSERT INTO Activities (_activityName, _activityDate, _activityTime, _activityLocation, _activityDescription, _datePosted) VALUES (?, ?, ?, ?, ?, ?)"
+            const values = [activity.title, activity.date, activity.time, activity.location, activity.description, activity.datePosted]
 
-exports.updateActivity = function(activity, callback){
+            db.query(query, values, function(error){
+                const id = this.lastID
+                callback(error, id)
+            })
+        },
 
-    const query = "UPDATE Activities SET _activityName = ?, _activityDate = ?, _activityTime = ?, _activityLocation = ?, _activityDescription = ? WHERE _id = ?"
-    const values = [activity.title, activity.date, activity.time, activity.location, activity.description, activity.id]
+        updateActivity: function(activity, callback){
 
-    db.query(query, values, function(error){
-        callback(error)
-    })
-}
+            const query = "UPDATE Activities SET _activityName = ?, _activityDate = ?, _activityTime = ?, _activityLocation = ?, _activityDescription = ? WHERE _id = ?"
+            const values = [activity.title, activity.date, activity.time, activity.location, activity.description, activity.id]
 
-exports.deleteActivity = function(id, callback){
+            db.query(query, values, function(error){
+                callback(error)
+            })
+        },
 
-    const query = "DELETE FROM Activities WHERE _id = ?"
+        deleteActivity: function(id, callback){
 
-    db.query(query, [id], function(error){
-        callback(error)
-    })
+            const query = "DELETE FROM Activities WHERE _id = ?"
+
+            db.query(query, [id], function(error){
+                callback(error)
+            })
+        }
+
+    }
 }

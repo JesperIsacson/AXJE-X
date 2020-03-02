@@ -1,20 +1,25 @@
 const db = require('./db')
 
-exports.createAccount = function(account, callback){
-    const query = "INSERT INTO Users (_email, _username, _firstName, _lastName, _dateOfBirth, _gender, _password) VALUES (?, ?, ?, ?, ?, ?, ?)"
-    const values = [account.email, account.userName, account.firstName, account.lastName, account.dateOfBirth, account.gender, account.password]
+module.exports = function({}){
 
-    db.query(query, values, function(error){
-        const createdEmail = values[0]
-        callback(error, createdEmail)
-    })
-}
+    return{
+        createAccount: function(account, callback){
+            const query = "INSERT INTO Users (_email, _username, _firstName, _lastName, _dateOfBirth, _gender, _password) VALUES (?, ?, ?, ?, ?, ?, ?)"
+            const values = [account.email, account.userName, account.firstName, account.lastName, account.dateOfBirth, account.gender, account.password]
 
-exports.getLoginInformation = function(usernameOrEmail, callback){
-    const query = "SELECT _password, _email FROM Users WHERE _email = ? OR _username = ?"
-    const values = [usernameOrEmail, usernameOrEmail]
+            db.query(query, values, function(error){
+                const createdEmail = values[0]
+                callback(error, createdEmail)
+            })
+        },
 
-    db.query(query, values, function(error, user){
-        callback(error, user)
-    })
+        getLoginInformation: function(usernameOrEmail, callback){
+            const query = "SELECT _password, _email FROM Users WHERE _email = ? OR _username = ?"
+            const values = [usernameOrEmail, usernameOrEmail]
+
+            db.query(query, values, function(error, user){
+                callback(error, user)
+            })
+        }
+    }
 }
