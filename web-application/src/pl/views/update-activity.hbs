@@ -1,0 +1,33 @@
+<title>Update {{title}}</title>
+
+<h1>Update Activity</h1>
+
+{{#if validationErrors.length}}
+<p>Errors:</p>
+<ul>
+    {{#each validationErrors}}
+    <li>{{this}}</li>
+    {{/each}}
+</ul>
+{{/if}}
+
+<div class="col-md-3 col-sm-12">
+    <div class="createactivity-form">
+        <form action="/activities/update/{{id}}" method="POST">
+            <fieldset>
+                <label for="title">Title</label><br>
+                <input type="text" id="input-title" name="title" value="{{title}}" placeholder="Title" class="form-input"><br>
+                <label for="location">Location</label><br>
+                <input type="text" id="input-location" name="location" value="{{location}}" placeholder="Location" class="form-input"><br>
+                <label for="date">Date</label><br>
+                <input type="date" id="input-date" name="date" value="{{date}}" class="form-input"><br>
+                <label for="time">Time</label><br>
+                <input type="time" id="input-time" name="time" value="{{time}}" placeholder="HH:MM" class="form-input"><br>
+                <label for="description">Description</label><br>
+                <textarea name="description" id="input-description" name="description" cols="20" rows="10" type="text"
+                    class="form-input">{{description}}</textarea><br><br>
+                <input type="submit" value="Update Post" class="btn btn-primary">
+            </fieldset>
+        </form>
+    </div>
+</div>

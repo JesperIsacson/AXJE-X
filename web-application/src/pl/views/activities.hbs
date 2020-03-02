@@ -16,13 +16,13 @@
                         <h2 class="card-title">{{title}}</h2>
                         <p class="card-text">{{description}}</p>
                         <a href="/activities/{{id}}" class="btn btn-primary">Read more</a>
-                        <a href="/activities/edit/{{id}}" class="btn btn-secondary">Edit</a>
+                        <a href="/activities/update/{{id}}" class="btn btn-secondary">Update</a>
                         <form action="/activities/delete/{{id}}" method="POST">
                             <input type="submit" value="Delete" class="btn btn-secondary">
                         </form>
                     </div>
                     <div class="card-footer text-muted">
-                        Posted on: {{date}} by
+                        Posted on: {{datePosted}} by
                         <a href="#">User</a>
                     </div>
                 </div>
