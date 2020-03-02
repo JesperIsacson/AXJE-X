@@ -38,7 +38,7 @@ router.post("/createAccount", function(request, respone){
     userManager.createAccount(account, function(error, userEmail){
         if(error){
             console.log(error)
-            respone.render("register.hbs", error, account)
+            respone.render("register.hbs", account)
         }
         else{
             request.session.isLoggedIn = userEmail
