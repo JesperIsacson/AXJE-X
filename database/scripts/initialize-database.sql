@@ -16,7 +16,8 @@ CREATE TABLE IF NOT EXISTS Activities(
     _activityDate TEXT NOT NULL,
     _activityTime TIME NOT NULL,
     _activityLocation TEXT NOT NULL,
-    _activityDescription TEXT NOT NULL
+    _activityDescription TEXT NOT NULL,
+    _datePosted TEXT NOT NULL
 );
 
 CREATE TABLE IF NOT EXISTS Locations(
