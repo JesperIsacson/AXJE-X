@@ -1,53 +1,81 @@
-const db = require("./db")
+const db = require("./db2")
+const Activities = require('./models/activities')
+const sequelize = require('sequelize')
+
+const Op = sequelize.Op
 
 module.exports = function({}){
 
     return{
-        getAllActivities: function(callback){
-            
-            const query = "SELECT * FROM Activities"
-
-            db.query(query, function(error, activity){
-                callback(error, activity)
+        getAllActivities: function(callback){  
+            Activities.findAll({
+                raw: true
+            })
+            .then(activities =>{
+                callback(null, activities)
+            })
+            .catch(error =>{
+                callback(error)
             })
         },
 
         getActivityById: function(id, callback){
-            
-            const query = "SELECT * FROM Activities WHERE _id = ?"
-            const values = [id]
-
-            db.query(query, values, function(error, activity){
-                callback(error, activity)
+            Activities.findAll({
+                raw: true,
+                where: {id: id}
+            })
+            .then(activity =>{
+                callback(null, activity)
+            })
+            .catch(error =>{
+                callback(error)
             })
         },
 
         createActivity: function(activity, callback){
-            
-            const query = "INSERT INTO Activities (_activityName, _activityDate, _activityTime, _activityLocation, _activityDescription, _datePosted) VALUES (?, ?, ?, ?, ?, ?)"
-            const values = [activity.title, activity.date, activity.time, activity.location, activity.description, activity.datePosted]
-
-            db.query(query, values, function(error){
-                const id = this.lastID
-                callback(error, id)
+            Activities.create({
+                _activityName: activity.title,
+                _activityDate: activity.date,
+                _activityTime: activity.time,
+                _activityLocation: activity.location,
+                _activityDescription: activity.description
+            })
+            .then(status =>{
+                callback(null)
+            })
+            .catch(error =>{
+                callback(error)
             })
         },
 
         updateActivity: function(activity, callback){
-
-            const query = "UPDATE Activities SET _activityName = ?, _activityDate = ?, _activityTime = ?, _activityLocation = ?, _activityDescription = ? WHERE _id = ?"
-            const values = [activity.title, activity.date, activity.time, activity.location, activity.description, activity.id]
-
-            db.query(query, values, function(error){
+            Activities.update({
+                _activityName: activity.title,
+                _activityDate: activity.date,
+                _activityTime: activity.time,
+                _activityLocation: activity.location,
+                _activityDescription: activity.description
+            },
+            {where: {id: activity.id}}
+            )
+            .then(status =>{
+                callback(null)
+            })
+            .catch(error => {
                 callback(error)
             })
         },
 
         deleteActivity: function(id, callback){
-
-            const query = "DELETE FROM Activities WHERE _id = ?"
-
-            db.query(query, [id], function(error){
+            Activities.destroy({
+                where: {
+                    id: id
+                }
+            })
+            .then(status =>{
+                callback(null)
+            })
+            .catch(error =>{
                 callback(error)
             })
         }

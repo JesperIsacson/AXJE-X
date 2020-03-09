@@ -1,43 +1,73 @@
-const db = require('./db')
+const db = require('./db2')
+const Users = require('./models/users')
+const sequelize = require('sequelize')
+
+const Op = sequelize.Op
 
 module.exports = function({}){
 
     return{
         getUserByUsername: function(username, callback){
-            const query = "SELECT * FROM Users WHERE _username = ?"
-            const values = [username]
-
-            db.query(query, values, function(error, user){
-                callback(error, user)
+            Users.findAll({
+                raw: true,
+                where: {
+                    _username: username
+                }
+            })
+            .then(user =>{
+                callback(null, user)
+            })
+            .catch(error =>{
+                callback(error)
             })
         },
 
 
         getUserByEmail: function(email, callback){
-            const query = "SELECT * FROM Users WHERE _email = ?"
-            const values = [email]
-
-            db.query(query, values, function(error, user){
-                callback(error, user)
+            Users.findAll({
+                raw: true,
+                where: {
+                    _email: email
+                }
+            })
+            .then(user =>{
+                callback(null, user)
+            })
+            .catch(error =>{
+                callback(error)
             })
         },
 
 
         updateProfile: function(newUser, callback){
-            const query = "UPDATE Users SET _username = ?, _firstName = ?, _lastName = ?, _weight = ?, _height = ? WHERE _email = ?"
-            const values = [newUser._username, newUser._firstName, newUser._lastName, newUser._weight, newUser._height, newUser._email]
-
-            db.query(query, values, function(error){
+            Users.update({
+                _username: newUser._username,
+                _firstName: newUser._firstName,
+                _lastName: newUser._lastName,
+                _weight: newUser._weight,
+                _height: newUser._height
+            },
+            {where: {_email: newUser._email}}
+            )
+            .then(user =>{
+                callback(null, user)
+            })
+            .catch(error =>{
                 callback(error)
             })
         },
 
 
         deleteProfile: function(email, callback){
-            const query = "DELETE FROM Users WHERE _email = ?"
-            const values = [email]
-
-            db.query(query, values, function(error){
+            Users.destroy({
+                where: {
+                    _email: email
+                }
+            })
+            .then(status =>{
+                callback(null)
+            })
+            .catch(error =>{
                 callback(error)
             })
         }

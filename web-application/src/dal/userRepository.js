@@ -1,24 +1,46 @@
-const db = require('./db')
+const db = require('./db2')
+const Users = require('./models/users')
+const sequelize = require('sequelize')
+
+const Op = sequelize.Op
 
 module.exports = function({}){
 
     return{
         createAccount: function(account, callback){
-            const query = "INSERT INTO Users (_email, _username, _firstName, _lastName, _dateOfBirth, _gender, _password) VALUES (?, ?, ?, ?, ?, ?, ?)"
-            const values = [account.email, account.userName, account.firstName, account.lastName, account.dateOfBirth, account.gender, account.password]
+            const data = {
+                _email: account.email,
+                _username: account.userName,
+                _firstName: account.firstName,
+                _lastName: account.lastName,
+                _dateOfBirth: account.dateOfBirth,
+                _gender: account.gender,
+                _password: account.password
+            }
 
-            db.query(query, values, function(error){
-                const createdEmail = values[0]
-                callback(error, createdEmail)
+            let {_email, _username, _firstName, _lastName, _dateOfBirth, _gender, _password} = data
+
+            Users.create({_email, _username, _firstName, _lastName, _dateOfBirth, _gender, _password})
+            .then(user => {
+                callback(null, user._email)
+            })
+            .catch(error =>{
+                callback(error)
             })
         },
 
         getLoginInformation: function(usernameOrEmail, callback){
-            const query = "SELECT _password, _email FROM Users WHERE _email = ? OR _username = ?"
-            const values = [usernameOrEmail, usernameOrEmail]
-
-            db.query(query, values, function(error, user){
-                callback(error, user)
+            Users.findAll({
+                raw: true,
+                where: {
+                    [Op.or]: [{_email: usernameOrEmail}, {_username: usernameOrEmail}]
+                }
+            })
+            .then(user =>{
+                callback(null, user)
+            })
+            .catch(error =>{
+                callback(error)
             })
         }
     }
