@@ -17,7 +17,7 @@ module.exports = function ({ activityManager }) {
                 for (i = 0; i < activity.length; i += 1) {
 
                     let act = {
-                        id: activity[i]._id,
+                        id: activity[i].id,
                         title: activity[i]._activityName,
                         location: activity[i]._activityLocation,
                         date: activity[i]._activityDate,
@@ -100,7 +100,7 @@ module.exports = function ({ activityManager }) {
                 } else {
                     const model = {
                         activity,
-                        id: activity[0]._id,
+                        id: activity[0].id,
                         title: activity[0]._activityName,
                         location: activity[0]._activityLocation,
                         date: activity[0]._activityDate,
@@ -132,7 +132,7 @@ module.exports = function ({ activityManager }) {
                     console.log(error)
                     response.render("login.hbs")
                 } else {
-                    response.redirect("/activities/" + activity[0]._id)
+                    response.redirect("/activities/" + activity[0].id)
                 }
             })
 
@@ -161,9 +161,9 @@ module.exports = function ({ activityManager }) {
     router.get("/:id", function (request, response) {
 
         const id = request.params.id
+        console.log(id)
 
         activityManager.getActivityById(id, function (error, activity) {
-
             if (error) {
                 console.log(error)
                 response.render("login.hbs")
