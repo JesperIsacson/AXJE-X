@@ -1,5 +1,6 @@
 const sequelize = require('sequelize')
-const db = require = require('../db2')
+const db = require('../db2')
+const Comments = require('./comments')
 
 seqConnect = function(){
     db.authenticate()
@@ -38,5 +39,7 @@ const Activities = db.define("Activities", {
         allowNull: false
     }
 })
+
+Activities.hasMany(Comments, {as: 'Comments'})
 
 module.exports = Activities
