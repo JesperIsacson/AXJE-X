@@ -23,9 +23,9 @@ module.exports = function ({ activityManager }) {
                         date: activity[i]._activityDate,
                         time: activity[i]._activityTime,
                         description: activity[i]._activityDescription,
-                        datePosted: activity[i]._datePosted
+                        datePosted: activity[i]._datePosted,
+                        createdAt: activity[i].createdAt.toString().slice(0,10)
                     }
-
                     packet.push(act)
                 }
 
@@ -64,8 +64,6 @@ module.exports = function ({ activityManager }) {
     router.post("/create", function (request, response) {
 
         if(request.session.isLoggedIn){
-            const date = new Date()
-            const datePosted = date.toDateString()
     
             const activity = {
                 title: request.body.title.trim(),
@@ -73,7 +71,6 @@ module.exports = function ({ activityManager }) {
                 date: request.body.date.trim(),
                 time: request.body.time.trim(),
                 description: request.body.description.trim(),
-                datePosted: datePosted
             }
     
             activityManager.createActivity(activity, function (error, activity) {
@@ -175,7 +172,8 @@ module.exports = function ({ activityManager }) {
                     date: activity[0]._activityDate,
                     time: activity[0]._activityTime,
                     description: activity[0]._activityDescription,
-                    datePosted: activity[0]._datePosted
+                    createdAt: activity[0].createdAt.toString().slice(0,10)
+
                 }
                 response.render("activity-detailed.hbs", model)
             }

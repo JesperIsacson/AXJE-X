@@ -38,7 +38,7 @@ module.exports = function({}){
                 _activityDate: activity.date,
                 _activityTime: activity.time,
                 _activityLocation: activity.location,
-                _activityDescription: activity.description
+                _activityDescription: activity.description,
             })
             .then(status =>{
                 callback(null)
