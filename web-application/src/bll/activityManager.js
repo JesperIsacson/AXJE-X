@@ -17,12 +17,19 @@ module.exports = function({activityRepository, commentRepository, profileReposit
                     callback(error)
                 } 
                 else{
-                    commentRepository.getAllCommentsForActivity(id, function(error, comments){
+                    profileRepository.getUserByEmail(activity[0].UserEmail, function(error, user){
                         if(error){
                             callback(error)
                         }
                         else{
-                            callback(error, activity, comments)
+                            commentRepository.getAllCommentsForActivity(id, function(error, comments){
+                                if(error){
+                                    callback(error)
+                                }
+                                else{
+                                    callback(null, activity, comments, user)
+                                }
+                            })
                         }
                     })
                 }

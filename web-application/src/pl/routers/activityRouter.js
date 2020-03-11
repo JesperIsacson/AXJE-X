@@ -68,6 +68,7 @@ module.exports = function ({ activityManager }) {
                 date: request.body.date.trim(),
                 time: request.body.time.trim(),
                 description: request.body.description.trim(),
+                activityAuthor: response.locals.isLoggedIn
             }
     
             activityManager.createActivity(activity, function (error, activity) {
@@ -156,7 +157,7 @@ module.exports = function ({ activityManager }) {
 
         const id = request.params.id
 
-        activityManager.getActivityById(id, function (error, activity, comments) {
+        activityManager.getActivityById(id, function (error, activity, comments, user) {
             if (error) {
                 console.log(error)
                 response.render("login.hbs")
@@ -180,7 +181,8 @@ module.exports = function ({ activityManager }) {
                     time: activity[0]._activityTime,
                     description: activity[0]._activityDescription,
                     createdAt: activity[0].createdAt.toString().slice(0,15),
-                    comments: commentPackage
+                    comments: commentPackage,
+                    username: user[0]._username
                 }
 
                 response.render("activity-detailed.hbs", model)

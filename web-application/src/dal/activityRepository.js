@@ -39,8 +39,10 @@ module.exports = function({}){
                 _activityTime: activity.time,
                 _activityLocation: activity.location,
                 _activityDescription: activity.description,
+                UserEmail: activity.activityAuthor
             })
             .then(status =>{
+                console.log(status)
                 callback(null)
             })
             .catch(error =>{
