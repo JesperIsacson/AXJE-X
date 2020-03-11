@@ -1,4 +1,4 @@
-module.exports = function({activityRepository}){
+module.exports = function({activityRepository, commentRepository, profileRepository}){
     return{
 
         getAllActivities: function(callback){
@@ -15,8 +15,16 @@ module.exports = function({activityRepository}){
             activityRepository.getActivityById(id, function(error, activity){
                 if(error){
                     callback(error)
-                } else{
-                    callback(null, activity)
+                } 
+                else{
+                    commentRepository.getAllCommentsForActivity(id, function(error, comments){
+                        if(error){
+                            callback(error)
+                        }
+                        else{
+                            callback(error, activity, comments)
+                        }
+                    })
                 }
             })
         },
@@ -24,8 +32,6 @@ module.exports = function({activityRepository}){
         updateActivity: function(activity, callback){
 
             const validationErrors = []
-
-            console.log(activity)
 
             if(activity.title.length < 2 || activity.title.length > 40){
                 validationErrors.push("Invalid title")
@@ -80,7 +86,6 @@ module.exports = function({activityRepository}){
         createActivity: function(activity, callback){
             const validationErrors = []
 
-            console.log(activity)
 
             if(activity.title.length < 2 || activity.title.length > 40){
                 validationErrors.push("Invalid title")

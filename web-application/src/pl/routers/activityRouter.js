@@ -10,7 +10,6 @@ module.exports = function ({ activityManager }) {
             if (error) {
                 console.log(error)
             } else {
-                console.log(activity)
 
                 let packet = []
 
@@ -28,8 +27,6 @@ module.exports = function ({ activityManager }) {
 
                     packet.push(act)
                 }
-
-                console.log(packet)
 
                 packet.reverse()
 
@@ -161,22 +158,33 @@ module.exports = function ({ activityManager }) {
     router.get("/:id", function (request, response) {
 
         const id = request.params.id
-        console.log(id)
 
-        activityManager.getActivityById(id, function (error, activity) {
+        activityManager.getActivityById(id, function (error, activity, comments) {
             if (error) {
                 console.log(error)
                 response.render("login.hbs")
-            } else {
+            } 
+            else { 
+                const commentPackage = []
+                for(i = 0; i < comments.length; i += 1){
+                    comment = {
+                        content: comments[i]._content,
+                        author: comments[i]._author
+                    }
+                    commentPackage.push(comment)
+                }
+
                 const model = {
                     activity,
+                    id: activity[0].id,
                     title: activity[0]._activityName,
                     location: activity[0]._activityLocation,
                     date: activity[0]._activityDate,
                     time: activity[0]._activityTime,
                     description: activity[0]._activityDescription,
-                    datePosted: activity[0]._datePosted
+                    comments: commentPackage
                 }
+
                 response.render("activity-detailed.hbs", model)
             }
         })
