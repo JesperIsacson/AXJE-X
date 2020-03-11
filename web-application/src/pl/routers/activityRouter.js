@@ -23,7 +23,7 @@ module.exports = function ({ activityManager }) {
                         time: activity[i]._activityTime,
                         description: activity[i]._activityDescription,
                         datePosted: activity[i]._datePosted,
-                        createdAt: activity[i].createdAt.toString().slice(0,10)
+                        createdAt: activity[i].createdAt.toString().slice(0,15)
                     }
                     packet.push(act)
                 }
@@ -179,7 +179,7 @@ module.exports = function ({ activityManager }) {
                     date: activity[0]._activityDate,
                     time: activity[0]._activityTime,
                     description: activity[0]._activityDescription,
-                    createdAt: activity[0].createdAt.toString().slice(0,10),
+                    createdAt: activity[0].createdAt.toString().slice(0,15),
                     comments: commentPackage
                 }
 

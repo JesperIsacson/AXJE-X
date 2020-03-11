@@ -36,13 +36,16 @@
                 </div>
             </div>
             {{/if}}
+            <h2>Comments</h2>
+            <hr>
             {{#each comments}}
             <div class="media mb-4">
                 <div class="media-body">
-                    <h5 class="mt-0">{{author}}</h5>
+                    <h5 class="mt-0"><b>{{author}}</b></h5>
                     {{content}}
                 </div>
             </div>
+            <hr>
             {{/each}}
         </div>
     </div>
