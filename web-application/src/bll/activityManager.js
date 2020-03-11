@@ -115,13 +115,20 @@ module.exports = function({activityRepository, commentRepository, profileReposit
             }
 
             if(validationErrors == 0){
-                activityRepository.createActivity(activity, function(error, id){
+                profileRepository.getUserByEmail(activity.activityAuthor, function(error, user){
                     if(error){
-                        console.log(error)
                         callback(error)
                     }
                     else{
-                        callback(null, id)
+                        activityRepository.createActivity(activity, user[0]._username, function(error, id){
+                            if(error){
+                                console.log(error)
+                                callback(error)
+                            }
+                            else{
+                                callback(null, id)
+                            }
+                        })
                     }
                 })
             } else{

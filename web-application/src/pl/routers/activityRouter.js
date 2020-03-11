@@ -23,7 +23,8 @@ module.exports = function ({ activityManager }) {
                         time: activity[i]._activityTime,
                         description: activity[i]._activityDescription,
                         datePosted: activity[i]._datePosted,
-                        createdAt: activity[i].createdAt.toString().slice(0,15)
+                        createdAt: activity[i].createdAt.toString().slice(0,15),
+                        username: activity[i]._activityAuthor
                     }
                     packet.push(act)
                 }

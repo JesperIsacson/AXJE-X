@@ -32,13 +32,14 @@ module.exports = function({}){
             })
         },
 
-        createActivity: function(activity, callback){
+        createActivity: function(activity, username,  callback){
             Activities.create({
                 _activityName: activity.title,
                 _activityDate: activity.date,
                 _activityTime: activity.time,
                 _activityLocation: activity.location,
                 _activityDescription: activity.description,
+                _activityAuthor: username,
                 UserEmail: activity.activityAuthor
             })
             .then(status =>{

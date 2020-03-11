@@ -37,6 +37,10 @@ const Activities = db.define("Activities", {
     _activityDescription:{
         type: sequelize.STRING,
         allowNull: false
+    },
+    _activityAuthor:{
+        type: sequelize.STRING,
+        allowNull: false
     }
 })
 
