@@ -20,31 +20,38 @@ const awilix = require('awilix')
 const loginRouter = require("./routers/loginRouter")
 const activityRouter = require("./routers/activityRouter")
 const profileRouter = require("./routers/profileRouter")
+const commentRouter = require("./routers/commentRouter")
 
 
 const activityManager = require('../bll/activityManager')
 const profileManager = require('../bll/profileManager')
 const userManager = require('../bll/userManager')
+const commentManager = require('../bll/commentManager')
 const activityRepository = require('../dal/activityRepository')
 const profileRepository = require('../dal/profileRepository')
 const userRepository = require('../dal/userRepository')
+const commentRepository = require('../dal/commentRepository')
 
 
 const container = awilix.createContainer()
 container.register('loginRouter', awilix.asFunction(loginRouter))
 container.register('activityRouter', awilix.asFunction(activityRouter))
 container.register('profileRouter', awilix.asFunction(profileRouter))
+container.register('commentRouter', awilix.asFunction(commentRouter))
 container.register('activityManager', awilix.asFunction(activityManager))
 container.register('profileManager', awilix.asFunction(profileManager))
 container.register('userManager', awilix.asFunction(userManager))
+container.register('commentManager', awilix.asFunction(commentManager))
 container.register('activityRepository', awilix.asFunction(activityRepository))
 container.register('profileRepository', awilix.asFunction(profileRepository))
 container.register('userRepository', awilix.asFunction(userRepository))
+container.register('commentRepository', awilix.asFunction(commentRepository))
 
 
 const theLoginRouter = container.resolve('loginRouter')
 const theActivityRouter = container.resolve('activityRouter')
 const theProfileRouter = container.resolve('profileRouter')
+const theCommentRouter = container.resolve('commentRouter')
 
 
 const app = express()
@@ -80,6 +87,7 @@ app.use(function(request, response, next){
 app.use("/login", theLoginRouter)
 app.use("/profile", theProfileRouter)
 app.use("/activities", theActivityRouter)
+app.use("/comment", theCommentRouter)
 
 app.get('/', function(request, response){
     response.render("home.hbs")

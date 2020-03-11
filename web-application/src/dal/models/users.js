@@ -1,5 +1,6 @@
 const sequelize = require('sequelize')
 const db = require('../db2')
+const Comments = require('./comments')
 const Activities = require('./activities')
 
 seqConnect = function(){
@@ -56,6 +57,7 @@ const Users = db.define('Users', {
 
 })
 
-Users.hasMany(Activities, {as: "Activities"})
+Users.hasMany(Activities, {as: 'Activities'})
+Users.hasMany(Comments, {as: 'Comments'})
 
 module.exports = Users
