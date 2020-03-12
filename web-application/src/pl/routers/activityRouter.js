@@ -153,11 +153,31 @@ module.exports = function ({ activityManager }) {
         }
     })
 
+    router.post("/participate/:id", function(request, response){
+        const activityId = request.params.id
+        const userEmail = response.locals.isLoggedIn
+
+        const packet ={
+            activityId: activityId,
+            userEmail: userEmail
+        }
+
+        activityManager.participateInActivity(packet, function(error){
+            if(error){
+                console.log(error)
+                response.render("activity-detailed.hbs", error)
+            }
+            else{
+                response.redirect("/activities/" + activityId)
+            }
+        })
+    })
+
     router.get("/:id", function (request, response) {
 
         const id = request.params.id
 
-        activityManager.getActivityById(id, function (error, activity, comments, user) {
+        activityManager.getActivityById(id, function (error, activity, comments, user, participants) {
             if (error) {
                 console.log(error)
                 response.render("login.hbs")
@@ -182,7 +202,8 @@ module.exports = function ({ activityManager }) {
                     description: activity[0]._activityDescription,
                     createdAt: activity[0].createdAt.toString().slice(0,15),
                     comments: commentPackage,
-                    username: user[0]._username
+                    username: user[0]._username,
+                    participants: participants
                 }
 
                 response.render("activity-detailed.hbs", model)

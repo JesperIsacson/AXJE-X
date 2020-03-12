@@ -42,7 +42,6 @@ module.exports = function({}){
                 UserEmail: activity.activityAuthor
             })
             .then(status =>{
-                console.log(status)
                 callback(null)
             })
             .catch(error =>{

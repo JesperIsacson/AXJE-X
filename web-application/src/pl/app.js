@@ -31,6 +31,7 @@ const activityRepository = require('../dal/activityRepository')
 const profileRepository = require('../dal/profileRepository')
 const userRepository = require('../dal/userRepository')
 const commentRepository = require('../dal/commentRepository')
+const participantRepository = require('../dal/participantsRepository')
 
 
 const container = awilix.createContainer()
@@ -46,6 +47,7 @@ container.register('activityRepository', awilix.asFunction(activityRepository))
 container.register('profileRepository', awilix.asFunction(profileRepository))
 container.register('userRepository', awilix.asFunction(userRepository))
 container.register('commentRepository', awilix.asFunction(commentRepository))
+container.register('participantsRepository', awilix.asFunction(participantRepository))
 
 
 const theLoginRouter = container.resolve('loginRouter')

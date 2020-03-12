@@ -8,7 +8,6 @@ module.exports = function({}){
 
         createComment: function(packet, author, callback){
             Comments.create({
-                raw: true,
                 _content: packet.content,
                 _author: author,
                 UserEmail: packet.activeUser,
