@@ -1,4 +1,4 @@
-module.exports = function({activityRepository, commentRepository, profileRepository}){
+module.exports = function({activityRepository, commentRepository, profileRepository, participantsRepository}){
     return{
 
         getAllActivities: function(callback){
@@ -27,7 +27,22 @@ module.exports = function({activityRepository, commentRepository, profileReposit
                                     callback(error)
                                 }
                                 else{
-                                    callback(null, activity, comments, user)
+                                    participantsRepository.getAllParticipantsForActivity(id, function(error, participantsForActivity){
+                                        if(error){
+                                            callback(error)
+                                        }
+                                        else{
+                                            const theParticipants = []
+
+                                            for(i = 0; i < participantsForActivity.length; i += 1){
+                                                participant={
+                                                    participant: participantsForActivity[i]._username
+                                                }
+                                                theParticipants.push(participant)
+                                            }
+                                            callback(null, activity, comments, user, theParticipants)
+                                        }
+                                    })
                                 }
                             })
                         }
@@ -122,19 +137,57 @@ module.exports = function({activityRepository, commentRepository, profileReposit
                     else{
                         activityRepository.createActivity(activity, user[0]._username, function(error, id){
                             if(error){
-                                console.log(error)
                                 callback(error)
                             }
                             else{
-                                callback(null, id)
+                                activityRepository.createActivity(activity, user[0]._username, function(error, id){
+                                    if(error){
+                                        console.log(error)
+                                        callback(error)
+                                    }
+                                    else{
+                                        callback(null, id)
+                                    }
+                                })
                             }
                         })
                     }
                 })
-            } else{
+            } 
+            else{
                 callback(validationErrors)
             }
             
+        },
+
+        participateInActivity: function(packet, callback){
+            validationErrors = []
+
+            if(packet.userEmail != null){
+                profileRepository.getUserByEmail(packet.userEmail, function(error, user){
+                    if(error){
+                        callback(error)
+                    }
+                    else if(packet.userEmail == user[0]._email){
+                        participantsRepository.participateInActivity(user, packet.activityId, function(error){
+                            if(error){
+                                callback(error)
+                            }
+                            else{
+                                callback(null)
+                            }
+                        })
+                    }
+                    else{
+                        validationErrors.push("You can not participate from others accounts.")
+                        callback(validationErrors)
+                    }
+                })
+            }
+            else{
+                validationErrors.push("You need to be logged in")
+                callback(validationErrors)
+            }
         }
 
     }
