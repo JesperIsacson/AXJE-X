@@ -26,7 +26,7 @@
             {{#if isLoggedIn.length}}
             {{#if isParticipated}}
             <form action="/activities/unparticipate/{{id}}" method="POST">
-                <button type="submit" class="btn btn-success">Unparticipate</button>
+                <button type="submit" class="btn btn-danger">Unparticipate</button>
             </form>
             {{else}}
             <form action="/activities/participate/{{id}}" method="POST">
@@ -61,7 +61,12 @@
             <div class="media mb-4">
                 <div class="media-body">
                     <h5 class="mt-0"><b>{{author}}</b></h5>
-                    {{content}}
+                    <p>{{content}}</p>
+                    {{#if isAuthor}}
+                    <form action="/comment/delete/{{id}}" method="POST">
+                        <button class="btn btn-danger" type="submit">Delete</button>
+                    </form>
+                    {{/if}}
                 </div>
             </div>
             <hr>

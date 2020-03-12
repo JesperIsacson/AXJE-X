@@ -217,7 +217,9 @@ module.exports = function ({ activityManager }) {
                 for(i = 0; i < comments.length; i += 1){
                     comment = {
                         content: comments[i]._content,
-                        author: comments[i]._author
+                        author: comments[i]._author,
+                        id: comments[i].id,
+                        isAuthor: ((userEmail == comments[i].UserEmail) ? true : false)
                     }
                     commentPackage.push(comment)
                 }

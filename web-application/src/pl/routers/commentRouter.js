@@ -17,13 +17,27 @@ module.exports = function ({commentManager}){
         commentManager.createComment(packet, function(error){
             if(error){
                 console.log(error)
-                response.render("activity-detail.hbs", error)
+                response.render("activity-detailed.hbs", error)
             }
             else{
                 response.redirect("/activities/" + activityId)
             }
         })
+    })
 
+    router.post("/delete/:id", function(request, response){
+        const commentId = request.params.id
+        const userEmail = response.locals.isLoggedIn
+
+        commentManager.deleteComment(commentId, userEmail, function(error, activityId){
+            if(error){
+                console.log(error)
+                response.render("activity-detailed.hbs", error)
+            }
+            else{
+                response.redirect("/activities/" + activityId)
+            }
+        })
     })
 
 

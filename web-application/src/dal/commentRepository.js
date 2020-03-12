@@ -32,6 +32,34 @@ module.exports = function({}){
             .catch(error =>{
                 callback(error)
             })
+        },
+
+        deleteComment: function(commentId, userEmail, callback){
+            Comments.destroy({
+                where:{
+                    [Op.and]: [{id: commentId}, {UserEmail: userEmail}]
+                }
+            })
+            .then(status =>{
+                callback(null)
+            })
+            .catch(error =>{
+                callback(error)
+            })
+        },
+
+        getCommentById: function(commentId, callback){
+            Comments.findAll({
+                where:{
+                    id: commentId
+                }
+            })
+            .then(comment =>{
+                callback(null, comment)
+            })
+            .catch(error =>{
+                callback(error)
+            })
         }
 
     }
