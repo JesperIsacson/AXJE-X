@@ -35,13 +35,14 @@ module.exports = function ({ activityRepository, commentRepository, profileRepos
                                             const theParticipants = []
                                             var isParticipated = false 
 
+
                                             for (i = 0; i < participantsForActivity.length; i += 1) {
                                                 participant = {
                                                     participant: participantsForActivity[i]._username
                                                 }
                                                 theParticipants.push(participant)
 
-                                                if(userEmail == user[0]._email){
+                                                if(userEmail == participantsForActivity[i].UserEmail){
                                                     isParticipated = true
                                                 }
                                             }

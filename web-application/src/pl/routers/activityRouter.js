@@ -12,7 +12,8 @@ module.exports = function ({ activityManager }) {
         activityManager.getAllActivities(userEmail, function (error, activity) {
             if (error) {
                 console.log(error)
-            } else {
+            }
+            else {
 
                 let packet = []
 
@@ -112,7 +113,8 @@ module.exports = function ({ activityManager }) {
                     response.render("update-activity.hbs", model)
                 }
             })
-        } else {
+        }
+        else {
             response.redirect("/login")
         }
     })
@@ -169,33 +171,23 @@ module.exports = function ({ activityManager }) {
         const activityId = request.params.id
         const userEmail = response.locals.isLoggedIn
 
-<<<<<<< HEAD
-        activityManager.participateInActivity(activityId, userEmail, function(error){
-            if(error){
+        activityManager.participateInActivity(activityId, userEmail, function (error) {
+            if (error) {
                 console.log(error)
                 response.render("activity-detailed.hbs", error)
             }
-            else{
+            else {
                 response.redirect("/activities/" + activityId)
             }
         })
     })
 
-    router.post("/unparticipate/:id", function(request, response){
+    router.post("/unparticipate/:id", function (request, response) {
         const activityId = request.params.id
         const userEmail = response.locals.isLoggedIn
 
-        activityManager.unparticipateInActivity(activityId, userEmail, function(error){
-            if(error){
-=======
-        const packet = {
-            activityId: activityId,
-            userEmail: userEmail
-        }
-
-        activityManager.participateInActivity(packet, function (error) {
+        activityManager.unparticipateInActivity(activityId, userEmail, function (error) {
             if (error) {
->>>>>>> activities
                 console.log(error)
                 response.render("activity-detailed.hbs", error)
             }
@@ -267,3 +259,4 @@ module.exports = function ({ activityManager }) {
 
     return router
 }
+    
