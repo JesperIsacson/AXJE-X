@@ -1,41 +1,41 @@
-module.exports = function({activityRepository, commentRepository, profileRepository, participantsRepository}){
-    return{
+module.exports = function ({ activityRepository, commentRepository, profileRepository, participantsRepository }) {
+    return {
 
-        getAllActivities: function(callback){
-            activityRepository.getAllActivities(function(error, activity){
-                if(error){
+        getAllActivities: function (callback) {
+            activityRepository.getAllActivities(function (error, activity) {
+                if (error) {
                     callback(error)
-                } else{
+                } else {
                     callback(null, activity)
                 }
             })
         },
 
-        getActivityById: function(id, callback){
-            activityRepository.getActivityById(id, function(error, activity){
-                if(error){
+        getActivityById: function (id, callback) {
+            activityRepository.getActivityById(id, function (error, activity) {
+                if (error) {
                     callback(error)
-                } 
-                else{
-                    profileRepository.getUserByEmail(activity[0].UserEmail, function(error, user){
-                        if(error){
+                }
+                else {
+                    profileRepository.getUserByEmail(activity[0].UserEmail, function (error, user) {
+                        if (error) {
                             callback(error)
                         }
-                        else{
-                            commentRepository.getAllCommentsForActivity(id, function(error, comments){
-                                if(error){
+                        else {
+                            commentRepository.getAllCommentsForActivity(id, function (error, comments) {
+                                if (error) {
                                     callback(error)
                                 }
-                                else{
-                                    participantsRepository.getAllParticipantsForActivity(id, function(error, participantsForActivity){
-                                        if(error){
+                                else {
+                                    participantsRepository.getAllParticipantsForActivity(id, function (error, participantsForActivity) {
+                                        if (error) {
                                             callback(error)
                                         }
-                                        else{
+                                        else {
                                             const theParticipants = []
 
-                                            for(i = 0; i < participantsForActivity.length; i += 1){
-                                                participant={
+                                            for (i = 0; i < participantsForActivity.length; i += 1) {
+                                                participant = {
                                                     participant: participantsForActivity[i]._username
                                                 }
                                                 theParticipants.push(participant)
@@ -51,155 +51,153 @@ module.exports = function({activityRepository, commentRepository, profileReposit
             })
         },
 
-        updateActivity: function(activity, callback){
+        updateActivity: function (activity, callback) {
 
             const validationErrors = []
 
-            if(activity.title.length < 2 || activity.title.length > 40){
+            if (activity.title.length < 2 || activity.title.length > 40) {
                 validationErrors.push("Invalid title")
             }
 
-            if(activity.location.length < 2 || activity.location.length > 20){
+            if (activity.location.length < 2 || activity.location.length > 20) {
                 validationErrors.push("Invalid location")
             }
 
-            if(activity.description.length < 2 || activity.description.length > 140){
+            if (activity.description.length < 2 || activity.description.length > 140) {
                 validationErrors.push("Invalid description")
             }
 
-            if(activity.date.length = ""){
+            if (activity.date.length = "") {
                 validationErrors.push("Invalid date")
             }
 
-            if(activity.time.length = ""){
+            if (activity.time.length = "") {
                 validationErrors.push("Invalid time")
             }
 
-            if(validationErrors == 0){
-                activityRepository.updateActivity(activity, function(error){
-                    if(error){
+            if (validationErrors == 0) {
+                activityRepository.updateActivity(activity, function (error) {
+                    if (error) {
                         callback(error)
-                    } else{
-                        activityRepository.getActivityById(activity.id, function(error, activity){
-                            if(error){
+                    } else {
+                        activityRepository.getActivityById(activity.id, function (error, activity) {
+                            if (error) {
                                 callback(error)
-                            } else{
+                            } else {
                                 callback(null, activity)
                             }
                         })
                     }
                 })
-            } else{
+            } else {
                 callback(validationErrors)
             }
 
         },
 
-        deleteActivity: function(id, callback){
-            activityRepository.deleteActivity(id, function(error){
-                if(error){
+        deleteActivity: function (id, callback) {
+            activityRepository.deleteActivity(id, function (error) {
+                if (error) {
                     callback(error)
-                } else{
+                } else {
                     callback(null)
                 }
             })
         },
 
-        createActivity: function(activity, callback){
+        createActivity: function (activity, callback) {
             const validationErrors = []
 
 
-            if(activity.title.length < 2 || activity.title.length > 40){
+            if (activity.title.length < 2 || activity.title.length > 40) {
                 validationErrors.push("Invalid title")
             }
 
-            if(activity.location.length < 2 || activity.location.length > 20){
+            if (activity.location.length < 2 || activity.location.length > 20) {
                 validationErrors.push("Invalid location")
             }
 
-            if(activity.description.length < 2 || activity.description.length > 140){
+            if (activity.description.length < 2 || activity.description.length > 140) {
                 validationErrors.push("Invalid description")
             }
 
-            if(activity.date.length = ""){
+            if (activity.date.length = "") {
                 validationErrors.push("Invalid date")
             }
 
-            if(activity.time.length = ""){
+            if (activity.time.length = "") {
                 validationErrors.push("Invalid time")
             }
 
-            if(validationErrors == 0){
-                profileRepository.getUserByEmail(activity.activityAuthor, function(error, user){
-                    if(error){
+            if (validationErrors == 0) {
+                profileRepository.getUserByEmail(activity.activityAuthor, function (error, user) {
+                    if (error) {
                         callback(error)
                     }
-                    else{
-                        activityRepository.createActivity(activity, user[0]._username, function(error, id){
-                            if(error){
-                                callback(error)
-                            }
-                            else{
-                                activityRepository.createActivity(activity, user[0]._username, function(error, id){
-                                    if(error){
-                                        console.log(error)
-                                        callback(error)
-                                    }
-                                    else{
-                                        callback(null, id)
-                                    }
-                                })
-                            }
-                        })
+                    else {
+                        if (error) {
+                            callback(error)
+                        }
+                        else {
+                            activityRepository.createActivity(activity, user[0]._username, function (error, id) {
+                                if (error) {
+                                    console.log(error)
+                                    callback(error)
+                                }
+                                else {
+                                    callback(null, id)
+                                }
+                            })
+                        }
                     }
                 })
-            } 
-            else{
+            }
+            else {
                 callback(validationErrors)
             }
-            
+
         },
 
-        participateInActivity: function(packet, callback){
+        participateInActivity: function (packet, callback) {
             validationErrors = []
 
-            if(packet.userEmail != null){
-                profileRepository.getUserByEmail(packet.userEmail, function(error, user){
-                    if(error){
+            if (packet.userEmail != null) {
+                profileRepository.getUserByEmail(packet.userEmail, function (error, user) {
+                    if (error) {
                         callback(error)
                     }
-                    else if(packet.userEmail == user[0]._email){
-                        participantsRepository.participateInActivity(user, packet.activityId, function(error){
-                            if(error){
+                    else if (packet.userEmail == user[0]._email) {
+                        participantsRepository.participateInActivity(user, packet.activityId, function (error) {
+                            if (error) {
                                 callback(error)
                             }
-                            else{
+                            else {
                                 callback(null)
                             }
                         })
                     }
-                    else{
+                    else {
                         validationErrors.push("You can not participate from others accounts.")
                         callback(validationErrors)
                     }
                 })
             }
-            else{
+            else {
                 validationErrors.push("You need to be logged in")
                 callback(validationErrors)
             }
         },
 
-        getAllActivitiesByUser: function(username, callback){
+        getAllActivitiesByUser: function (username, callback) {
             validationErrors = []
 
-            activityRepository.getAllActivitiesByUser(username, function(error, activities){
-                if(error){
+            activityRepository.getAllActivitiesByUser(username, function (error, activities) {
+                if (error) {
                     callback(error)
                 }
-                else{
+                else {
                     const usersActivities = []
-                    for(i = 0; i < activities.length; i += 1){
+                    for (i = 0; i < activities.length; i += 1) {
                         activity = {
                             title: activities[i]._activityName,
                             date: activities[i]._activityDate,
