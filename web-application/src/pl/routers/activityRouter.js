@@ -22,7 +22,6 @@ module.exports = function ({ activityManager }) {
                         date: activity[i]._activityDate,
                         time: activity[i]._activityTime,
                         description: activity[i]._activityDescription,
-                        datePosted: activity[i]._datePosted,
                         createdAt: activity[i].createdAt.toString().slice(0,15),
                         username: activity[i]._activityAuthor
                     }

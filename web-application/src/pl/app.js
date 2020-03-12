@@ -31,7 +31,7 @@ const activityRepository = require('../dal/activityRepository')
 const profileRepository = require('../dal/profileRepository')
 const userRepository = require('../dal/userRepository')
 const commentRepository = require('../dal/commentRepository')
-const participantRepository = require('../dal/participantsRepository')
+const participantRepository = require('../dal-mysql/participantsRepository')
 
 
 const container = awilix.createContainer()
