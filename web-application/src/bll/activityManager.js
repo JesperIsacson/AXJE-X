@@ -1,7 +1,7 @@
 module.exports = function ({ activityRepository, commentRepository, profileRepository, participantsRepository }) {
     return {
 
-        getAllActivities: function (callback) {
+        getAllActivities: function (userEmail, callback) {
             activityRepository.getAllActivities(function (error, activity) {
                 if (error) {
                     callback(error)
@@ -51,58 +51,70 @@ module.exports = function ({ activityRepository, commentRepository, profileRepos
             })
         },
 
-        updateActivity: function (activity, callback) {
+        updateActivity: function (activity, userEmail, callback) {
 
-            const validationErrors = []
+            if (userEmail != null) {
 
-            if (activity.title.length < 2 || activity.title.length > 40) {
-                validationErrors.push("Invalid title")
+                const validationErrors = []
+
+                if (activity.title.length < 2 || activity.title.length > 40) {
+                    validationErrors.push("Invalid title")
+                }
+
+                if (activity.location.length < 2 || activity.location.length > 20) {
+                    validationErrors.push("Invalid location")
+                }
+
+                if (activity.description.length < 2 || activity.description.length > 140) {
+                    validationErrors.push("Invalid description")
+                }
+
+                if (activity.date.length = "") {
+                    validationErrors.push("Invalid date")
+                }
+
+                if (activity.time.length = "") {
+                    validationErrors.push("Invalid time")
+                }
+
+                if (validationErrors == 0) {
+                    activityRepository.updateActivity(activity, userEmail, function (error) {
+                        if (error) {
+                            callback(error)
+                        } else {
+                            activityRepository.getActivityById(activity.id, function (error, activity) {
+                                if (error) {
+                                    callback(error)
+                                } else {
+                                    callback(null, activity)
+                                }
+                            })
+                        }
+                    })
+                }
+                else{
+                    callback(validationErrors, activity)
+                }
             }
-
-            if (activity.location.length < 2 || activity.location.length > 20) {
-                validationErrors.push("Invalid location")
+            else{
+                validationErrors.push("You can't update other users activities")
             }
+        },
 
-            if (activity.description.length < 2 || activity.description.length > 140) {
-                validationErrors.push("Invalid description")
-            }
+        deleteActivity: function (id, userEmail, callback) {
 
-            if (activity.date.length = "") {
-                validationErrors.push("Invalid date")
-            }
-
-            if (activity.time.length = "") {
-                validationErrors.push("Invalid time")
-            }
-
-            if (validationErrors == 0) {
-                activityRepository.updateActivity(activity, function (error) {
+            if (userEmail != null) {
+                activityRepository.deleteActivity(id, userEmail, function (error) {
                     if (error) {
                         callback(error)
                     } else {
-                        activityRepository.getActivityById(activity.id, function (error, activity) {
-                            if (error) {
-                                callback(error)
-                            } else {
-                                callback(null, activity)
-                            }
-                        })
+                        callback(null)
                     }
                 })
-            } else {
-                callback(validationErrors)
             }
-
-        },
-
-        deleteActivity: function (id, callback) {
-            activityRepository.deleteActivity(id, function (error) {
-                if (error) {
-                    callback(error)
-                } else {
-                    callback(null)
-                }
-            })
+            else {
+                validationErrors.push("You can't delete other users activities")
+            }
         },
 
         createActivity: function (activity, callback) {
