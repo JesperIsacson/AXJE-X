@@ -174,6 +174,24 @@ module.exports = function ({ activityManager }) {
         })
     })
 
+    router.get("/by/:_username", function(request, response){
+        const username = request.params._username
+
+        activityManager.getAllActivitiesByUser(username, function(error, usersActivities){
+            if(error){
+                console.log(error)
+                response.render("profile.hbs", error)
+            }
+            else{
+                const model = {
+                    usersActivities
+                }
+                response.render("profileActivities.hbs", model)
+            }
+        })
+        
+    })
+
     router.get("/:id", function (request, response) {
 
         const id = request.params.id

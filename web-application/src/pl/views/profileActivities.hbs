@@ -1,21 +1,9 @@
-<title>Activities</title>
-<link rel="stylesheet" href="/CSS/activities.css">
-
 <div class="container">
     <div class="row">
         <div class="col-md-8">
             <h1 class="my-4">Activities</h1>
             <div class="container" id="container">
-                <div class="jumbotron" id="jumbotron">
-                    <h1 class="display-4">Create Activity</h1>
-                    {{#if isLoggedIn.length}}
-                    {{else}}
-                    <p class="lead">You must be logged in to create an activity</p>
-                    {{/if}}
-                    <hr class="my-4">
-                    <a class="btn btn-primary btn-lg" href="/activities/create" role="button">Create</a>
-                </div>
-                {{#each packet}}
+                {{#each usersActivities}}
                 <div class="card mb-4">
                     <div class="card-body">
                         <h2 class="card-title">{{title}}</h2>

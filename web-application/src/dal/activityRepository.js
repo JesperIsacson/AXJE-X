@@ -80,6 +80,21 @@ module.exports = function({}){
             .catch(error =>{
                 callback(error)
             })
+        },
+
+        getAllActivitiesByUser: function(username, callback){
+            Activities.findAll({
+                raw: true,
+                where:{
+                    _activityAuthor: username
+                }
+            })
+            .then(activities =>{
+                callback(null, activities)
+            })
+            .catch(error =>{
+                callback(error)
+            })
         }
 
     }

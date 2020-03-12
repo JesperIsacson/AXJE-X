@@ -188,6 +188,31 @@ module.exports = function({activityRepository, commentRepository, profileReposit
                 validationErrors.push("You need to be logged in")
                 callback(validationErrors)
             }
+        },
+
+        getAllActivitiesByUser: function(username, callback){
+            validationErrors = []
+
+            activityRepository.getAllActivitiesByUser(username, function(error, activities){
+                if(error){
+                    callback(error)
+                }
+                else{
+                    const usersActivities = []
+                    for(i = 0; i < activities.length; i += 1){
+                        activity = {
+                            title: activities[i]._activityName,
+                            date: activities[i]._activityDate,
+                            time: activities[i]._activityTime,
+                            id: activities[i].id,
+                            username: activities[i]._activityAuthor
+                        }
+                        usersActivities.push(activity)
+                    }
+
+                    callback(null, usersActivities)
+                }
+            })
         }
 
     }
