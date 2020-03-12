@@ -7,13 +7,15 @@
             <p>Height: {{_height}} cm</p>
             <p>Weight: {{_weight}} kg</p>
             <div class="row">
-                <a class="btn btn-success p-1" href="#">View activities</a>
+                <form action="/activities/by/{{_username}}" method="GET">
+                    <button class="btn btn-success" type="submit">View Activities</button>
+                </form>
                 {{#if _profileAuth}}
                     <form action="/profile/manageProfile/{{_username}}" method="GET">
-                        <button class="btn btn-success" type="submit">Manage profile</button>
+                        <button class="btn btn-success" type="submit">Manage Profile</button>
                     </form>
                     <form action="/profile/deleteProfile/{{_username}}" method="POST">
-                        <button class="btn btn-success" type="submit">Delete profile</button>
+                        <button class="btn btn-success" type="submit">Delete Profile</button>
                     </form>
                 {{/if}}    
             </div>
