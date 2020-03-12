@@ -86,11 +86,11 @@ module.exports = function ({ activityManager }) {
     })
 
     router.get("/update/:id", function (request, response) {
-
+        const userEmail = response.locals.isLoggedIn
         if (request.session.isLoggedIn) {
             const id = request.params.id
 
-            activityManager.getActivityById(id, function (error, activity) {
+            activityManager.getActivityById(id, userEmail, function (error, activity) {
                 if (error) {
                     console.log(error)
                 } else {
@@ -158,12 +158,22 @@ module.exports = function ({ activityManager }) {
         const activityId = request.params.id
         const userEmail = response.locals.isLoggedIn
 
-        const packet ={
-            activityId: activityId,
-            userEmail: userEmail
-        }
+        activityManager.participateInActivity(activityId, userEmail, function(error){
+            if(error){
+                console.log(error)
+                response.render("activity-detailed.hbs", error)
+            }
+            else{
+                response.redirect("/activities/" + activityId)
+            }
+        })
+    })
 
-        activityManager.participateInActivity(packet, function(error){
+    router.post("/unparticipate/:id", function(request, response){
+        const activityId = request.params.id
+        const userEmail = response.locals.isLoggedIn
+
+        activityManager.unparticipateInActivity(activityId, userEmail, function(error){
             if(error){
                 console.log(error)
                 response.render("activity-detailed.hbs", error)
@@ -195,8 +205,9 @@ module.exports = function ({ activityManager }) {
     router.get("/:id", function (request, response) {
 
         const id = request.params.id
+        const userEmail = response.locals.isLoggedIn
 
-        activityManager.getActivityById(id, function (error, activity, comments, user, participants) {
+        activityManager.getActivityById(id, userEmail, function (error, activity, comments, user, participants, isParticipated) {
             if (error) {
                 console.log(error)
                 response.render("login.hbs")
@@ -222,7 +233,8 @@ module.exports = function ({ activityManager }) {
                     createdAt: activity[0].createdAt.toString().slice(0,15),
                     comments: commentPackage,
                     username: user[0]._username,
-                    participants: participants
+                    participants: participants,
+                    isParticipated: isParticipated
                 }
 
                 response.render("activity-detailed.hbs", model)

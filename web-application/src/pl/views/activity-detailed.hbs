@@ -24,9 +24,15 @@
             <p>{{description}}</p>
             <hr>
             {{#if isLoggedIn.length}}
+            {{#if isParticipated}}
+            <form action="/activities/unparticipate/{{id}}" method="POST">
+                <button type="submit" class="btn btn-success">Unparticipate</button>
+            </form>
+            {{else}}
             <form action="/activities/participate/{{id}}" method="POST">
                 <button type="submit" class="btn btn-success">Participate</button>
             </form>
+            {{/if}}
             <div class="card my-4">
                 <h5 class="card-header">Leave a Comment:</h5>
                 <div class="card-body">

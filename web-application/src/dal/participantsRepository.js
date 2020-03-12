@@ -32,6 +32,20 @@ module.exports = function({}){
             .catch(error =>{
                 callback(error)
             })
+        },
+
+        unparticipateInActivity: function(activityId, userEmail, callback){
+            Participants.destroy({
+                where:{
+                    [Op.and]: [{ActivityId: activityId}, {UserEmail: userEmail}]
+                }
+            })
+            .then(status =>{
+                callback(null)
+            })
+            .catch(error =>{
+                callback(error)
+            })
         }
     }
 }

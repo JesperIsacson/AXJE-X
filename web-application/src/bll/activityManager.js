@@ -11,7 +11,7 @@ module.exports = function ({ activityRepository, commentRepository, profileRepos
             })
         },
 
-        getActivityById: function (id, callback) {
+        getActivityById: function (id, userEmail, callback) {
             activityRepository.getActivityById(id, function (error, activity) {
                 if (error) {
                     callback(error)
@@ -33,14 +33,19 @@ module.exports = function ({ activityRepository, commentRepository, profileRepos
                                         }
                                         else {
                                             const theParticipants = []
+                                            var isParticipated = false 
 
                                             for (i = 0; i < participantsForActivity.length; i += 1) {
                                                 participant = {
                                                     participant: participantsForActivity[i]._username
                                                 }
                                                 theParticipants.push(participant)
+
+                                                if(userEmail == user[0]._email){
+                                                    isParticipated = true
+                                                }
                                             }
-                                            callback(null, activity, comments, user, theParticipants)
+                                            callback(null, activity, comments, user, theParticipants, isParticipated)
                                         }
                                     })
                                 }
@@ -158,16 +163,16 @@ module.exports = function ({ activityRepository, commentRepository, profileRepos
 
         },
 
-        participateInActivity: function (packet, callback) {
+        participateInActivity: function (activityId, userEmail, callback) {
             validationErrors = []
 
-            if (packet.userEmail != null) {
-                profileRepository.getUserByEmail(packet.userEmail, function (error, user) {
+            if (userEmail != null) {
+                profileRepository.getUserByEmail(userEmail, function (error, user) {
                     if (error) {
                         callback(error)
                     }
-                    else if (packet.userEmail == user[0]._email) {
-                        participantsRepository.participateInActivity(user, packet.activityId, function (error) {
+                    else if (userEmail == user[0]._email) {
+                        participantsRepository.participateInActivity(user, activityId, function (error) {
                             if (error) {
                                 callback(error)
                             }
@@ -183,6 +188,25 @@ module.exports = function ({ activityRepository, commentRepository, profileRepos
                 })
             }
             else {
+                validationErrors.push("You need to be logged in")
+                callback(validationErrors)
+            }
+        },
+
+        unparticipateInActivity: function (activityId, userEmail, callback){
+            validationErrors = []
+
+            if(userEmail != null){
+                participantsRepository.unparticipateInActivity(activityId, userEmail, function(error){
+                    if(error){
+                        callback(error)
+                    }
+                    else{
+                        callback(null)
+                    }
+                })
+            }
+            else{
                 validationErrors.push("You need to be logged in")
                 callback(validationErrors)
             }
