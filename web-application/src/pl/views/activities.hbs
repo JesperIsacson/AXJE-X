@@ -22,7 +22,7 @@
                         <p class="card-text"><b>Date</b>: {{date}}</p>
                         <p class="card-text"><b>Time</b>: {{time}}</p>
                         <a href="/activities/{{id}}" class="btn btn-primary">Read more</a>
-                        {{#if ../isLoggedIn.length}}
+                        {{#if isAuthor}}
                         <a href="/activities/update/{{id}}" class="btn btn-secondary">Update</a>
                         <form action="/activities/delete/{{id}}" method="POST">
                             <input type="submit" value="Delete" class="btn btn-secondary">

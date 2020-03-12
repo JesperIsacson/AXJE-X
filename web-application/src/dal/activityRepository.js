@@ -4,35 +4,35 @@ const sequelize = require('sequelize')
 
 const Op = sequelize.Op
 
-module.exports = function({}){
+module.exports = function ({ }) {
 
-    return{
-        getAllActivities: function(callback){  
+    return {
+        getAllActivities: function (callback) {
             Activities.findAll({
                 raw: true
             })
-            .then(activities =>{
-                callback(null, activities)
-            })
-            .catch(error =>{
-                callback(error)
-            })
+                .then(activities => {
+                    callback(null, activities)
+                })
+                .catch(error => {
+                    callback(error)
+                })
         },
 
-        getActivityById: function(id, callback){
+        getActivityById: function (id, callback) {
             Activities.findAll({
                 raw: true,
-                where: {id: id}
+                where: { id: id }
             })
-            .then(activity =>{
-                callback(null, activity)
-            })
-            .catch(error =>{
-                callback(error)
-            })
+                .then(activity => {
+                    callback(null, activity)
+                })
+                .catch(error => {
+                    callback(error)
+                })
         },
 
-        createActivity: function(activity, username,  callback){
+        createActivity: function (activity, username, callback) {
             Activities.create({
                 _activityName: activity.title,
                 _activityDate: activity.date,
@@ -42,15 +42,15 @@ module.exports = function({}){
                 _activityAuthor: username,
                 UserEmail: activity.activityAuthor
             })
-            .then(status =>{
-                callback(null)
-            })
-            .catch(error =>{
-                callback(error)
-            })
+                .then(status => {
+                    callback(null)
+                })
+                .catch(error => {
+                    callback(error)
+                })
         },
 
-        updateActivity: function(activity, callback){
+        updateActivity: function (activity, userEmail, callback) {
             Activities.update({
                 _activityName: activity.title,
                 _activityDate: activity.date,
@@ -58,43 +58,46 @@ module.exports = function({}){
                 _activityLocation: activity.location,
                 _activityDescription: activity.description
             },
-            {where: {id: activity.id}}
-            )
-            .then(status =>{
-                callback(null)
-            })
-            .catch(error => {
-                callback(error)
-            })
+                {
+                    where: {
+                        [Op.and]: [{ id: activity.id }, { UserEmail: userEmail }]
+                    }
+                })
+                .then(status => {
+                    callback(null)
+                })
+                .catch(error => {
+                    callback(error)
+                })
         },
 
-        deleteActivity: function(id, callback){
+        deleteActivity: function (id, userEmail, callback) {
             Activities.destroy({
                 where: {
-                    id: id
+                    [Op.and]: [{ id:id }, { UserEmail: userEmail }]
                 }
             })
-            .then(status =>{
-                callback(null)
-            })
-            .catch(error =>{
-                callback(error)
-            })
+                .then(status => {
+                    callback(null)
+                })
+                .catch(error => {
+                    callback(error)
+                })
         },
 
-        getAllActivitiesByUser: function(username, callback){
+        getAllActivitiesByUser: function (username, callback) {
             Activities.findAll({
                 raw: true,
-                where:{
+                where: {
                     _activityAuthor: username
                 }
             })
-            .then(activities =>{
-                callback(null, activities)
-            })
-            .catch(error =>{
-                callback(error)
-            })
+                .then(activities => {
+                    callback(null, activities)
+                })
+                .catch(error => {
+                    callback(error)
+                })
         }
 
     }
