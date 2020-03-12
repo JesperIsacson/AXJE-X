@@ -6,10 +6,14 @@ module.exports = function ({ activityManager }) {
 
 
     router.get("/", function (request, response) {
-        activityManager.getAllActivities(function (error, activity) {
+
+        const userEmail = response.locals.isLoggedIn
+
+        activityManager.getAllActivities(userEmail, function (error, activity) {
             if (error) {
                 console.log(error)
-            } else {
+            }
+            else {
 
                 let packet = []
 
@@ -23,7 +27,8 @@ module.exports = function ({ activityManager }) {
                         time: activity[i]._activityTime,
                         description: activity[i]._activityDescription,
                         createdAt: activity[i].createdAt.toString().slice(0,15),
-                        username: activity[i]._activityAuthor
+                        username: activity[i]._activityAuthor,
+                        isAuthor: ((userEmail == activity[i].UserEmail) ? true : false)
                     }
                     packet.push(act)
                 }
@@ -60,8 +65,8 @@ module.exports = function ({ activityManager }) {
 
     router.post("/create", function (request, response) {
 
-        if(request.session.isLoggedIn){
-    
+        if (request.session.isLoggedIn) {
+
             const activity = {
                 title: request.body.title.trim(),
                 location: request.body.location.trim(),
@@ -70,7 +75,7 @@ module.exports = function ({ activityManager }) {
                 description: request.body.description.trim(),
                 activityAuthor: response.locals.isLoggedIn
             }
-    
+
             activityManager.createActivity(activity, function (error, activity) {
                 if (error) {
                     console.log(error)
@@ -79,7 +84,7 @@ module.exports = function ({ activityManager }) {
                     response.redirect("/activities")
                 }
             })
-        } else{
+        } else {
             response.redirect("/login")
         }
     })
@@ -87,7 +92,9 @@ module.exports = function ({ activityManager }) {
     router.get("/update/:id", function (request, response) {
         const userEmail = response.locals.isLoggedIn
         if (request.session.isLoggedIn) {
+
             const id = request.params.id
+            const userEmail = response.locals.isLoggedIn
 
             activityManager.getActivityById(id, userEmail, function (error, activity) {
                 if (error) {
@@ -105,14 +112,18 @@ module.exports = function ({ activityManager }) {
                     response.render("update-activity.hbs", model)
                 }
             })
-        } else{
+        }
+        else {
             response.redirect("/login")
         }
     })
 
     router.post("/update/:id", function (request, response) {
 
-        if(request.session.isLoggedIn){
+        if (request.session.isLoggedIn) {
+
+            const userEmail = response.locals.isLoggedIn
+
             const activity = {
                 id: request.params.id,
                 title: request.body.title.trim(),
@@ -121,8 +132,8 @@ module.exports = function ({ activityManager }) {
                 time: request.body.time.trim(),
                 description: request.body.description.trim()
             }
-    
-            activityManager.updateActivity(activity, function (error, activity) {
+
+            activityManager.updateActivity(activity, userEmail, function (error, activity) {
                 if (error) {
                     console.log(error)
                     response.render("login.hbs")
@@ -131,74 +142,76 @@ module.exports = function ({ activityManager }) {
                 }
             })
 
-        } else{
+        } else {
             response.redirect("/login")
         }
     })
 
     router.post("/delete/:id", function (request, response) {
 
-        if(request.session.isLoggedIn){
-            const id = request.params.id
+        if (request.session.isLoggedIn) {
 
-            activityManager.deleteActivity(id, function (error) {
+            const id = request.params.id
+            const userEmail = response.locals.isLoggedIn
+
+            activityManager.deleteActivity(id, userEmail, function (error) {
                 if (error) {
                     console.log(error)
                 } else {
                     response.redirect("/activities")
                 }
             })
-        } else{
+        } else {
             response.redirect("/login")
         }
     })
 
-    router.post("/participate/:id", function(request, response){
+    router.post("/participate/:id", function (request, response) {
         const activityId = request.params.id
         const userEmail = response.locals.isLoggedIn
 
-        activityManager.participateInActivity(activityId, userEmail, function(error){
-            if(error){
+        activityManager.participateInActivity(activityId, userEmail, function (error) {
+            if (error) {
                 console.log(error)
                 response.render("activity-detailed.hbs", error)
             }
-            else{
+            else {
                 response.redirect("/activities/" + activityId)
             }
         })
     })
 
-    router.post("/unparticipate/:id", function(request, response){
+    router.post("/unparticipate/:id", function (request, response) {
         const activityId = request.params.id
         const userEmail = response.locals.isLoggedIn
 
-        activityManager.unparticipateInActivity(activityId, userEmail, function(error){
-            if(error){
+        activityManager.unparticipateInActivity(activityId, userEmail, function (error) {
+            if (error) {
                 console.log(error)
                 response.render("activity-detailed.hbs", error)
             }
-            else{
+            else {
                 response.redirect("/activities/" + activityId)
             }
         })
     })
 
-    router.get("/by/:_username", function(request, response){
+    router.get("/by/:_username", function (request, response) {
         const username = request.params._username
 
-        activityManager.getAllActivitiesByUser(username, function(error, usersActivities){
-            if(error){
+        activityManager.getAllActivitiesByUser(username, function (error, usersActivities) {
+            if (error) {
                 console.log(error)
                 response.render("profile.hbs", error)
             }
-            else{
+            else {
                 const model = {
                     usersActivities
                 }
                 response.render("profileActivities.hbs", model)
             }
         })
-        
+
     })
 
     router.get("/:id", function (request, response) {
@@ -210,10 +223,10 @@ module.exports = function ({ activityManager }) {
             if (error) {
                 console.log(error)
                 response.render("login.hbs")
-            } 
-            else { 
+            }
+            else {
                 const commentPackage = []
-                for(i = 0; i < comments.length; i += 1){
+                for (i = 0; i < comments.length; i += 1) {
                     comment = {
                         content: comments[i]._content,
                         author: comments[i]._author,
@@ -231,7 +244,7 @@ module.exports = function ({ activityManager }) {
                     date: activity[0]._activityDate,
                     time: activity[0]._activityTime,
                     description: activity[0]._activityDescription,
-                    createdAt: activity[0].createdAt.toString().slice(0,15),
+                    createdAt: activity[0].createdAt.toString().slice(0, 15),
                     comments: commentPackage,
                     username: user[0]._username,
                     participants: participants,
@@ -245,3 +258,4 @@ module.exports = function ({ activityManager }) {
 
     return router
 }
+    
