@@ -34,19 +34,19 @@ module.exports = function({}){
             })
         },
 
-        updateActivity: function(activity, callback){
+        updateActivity: function(activity, userEmail, callback){
 
-            const query = "UPDATE Activities SET _activityName = ?, _activityDate = ?, _activityTime = ?, _activityLocation = ?, _activityDescription = ? WHERE id = ?"
-            const values = [activity.title, activity.date, activity.time, activity.location, activity.description, activity.id]
+            const query = "UPDATE Activities SET _activityName = ?, _activityDate = ?, _activityTime = ?, _activityLocation = ?, _activityDescription = ? WHERE id = ? AND UserEmail = ?"
+            const values = [activity.title, activity.date, activity.time, activity.location, activity.description, activity.id, userEmail]
 
             db.query(query, values, function(error){
                 callback(error)
             })
         },
 
-        deleteActivity: function(id, callback){
-            const query = "DELETE FROM Activities WHERE id = ?"
-            const values = [id]
+        deleteActivity: function(id, userEmail, callback){
+            const query = "DELETE FROM Activities WHERE id = ? AND UserEmail = ?"
+            const values = [id, userEmail]
 
             db.query(query, values, function(error){
                 callback(error)

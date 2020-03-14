@@ -96,7 +96,13 @@ app.get('/', function(request, response){
 })
 
 app.get("/register", function(request, response){
-    response.render("register.hbs")
+    if(response.locals.isLoggedIn == null){
+        response.render("register.hbs")
+    }
+    else{
+        console.log("can't create accounts while logged in...")
+        response.redirect("/")
+    }
 })
 
 app.get("/activities", function(request, response){

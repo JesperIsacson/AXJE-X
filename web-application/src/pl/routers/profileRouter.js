@@ -15,28 +15,17 @@ module.exports = function({profileManager}){
                     response.render("profile.hbs")
                 }
                 else{
-                    var profileAuth = false
-
-                    if(response.locals.isLoggedIn == user[0]._email){
-                        profileAuth = true
+                    const model ={
+                        user
                     }
 
-                    const model={
-                        user,
-                        _profileAuth : profileAuth,
-                        _username : user[0]._username,
-                        _firstName : user[0]._firstName,
-                        _lastName : user[0]._lastName,
-                        _dateOfBirth : user[0]._dateOfBirth,
-                        _height : user[0]._height,
-                        _weight : user[0]._weight
-                    }
                     response.render("profile.hbs", model)
                 }
             })
         }
         else{
             console.log("not logged in")
+            response.redirect("/")
         }
     })
 
@@ -54,12 +43,7 @@ module.exports = function({profileManager}){
             }
             else{
                 const model ={
-                    user,
-                    _username: user[0]._username,
-                    _firstName: user[0]._firstName,
-                    _lastName: user[0]._lastName,
-                    _height: user[0]._height,
-                    _weight: user[0]._weight
+                    user 
                 }
 
                 response.render("manageProfile.hbs", model)
@@ -87,19 +71,10 @@ module.exports = function({profileManager}){
         profileManager.updateProfile(newUser, validator, function(error, user){
             if(error){
                 console.log(error)
-                const model={
-                    user,
-                    _username: user._username,
-                    _firstName: user._firstName,
-                    _lastName: user._lastName,
-                    _height: user._height,
-                    _weight: user._weight
-                }
-
-                response.render("manageProfile.hbs", model)
+                response.render("manageProfile.hbs", newUser)
             }
             else{
-                response.redirect("/profile/" + user[0]._username)
+                response.redirect("/profile/" + user.username)
             }
         })
         
@@ -126,29 +101,16 @@ module.exports = function({profileManager}){
 
     router.get("/:username", function(request, response){
         const username = request.params.username
+        const userEmail = response.locals.isLoggedIn
         
-        profileManager.getUserByUsername(username, function(error, user){
+        profileManager.getUserByUsername(username, userEmail, function(error, user){
             if(error){
                 console.log(error)
                 response.render("profile.hbs")
             }
             else{
-                
-                var profileAuth = false
-
-                if(response.locals.isLoggedIn == user[0]._email){
-                    profileAuth = true
-                }
-
                 const model={
-                    user,
-                    _profileAuth : profileAuth,
-                    _username : user[0]._username,
-                    _firstName : user[0]._firstName,
-                    _lastName : user[0]._lastName,
-                    _dateOfBirth : user[0]._dateOfBirth,
-                    _height : user[0]._height,
-                    _weight : user[0]._weight
+                    user
                 }
                 response.render("profile.hbs", model)
             }

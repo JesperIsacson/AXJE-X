@@ -1,7 +1,7 @@
 module.exports = function({profileRepository}){
 
     return {
-        getUserByUsername: function(username, callback){
+        getUserByUsername: function(username, userEmail, callback){
             const validationErrors = []
 
             if(username == "")
@@ -15,7 +15,24 @@ module.exports = function({profileRepository}){
                         callback(error)
                     }
                     else if(user != 0){
-                        callback(null, user)
+                                        
+                        var profileAuth = false
+
+                        if(userEmail == user[0]._email){
+                            profileAuth = true
+                        }
+
+                        const theUser ={
+                            _profileAuth : profileAuth,
+                            _username : user[0]._username,
+                            _firstName : user[0]._firstName,
+                            _lastName : user[0]._lastName,
+                            _dateOfBirth : user[0]._dateOfBirth,
+                            _height : user[0]._height,
+                            _weight : user[0]._weight
+                        }
+
+                        callback(null, theUser)
                     }
                     else{
                         validationErrors.push("No one by that username")
@@ -41,7 +58,24 @@ module.exports = function({profileRepository}){
                         callback(error)
                     }
                     else if(user != 0){
-                        callback(null, user)
+                        var profileAuth = false
+
+                        if(email == user[0]._email){
+                            profileAuth = true
+                        }
+
+                        const theUser = {
+                        _profileAuth : profileAuth,
+                        _username : user[0]._username,
+                        _firstName : user[0]._firstName,
+                        _lastName : user[0]._lastName,
+                        _dateOfBirth : user[0]._dateOfBirth,
+                        _height : user[0]._height,
+                        _weight : user[0]._weight
+                        }
+
+
+                        callback(null, theUser)
                     }
                     else{
                         validationErrors.push("You need to be logged in")
@@ -63,7 +97,15 @@ module.exports = function({profileRepository}){
                         callback(error)
                     }
                     else if(validator.username == user[0]._username){
-                        callback(null, user)
+                        const theUser ={
+                            _username: user[0]._username,
+                            _firstName: user[0]._firstName,
+                            _lastName: user[0]._lastName,
+                            _height: user[0]._height,
+                            _weight: user[0]._weight
+                        }
+
+                        callback(null, theUser)
                     }
                     else{
                         validationErrors.push("You can not manage others profiles")
@@ -112,10 +154,14 @@ module.exports = function({profileRepository}){
                                 else{
                                     profileRepository.getUserByEmail(validator.email, function(error, user){
                                         if(error){
-                                            callback(error, newUser)
+                                            callback(error)
                                         }
                                         else{
-                                            callback(null, user)
+                                            const theUser ={
+                                                username: user[0]._username
+                                            }
+
+                                            callback(null, theUser)
                                         }
                                     })
                                 }

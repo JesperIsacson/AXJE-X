@@ -3,26 +3,26 @@
         <h5 class="text-center">Manage Profile</h5>
         <div class="col-md-3 col-sm-12">
             <div class="register-form">
-                <form action="/profile/updateProfile/{{_username}}" method="POST">
+                <form action="/profile/updateProfile/{{user._username}}" method="POST">
                     <div class="form-group">
                         <label>User Name</label>
-                        <input type="text" class="form-controll" name="username" placeholder="User Name" value="{{_username}}">
+                        <input type="text" class="form-controll" name="username" placeholder="User Name" value="{{user._username}}">
                     </div>
                     <div class="form-group">
                         <label>First Name</label>
-                        <input type="text" class="form-controll" name="firstName" placeholder="First Name" value="{{_firstName}}">
+                        <input type="text" class="form-controll" name="firstName" placeholder="First Name" value="{{user._firstName}}">
                     </div>
                     <div class="form-group">
                         <label>Last Name</label>
-                        <input type="text" class="form-controll" name="lastName" placeholder="Last Name" value="{{_lastName}}">
+                        <input type="text" class="form-controll" name="lastName" placeholder="Last Name" value="{{user._lastName}}">
                     </div>
                     <div class="form-group">
                         <label>Height (cm)</label>
-                        <input type="text" class="form-controll" name="height" placeholder="Height (cm)" value="{{_height}}">
+                        <input type="text" class="form-controll" name="height" placeholder="Height (cm)" value="{{user._height}}">
                     </div>
                     <div class="form-group">
                         <label>Weight (kg)</label>
-                        <input type="text" class="form-controll" name="weight" placeholder="Weight (kg)" value="{{_weight}}">
+                        <input type="text" class="form-controll" name="weight" placeholder="Weight (kg)" value="{{user._weight}}">
                     </div>
                     <button type="submit" class="btn btn-success">Save Changes</button>
                 </form>

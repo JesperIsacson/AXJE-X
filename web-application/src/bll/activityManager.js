@@ -132,12 +132,23 @@ module.exports = function ({ activityRepository, commentRepository, profileRepos
                     activityRepository.updateActivity(activity, userEmail, function (error) {
                         if (error) {
                             callback(error)
-                        } else {
+                        } 
+                        else {
                             activityRepository.getActivityById(activity.id, function (error, activity) {
                                 if (error) {
                                     callback(error)
-                                } else {
-                                    callback(null, activity)
+                                } 
+                                else {
+                                    const theActivity ={
+                                        id: activity[0].id,
+                                        title: activity[0]._activityName,
+                                        location: activity[0]._activityLocation,
+                                        date: activity[0]._activityDate,
+                                        time: activity[0]._activityTime,
+                                        description: activity[0]._activityDescription
+                                    }
+
+                                    callback(null, theActivity)
                                 }
                             })
                         }
@@ -148,7 +159,7 @@ module.exports = function ({ activityRepository, commentRepository, profileRepos
                 }
             }
             else {
-                validationErrors.push("You can't update other users activities")
+                validationErrors.push("You need to be logged in")
             }
         },
 

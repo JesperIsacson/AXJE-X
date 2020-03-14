@@ -25,6 +25,8 @@ module.exports = function({userManager}){
     })
 
     router.post("/createAccount", function(request, respone){
+        const userEmail = respone.locals.isLoggedIn
+
         const account = {
             email : request.body.email.trim(),
             firstName : request.body.firstName.trim(),
@@ -36,7 +38,7 @@ module.exports = function({userManager}){
             dateOfBirth : request.body.dateOfBirth.trim()
         }
 
-        userManager.createAccount(account, function(error, userEmail){
+        userManager.createAccount(account, userEmail, function(error, userEmail){
             if(error){
                 console.log(error)
                 respone.render("register.hbs", account)
@@ -49,8 +51,15 @@ module.exports = function({userManager}){
     })
 
     router.post("/logout", function(request, response){
-        request.session.isLoggedIn = null
-        response.redirect("/")
+        if(response.locals.isLoggedIn != null)
+        {
+            request.session.isLoggedIn = null
+            response.redirect("/")
+        }
+        else{
+            console.log("You need to be logged in to logout")
+            response.redirect("/")
+        }
     })
 
     return router

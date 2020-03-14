@@ -35,7 +35,8 @@ module.exports = function ({ activityManager }) {
 
             response.render("create-activity.hbs", model)
 
-        } else {
+        } 
+        else {
             response.redirect("/login")
         }
     })
@@ -62,14 +63,14 @@ module.exports = function ({ activityManager }) {
                     response.redirect("/activities")
                 }
             })
-        } else {
+        } 
+        else {
             response.redirect("/login")
         }
     })
 
     router.get("/update/:id", function (request, response) {
-        const userEmail = response.locals.isLoggedIn
-        if (request.session.isLoggedIn) {
+        if (response.locals.isLoggedIn) {
 
             const id = request.params.id
             const userEmail = response.locals.isLoggedIn
@@ -77,15 +78,10 @@ module.exports = function ({ activityManager }) {
             activityManager.getActivityById(id, userEmail, function (error, activity) {
                 if (error) {
                     console.log(error)
-                } else {
+                } 
+                else {
                     const model = {
-                        activity,
-                        id: activity[0].id,
-                        title: activity[0]._activityName,
-                        location: activity[0]._activityLocation,
-                        date: activity[0]._activityDate,
-                        time: activity[0]._activityTime,
-                        description: activity[0]._activityDescription,
+                        activity
                     }
                     response.render("update-activity.hbs", model)
                 }
@@ -116,11 +112,12 @@ module.exports = function ({ activityManager }) {
                     console.log(error)
                     response.render("login.hbs")
                 } else {
-                    response.redirect("/activities/" + activity[0].id)
+                    response.redirect("/activities/" + activity.id)
                 }
             })
 
-        } else {
+        } 
+        else {
             response.redirect("/login")
         }
     })
@@ -210,7 +207,6 @@ module.exports = function ({ activityManager }) {
                     participants: participants,
                     isParticipated: isParticipated
                 }
-                console.log(model)
 
                 response.render("activity-detailed.hbs", model)
             }
