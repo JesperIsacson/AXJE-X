@@ -9,36 +9,14 @@ module.exports = function ({ activityManager }) {
 
         const userEmail = response.locals.isLoggedIn
 
-        activityManager.getAllActivities(userEmail, function (error, activity) {
+        activityManager.getAllActivities(userEmail, function (error, theActivities) {
             if (error) {
                 console.log(error)
             }
             else {
-
-                let packet = []
-
-                for (i = 0; i < activity.length; i += 1) {
-
-                    let act = {
-                        id: activity[i].id,
-                        title: activity[i]._activityName,
-                        location: activity[i]._activityLocation,
-                        date: activity[i]._activityDate,
-                        time: activity[i]._activityTime,
-                        description: activity[i]._activityDescription,
-                        createdAt: activity[i].createdAt.toString().slice(0,15),
-                        username: activity[i]._activityAuthor,
-                        isAuthor: ((userEmail == activity[i].UserEmail) ? true : false)
-                    }
-                    packet.push(act)
-                }
-
-                packet.reverse()
-
                 const model = {
-                    packet
+                    theActivities
                 }
-
                 response.render("activities.hbs", model)
             }
         })
@@ -225,31 +203,14 @@ module.exports = function ({ activityManager }) {
                 response.render("login.hbs")
             }
             else {
-                const commentPackage = []
-                for (i = 0; i < comments.length; i += 1) {
-                    comment = {
-                        content: comments[i]._content,
-                        author: comments[i]._author,
-                        id: comments[i].id,
-                        isAuthor: ((userEmail == comments[i].UserEmail) ? true : false)
-                    }
-                    commentPackage.push(comment)
-                }
-
                 const model = {
-                    activity,
-                    id: activity[0].id,
-                    title: activity[0]._activityName,
-                    location: activity[0]._activityLocation,
-                    date: activity[0]._activityDate,
-                    time: activity[0]._activityTime,
-                    description: activity[0]._activityDescription,
-                    createdAt: activity[0].createdAt.toString().slice(0, 15),
-                    comments: commentPackage,
-                    username: user[0]._username,
+                    activity: activity,
+                    comments: comments,
+                    user: user,
                     participants: participants,
                     isParticipated: isParticipated
                 }
+                console.log(model)
 
                 response.render("activity-detailed.hbs", model)
             }

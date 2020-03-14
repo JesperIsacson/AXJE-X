@@ -2,11 +2,31 @@ module.exports = function ({ activityRepository, commentRepository, profileRepos
     return {
 
         getAllActivities: function (userEmail, callback) {
-            activityRepository.getAllActivities(function (error, activity) {
+            activityRepository.getAllActivities(function (error, activities) {
                 if (error) {
                     callback(error)
                 } else {
-                    callback(null, activity)
+                    const theActivities = []
+
+                    for (i = 0; i < activities.length; i += 1) {
+
+                        let act = {
+                            id: activities[i].id,
+                            title: activities[i]._activityName,
+                            location: activities[i]._activityLocation,
+                            date: activities[i]._activityDate,
+                            time: activities[i]._activityTime,
+                            description: activities[i]._activityDescription,
+                            createdAt: activities[i].createdAt.toString().slice(0, 15),
+                            username: activities[i]._activityAuthor,
+                            isAuthor: ((userEmail == activities[i].UserEmail) ? true : false)
+                        }
+                        theActivities.push(act)
+                    }
+
+                    theActivities.reverse()
+
+                    callback(null, theActivities)
                 }
             })
         },
@@ -17,23 +37,48 @@ module.exports = function ({ activityRepository, commentRepository, profileRepos
                     callback(error)
                 }
                 else {
+                    const theActivity = {
+                        id: activity[0].id,
+                        title: activity[0]._activityName,
+                        location: activity[0]._activityLocation,
+                        date: activity[0]._activityDate,
+                        time: activity[0]._activityTime,
+                        description: activity[0]._activityDescription,
+                        createdAt: activity[0].createdAt.toString().slice(0, 15)
+                    }
+
                     profileRepository.getUserByEmail(activity[0].UserEmail, function (error, user) {
                         if (error) {
                             callback(error)
                         }
                         else {
+                            const theUser = {
+                                username: user[0]._username
+                            }
+
                             commentRepository.getAllCommentsForActivity(id, function (error, comments) {
                                 if (error) {
                                     callback(error)
                                 }
                                 else {
+                                    const theComments = []
+                                    for (i = 0; i < comments.length; i += 1) {
+                                        comment = {
+                                            content: comments[i]._content,
+                                            author: comments[i]._author,
+                                            id: comments[i].id,
+                                            isAuthor: ((userEmail == comments[i].UserEmail) ? true : false)
+                                        }
+                                        theComments.push(comment)
+                                    }
+
                                     participantsRepository.getAllParticipantsForActivity(id, function (error, participantsForActivity) {
                                         if (error) {
                                             callback(error)
                                         }
                                         else {
                                             const theParticipants = []
-                                            var isParticipated = false 
+                                            var isParticipated = false
 
 
                                             for (i = 0; i < participantsForActivity.length; i += 1) {
@@ -42,11 +87,11 @@ module.exports = function ({ activityRepository, commentRepository, profileRepos
                                                 }
                                                 theParticipants.push(participant)
 
-                                                if(userEmail == participantsForActivity[i].UserEmail){
+                                                if (userEmail == participantsForActivity[i].UserEmail) {
                                                     isParticipated = true
                                                 }
                                             }
-                                            callback(null, activity, comments, user, theParticipants, isParticipated)
+                                            callback(null, theActivity, theComments, theUser, theParticipants, isParticipated)
                                         }
                                     })
                                 }
@@ -98,11 +143,11 @@ module.exports = function ({ activityRepository, commentRepository, profileRepos
                         }
                     })
                 }
-                else{
+                else {
                     callback(validationErrors, activity)
                 }
             }
-            else{
+            else {
                 validationErrors.push("You can't update other users activities")
             }
         },
@@ -206,20 +251,20 @@ module.exports = function ({ activityRepository, commentRepository, profileRepos
             }
         },
 
-        unparticipateInActivity: function (activityId, userEmail, callback){
+        unparticipateInActivity: function (activityId, userEmail, callback) {
             validationErrors = []
 
-            if(userEmail != null){
-                participantsRepository.unparticipateInActivity(activityId, userEmail, function(error){
-                    if(error){
+            if (userEmail != null) {
+                participantsRepository.unparticipateInActivity(activityId, userEmail, function (error) {
+                    if (error) {
                         callback(error)
                     }
-                    else{
+                    else {
                         callback(null)
                     }
                 })
             }
-            else{
+            else {
                 validationErrors.push("You need to be logged in")
                 callback(validationErrors)
             }

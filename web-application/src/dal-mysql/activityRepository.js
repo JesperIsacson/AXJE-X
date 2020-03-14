@@ -7,8 +7,8 @@ module.exports = function({}){
             
             const query = "SELECT * FROM Activities"
 
-            db.query(query, function(error, activity){
-                callback(error, activity)
+            db.query(query, function(error, activities){
+                callback(error, activities)
             })
         },
 

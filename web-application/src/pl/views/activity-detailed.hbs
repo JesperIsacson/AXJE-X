@@ -1,4 +1,5 @@
-<title>{{title}}</title>
+{{#if activity}}
+<title>{{activity.title}}</title>
 
 <link href="vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
 <link href="css/blog-post.css" rel="stylesheet">
@@ -6,37 +7,37 @@
 <div class="container jumbotron">
     <div class="row">
         <div class="col-lg-8">
-            <h1 class="mt-4">{{title}}</h1>
+            <h1 class="mt-4">{{activity.title}}</h1>
 
             <p class="lead">
                 by
-                <a href="/profile/{{username}}">{{username}}</a>
+                <a href="/profile/{{user.username}}">{{user.username}}</a>
             </p>
             <hr>
-            <p><b>Location: </b>{{location}}</p>
+            <p><b>Location: </b>{{activity.location}}</p>
             <hr>
-            <p><b>Posted on: </b>{{createdAt}}</p>
+            <p><b>Posted on: </b>{{activity.createdAt}}</p>
             <hr>
-            <p><b>Date: </b>{{date}}</p>
+            <p><b>Date: </b>{{activity.date}}</p>
             <hr>
-            <p><b>Time: </b>{{time}}</p>
+            <p><b>Time: </b>{{activity.time}}</p>
             <hr>
-            <p>{{description}}</p>
+            <p>{{activity.description}}</p>
             <hr>
             {{#if isLoggedIn.length}}
             {{#if isParticipated}}
-            <form action="/activities/unparticipate/{{id}}" method="POST">
+            <form action="/activities/unparticipate/{{activity.id}}" method="POST">
                 <button type="submit" class="btn btn-danger">Unparticipate</button>
             </form>
             {{else}}
-            <form action="/activities/participate/{{id}}" method="POST">
+            <form action="/activities/participate/{{activity.id}}" method="POST">
                 <button type="submit" class="btn btn-success">Participate</button>
             </form>
             {{/if}}
             <div class="card my-4">
                 <h5 class="card-header">Leave a Comment:</h5>
                 <div class="card-body">
-                    <form action="/comment/create/{{id}}" method="POST">
+                    <form action="/comment/create/{{activity.id}}" method="POST">
                         <div class="form-group">
                             <textarea class="form-control" rows="3" name="content"></textarea>
                         </div>
@@ -74,3 +75,6 @@
         </div>
     </div>
 </div>
+{{else}}
+<h1>NO POST WITH THAT ID</h1>
+{{/if}}
