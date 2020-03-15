@@ -11,7 +11,7 @@ seqConnect = function(){
     })
     .catch(function(){
         console.log("not connected")
-        seqConnect()
+        setTimeout(seqConnect, 3000)
     })
 }
 

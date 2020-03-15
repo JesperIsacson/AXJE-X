@@ -34,6 +34,7 @@ module.exports = function ({ }) {
 
         createActivity: function (activity, username, callback) {
             Activities.create({
+                raw: true,
                 _activityName: activity.title,
                 _activityDate: activity.date,
                 _activityTime: activity.time,
@@ -42,8 +43,8 @@ module.exports = function ({ }) {
                 _activityAuthor: username,
                 UserEmail: activity.activityAuthor
             })
-                .then(status => {
-                    callback(null)
+                .then(activity => {
+                    callback(null, activity)
                 })
                 .catch(error => {
                     callback(error)

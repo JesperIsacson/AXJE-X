@@ -1,4 +1,4 @@
-{{#if user}}
+
     <div class="container p-3 my-3 bg-dark text-white">
         <h5 class="text-center">Manage Profile</h5>
         <div class="col-md-3 col-sm-12">
@@ -26,9 +26,14 @@
                     </div>
                     <button type="submit" class="btn btn-success">Save Changes</button>
                 </form>
+                {{#if error.length}}
+                <p>Errors:</p>
+                <ul>
+                    {{#each error}}
+                    <li>{{this}}</li>
+                    {{/each}}
+                </ul>
+                {{/if}}
             </div>
         </div>
     </div>
-{{else}}
-    <h1>FEL</h1>
-{{/if}}

@@ -3,10 +3,10 @@
 
 <h1>Update Activity</h1>
 
-{{#if validationErrors.length}}
+{{#if error.length}}
 <p>Errors:</p>
 <ul>
-    {{#each validationErrors}}
+    {{#each error}}
     <li>{{this}}</li>
     {{/each}}
 </ul>

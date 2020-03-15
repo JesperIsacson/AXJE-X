@@ -227,7 +227,7 @@ module.exports = function ({ activityRepository, commentRepository, profileRepos
                 })
             }
             else {
-                callback(validationErrors)
+                callback(validationErrors, activity)
             }
 
         },
