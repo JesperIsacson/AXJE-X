@@ -1,4 +1,3 @@
-{{#if activity}}
 <title>{{activity.title}}</title>
 
 <link href="vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
@@ -45,6 +44,14 @@
                     </form>
                 </div>
             </div>
+            {{#if error.length}}
+            <p>Error:</p>
+            <ul>
+                {{#each error}}
+                <li>{{this}}</li>
+                {{/each}}
+            </ul>
+            {{/if}}
             {{/if}}
             <h2>Participants</h2>
             <hr>
@@ -75,6 +82,3 @@
         </div>
     </div>
 </div>
-{{else}}
-<h1>NO POST WITH THAT ID</h1>
-{{/if}}

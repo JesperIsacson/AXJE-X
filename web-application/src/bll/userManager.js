@@ -8,6 +8,10 @@ module.exports = function({userRepository}){
 
             if(userEmail == null){
 
+                if(account.email == ""){
+                    validationErrors.push("Please enter an email")
+                }
+
                 if(account.firstName.length < 2 || account.firstName.length > 20){
                     validationErrors.push("Invalid first name")
                 }
@@ -18,7 +22,7 @@ module.exports = function({userRepository}){
                     validationErrors.push("Invalid username")
                 }
                 if(account.password != account.passwordConfirm || account.password.length < 6){
-                    validationErrors.push("Invalid email")
+                    validationErrors.push("Password does not match or password is too short")
                 }
                 if(account.gender == ""){
                     validationErrors.push("Something went wrong")

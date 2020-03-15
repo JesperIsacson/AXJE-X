@@ -17,7 +17,11 @@ module.exports = function ({commentManager}){
         commentManager.createComment(packet, function(error){
             if(error){
                 console.log(error)
-                response.render("activity-detailed.hbs", error)
+                const model = {
+                    error,
+                    packet
+                }
+                response.render("activity-detailed.hbs", model)
             }
             else{
                 response.redirect("/activities/" + activityId)

@@ -115,6 +115,14 @@ app.get("/activities", function(request, response){
     response.render("activities.hbs")
 })
 
+app.get("/error500", function(request, response){
+    response.render("error500.hbs")
+})
+
+app.use(function(request, response){
+    response.render("error404.hbs")
+})
+
 app.listen(8080, function(){
     console.log("App listening on port 8080")
 })

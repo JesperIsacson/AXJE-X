@@ -15,7 +15,7 @@ module.exports = function({userManager}){
         userManager.login(usernameOrEmail, password, function(error, reqEmail){
             if(error){
                 console.log(error)
-                response.render("login.hbs", error)
+                response.redirect("/error500")
             }
             else{
                 request.session.isLoggedIn = reqEmail
@@ -41,7 +41,11 @@ module.exports = function({userManager}){
         userManager.createAccount(account, userEmail, function(error, userEmail){
             if(error){
                 console.log(error)
-                respone.render("register.hbs", account)
+                const model = {
+                    error,
+                    account
+                }
+                respone.render("register.hbs", model)
             }
             else{
                 request.session.isLoggedIn = userEmail

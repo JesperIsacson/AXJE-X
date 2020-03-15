@@ -12,7 +12,7 @@ module.exports = function({profileManager}){
             profileManager.getUserByEmail(email, function(error, user){
                 if(error){
                     console.log(error)
-                    response.render("profile.hbs")
+                    response.redirect("/error500")
                 }
                 else{
                     const model ={
@@ -39,7 +39,7 @@ module.exports = function({profileManager}){
         profileManager.manageProfile(validator, function(error, user){
             if(error){
                 console.log(error)
-                response.render("home.hbs")
+                response.redirect("/error500")
             }
             else{
                 const model ={
@@ -71,7 +71,11 @@ module.exports = function({profileManager}){
         profileManager.updateProfile(newUser, validator, function(error, user){
             if(error){
                 console.log(error)
-                response.render("manageProfile.hbs", newUser)
+                const model = {
+                    error,
+                    user
+                }
+                response.render("manageProfile.hbs", model)
             }
             else{
                 response.redirect("/profile/" + user.username)
@@ -106,7 +110,7 @@ module.exports = function({profileManager}){
         profileManager.getUserByUsername(username, userEmail, function(error, user){
             if(error){
                 console.log(error)
-                response.render("profile.hbs")
+                response.redirect("/error500")
             }
             else{
                 const model={

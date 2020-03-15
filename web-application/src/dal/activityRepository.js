@@ -34,6 +34,7 @@ module.exports = function ({ }) {
 
         createActivity: function (activity, username, callback) {
             Activities.create({
+                raw: true,
                 _activityName: activity.title,
                 _activityDate: activity.date,
                 _activityTime: activity.time,

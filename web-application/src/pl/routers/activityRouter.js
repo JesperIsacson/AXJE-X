@@ -12,6 +12,7 @@ module.exports = function ({ activityManager }) {
         activityManager.getAllActivities(userEmail, function (error, theActivities) {
             if (error) {
                 console.log(error)
+                response.redirect("/error500")
             }
             else {
                 const model = {
@@ -58,7 +59,11 @@ module.exports = function ({ activityManager }) {
             activityManager.createActivity(activity, function (error, activity) {
                 if (error) {
                     console.log(error)
-                    response.render("create-activity.hbs", error, activity)
+                    const model = {
+                        error,
+                        activity
+                    }
+                    response.render("create-activity.hbs", model)
                 } else {
                     response.redirect("/activities")
                 }
@@ -78,6 +83,7 @@ module.exports = function ({ activityManager }) {
             activityManager.getActivityById(id, userEmail, function (error, model) {
                 if (error) {
                     console.log(error)
+                    response.redirect("/error500")
                 } 
                 else {
                     response.render("update-activity.hbs", model)
@@ -107,7 +113,11 @@ module.exports = function ({ activityManager }) {
             activityManager.updateActivity(activity, userEmail, function (error, activity) {
                 if (error) {
                     console.log(error)
-                    response.render("login.hbs")
+                    const model = {
+                        error,
+                        activity
+                    }
+                    response.render("update-activity.hbs", model)
                 } else {
                     response.redirect("/activities/" + activity.id)
                 }
@@ -174,7 +184,7 @@ module.exports = function ({ activityManager }) {
         activityManager.getAllActivitiesByUser(username, function (error, usersActivities) {
             if (error) {
                 console.log(error)
-                response.render("profile.hbs", error)
+                response.redirect("/error500")
             }
             else {
                 const model = {
@@ -194,7 +204,7 @@ module.exports = function ({ activityManager }) {
         activityManager.getActivityById(id, userEmail, function (error, model) {
             if (error) {
                 console.log(error)
-                response.render("login.hbs")
+                response.redirect("activity-detailed.hbs")
             }
             else {
                 response.render("activity-detailed.hbs", model)
