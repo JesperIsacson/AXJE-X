@@ -25,7 +25,6 @@ module.exports = function ({ activityRepository, commentRepository, profileRepos
                     }
 
                     theActivities.reverse()
-
                     callback(null, theActivities)
                 }
             })
@@ -91,7 +90,15 @@ module.exports = function ({ activityRepository, commentRepository, profileRepos
                                                     isParticipated = true
                                                 }
                                             }
-                                            callback(null, theActivity, theComments, theUser, theParticipants, isParticipated)
+                                            const model = {
+                                                activity: theActivity,
+                                                comments: theComments,
+                                                user: theUser,
+                                                participants: theParticipants,
+                                                isParticipated: isParticipated
+                                            }
+
+                                            callback(null, model)
                                         }
                                     })
                                 }
@@ -103,10 +110,9 @@ module.exports = function ({ activityRepository, commentRepository, profileRepos
         },
 
         updateActivity: function (activity, userEmail, callback) {
+            const validationErrors = []
 
             if (userEmail != null) {
-
-                const validationErrors = []
 
                 if (activity.title.length < 2 || activity.title.length > 40) {
                     validationErrors.push("Invalid title")
@@ -132,14 +138,14 @@ module.exports = function ({ activityRepository, commentRepository, profileRepos
                     activityRepository.updateActivity(activity, userEmail, function (error) {
                         if (error) {
                             callback(error)
-                        } 
+                        }
                         else {
                             activityRepository.getActivityById(activity.id, function (error, activity) {
                                 if (error) {
                                     callback(error)
-                                } 
+                                }
                                 else {
-                                    const theActivity ={
+                                    const theActivity = {
                                         id: activity[0].id,
                                         title: activity[0]._activityName,
                                         location: activity[0]._activityLocation,
@@ -160,23 +166,18 @@ module.exports = function ({ activityRepository, commentRepository, profileRepos
             }
             else {
                 validationErrors.push("You need to be logged in")
+                callback(validationErrors)
             }
         },
 
         deleteActivity: function (id, userEmail, callback) {
-
-            if (userEmail != null) {
-                activityRepository.deleteActivity(id, userEmail, function (error) {
-                    if (error) {
-                        callback(error)
-                    } else {
-                        callback(null)
-                    }
-                })
-            }
-            else {
-                validationErrors.push("You can't delete other users activities")
-            }
+            activityRepository.deleteActivity(id, userEmail, function (error) {
+                if (error) {
+                    callback(error)
+                } else {
+                    callback(null)
+                }
+            })
         },
 
         createActivity: function (activity, callback) {
@@ -213,13 +214,13 @@ module.exports = function ({ activityRepository, commentRepository, profileRepos
                             callback(error)
                         }
                         else {
-                            activityRepository.createActivity(activity, user[0]._username, function (error, id) {
+                            activityRepository.createActivity(activity, user[0]._username, function (error, activity) {
                                 if (error) {
                                     console.log(error)
                                     callback(error)
                                 }
                                 else {
-                                    callback(null, id)
+                                    callback(null, activity)
                                 }
                             })
                         }

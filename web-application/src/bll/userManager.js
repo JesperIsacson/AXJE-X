@@ -60,6 +60,10 @@ module.exports = function({userRepository}){
                     if(error){
                         callback(error)
                     }
+                    else if(!user){
+                        validationErrors.push("No one by that email or username")
+                        callback(validationErrors)
+                    }
                     else{
                         const userEmail = user[0]._email
                         const fetchedPassword = user[0]._password

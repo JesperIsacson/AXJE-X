@@ -75,14 +75,11 @@ module.exports = function ({ activityManager }) {
             const id = request.params.id
             const userEmail = response.locals.isLoggedIn
 
-            activityManager.getActivityById(id, userEmail, function (error, activity) {
+            activityManager.getActivityById(id, userEmail, function (error, model) {
                 if (error) {
                     console.log(error)
                 } 
                 else {
-                    const model = {
-                        activity
-                    }
                     response.render("update-activity.hbs", model)
                 }
             })
@@ -194,20 +191,12 @@ module.exports = function ({ activityManager }) {
         const id = request.params.id
         const userEmail = response.locals.isLoggedIn
 
-        activityManager.getActivityById(id, userEmail, function (error, activity, comments, user, participants, isParticipated) {
+        activityManager.getActivityById(id, userEmail, function (error, model) {
             if (error) {
                 console.log(error)
                 response.render("login.hbs")
             }
             else {
-                const model = {
-                    activity: activity,
-                    comments: comments,
-                    user: user,
-                    participants: participants,
-                    isParticipated: isParticipated
-                }
-
                 response.render("activity-detailed.hbs", model)
             }
         })

@@ -21,6 +21,7 @@ const loginRouter = require("./routers/loginRouter")
 const activityRouter = require("./routers/activityRouter")
 const profileRouter = require("./routers/profileRouter")
 const commentRouter = require("./routers/commentRouter")
+const restAPI = require ("../rest-api/rest-api")
 
 
 const activityManager = require('../bll/activityManager')
@@ -39,6 +40,7 @@ container.register('loginRouter', awilix.asFunction(loginRouter))
 container.register('activityRouter', awilix.asFunction(activityRouter))
 container.register('profileRouter', awilix.asFunction(profileRouter))
 container.register('commentRouter', awilix.asFunction(commentRouter))
+container.register('rest-api', awilix.asFunction(restAPI))
 container.register('activityManager', awilix.asFunction(activityManager))
 container.register('profileManager', awilix.asFunction(profileManager))
 container.register('userManager', awilix.asFunction(userManager))
@@ -54,6 +56,7 @@ const theLoginRouter = container.resolve('loginRouter')
 const theActivityRouter = container.resolve('activityRouter')
 const theProfileRouter = container.resolve('profileRouter')
 const theCommentRouter = container.resolve('commentRouter')
+const theRestAPI = container.resolve('rest-api')
 
 
 const app = express()
@@ -66,6 +69,7 @@ app.engine("hbs", expressHandlebars({
     defaultLayout: "main.hbs"
 }))
 
+app.use(bodyParser.json())
 app.use(bodyParser.urlencoded({
     extended: false
 }))
@@ -83,6 +87,7 @@ app.use(expressSession({
 
 app.use(function(request, response, next){
     response.locals.isLoggedIn = request.session.isLoggedIn
+    response.locals.userEmail = request.
     next()
 })
 
@@ -90,6 +95,7 @@ app.use("/login", theLoginRouter)
 app.use("/profile", theProfileRouter)
 app.use("/activities", theActivityRouter)
 app.use("/comment", theCommentRouter)
+app.use("/restAPI", theRestAPI)
 
 app.get('/', function(request, response){
     response.render("home.hbs")
