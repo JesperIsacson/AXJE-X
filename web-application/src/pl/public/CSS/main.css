@@ -3,7 +3,7 @@ body, html{
 }
 
 .bg{
-    background-image: url("../images/ctfletcher.jpg");
+    background-image: url("../images/backgroundImageBlur.jpg");
     background-repeat: no-repeat;
     background-attachment: fixed;
     background-size: cover;
@@ -17,12 +17,16 @@ body, html{
     border: none
 }
 
+
 .page-footer{
     left: 0;
     bottom: 0;
     width: 100%;
-    background-color: #262626;
-    color:grey;
+    color:white;
     text-align: center;
+}
+
+#logoutBtn{
+    color: #B30000;
 }
 

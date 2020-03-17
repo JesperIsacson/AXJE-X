@@ -1,9 +1,8 @@
 <title>{{activity.title}}</title>
 
 <link href="vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
-<link href="css/blog-post.css" rel="stylesheet">
 
-<div class="container jumbotron">
+<div class="container jumbotron mt-4">
     <div class="row">
         <div class="col-lg-8">
             <h1 class="mt-4">{{activity.title}}</h1>
@@ -48,7 +47,7 @@
             <p>Error:</p>
             <ul>
                 {{#each error}}
-                <li>{{this}}</li>
+                <li class="text-danger">{{this}}</li>
                 {{/each}}
             </ul>
             {{/if}}

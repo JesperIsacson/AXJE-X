@@ -297,11 +297,14 @@ module.exports = function ({ activityRepository, commentRepository, profileRepos
                             date: activities[i]._activityDate,
                             time: activities[i]._activityTime,
                             id: activities[i].id,
-                            username: activities[i]._activityAuthor
+                            username: activities[i]._activityAuthor,
+                            createdAt: activities[i].createdAt.toString().slice(0, 15)
                         }
                         usersActivities.push(activity)
+                        
                     }
-
+                    
+                    usersActivities.reverse()
                     callback(null, usersActivities)
                 }
             })

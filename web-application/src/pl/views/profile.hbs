@@ -1,21 +1,21 @@
 {{#if user}}
     <div class="container p-3 my-3 bg-dark text-white">
         <div class="jumobotron">
-            <h5 class="text-center">{{user._username}}</h5>
-            <p>Name: {{user._firstName}} {{user._lastName}}</p>
-            <p>Birth date: {{user._dateOfBirth}}</p>
-            <p>Height: {{user._height}} cm</p>
-            <p>Weight: {{user._weight}} kg</p>
+            <h3 class="text-center">{{user._username}}</h3>
+            <p><b>Name: </b>{{user._firstName}} {{user._lastName}}</p>
+            <p><b>Birth date: </b>{{user._dateOfBirth}}</p>
+            <p><b>Height: </b>{{user._height}} cm</p>
+            <p><b>Weight: </b>{{user._weight}} kg</p>
             <div class="row">
                 <form action="/activities/by/{{user._username}}" method="GET">
-                    <button class="btn btn-success" type="submit">View Activities</button>
+                    <button class="btn btn-primary m-1" type="submit">View Activities</button>
                 </form>
                 {{#if user._profileAuth}}
                     <form action="/profile/manageProfile/{{user._username}}" method="GET">
-                        <button class="btn btn-success" type="submit">Manage Profile</button>
+                        <button class="btn btn-success m-1" type="submit">Manage Profile</button>
                     </form>
                     <form action="/profile/deleteProfile/{{user._username}}" method="POST">
-                        <button class="btn btn-success" type="submit">Delete Profile</button>
+                        <button class="btn btn-danger m-1" type="submit">Delete Profile</button>
                     </form>
                 {{/if}}    
             </div>
