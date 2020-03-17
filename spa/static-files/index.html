@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>jumans</title>
+    <link rel="stylesheet" href="/styles.css">
+    <script src="/navigationHandler.js"></script>
+</head>
+
+<body>
+    <header>JUMANS</header>
+    <nav>
+        <ul>
+            <li><a href="/">Home</a></li>
+            <li><a href="/activities">Activities</a></li>
+            <li><a class="showIfLoggedIn" href="/createActivity">Create Activity</a></li>
+            <li><a class="showIfLoggedOut" href="/register">Register</a></li>
+            <li><a class="ShowIfLoggedOut" href="/login">Login</a></li>
+        </ul>
+    </nav>
+
+    <main>
+
+        <div id="homePage">
+            <h1>THIS IS HOME</h1>
+            <p>Jumans</p>
+        </div>
+
+        <div id="activitiesPage">
+            <h1>Activities</h1>
+            <p>HÄR HITTAR DU ALLA AKTIVITETER</p>
+            <ul>
+
+
+            </ul>
+        </div>
+
+        <div id="createActivityPage">
+            <h1>Create Activity</h1>
+            <p>SKAPA ETT KONTO DÅ!!! XD</p>
+            <form action="">
+                <div>
+                    Title: <input type="text" class="title">
+                </div>
+                <div>
+                    Location: <input type="text" class="location">
+                </div>
+                <div>
+                    Date: <input type="date" class="date">
+                </div>
+                <div>
+                    Description: <input type="text" class="description">
+                </div>
+                <button type="submit">Create</button>
+            </form>
+        </div>
+
+        <div id="registerPage">
+            <h1>Create Account</h1>
+            <p>CREATE A ACCOUNT</p>
+            <form action="">
+                <div>
+                    Email: <input type="email" class="email">
+                </div>
+                <div>
+                    First name: <input type="text" class="firstName">
+                </div>
+                <div>
+                    Last name: <input type="text" class="lastName">
+                </div>
+                <div>
+                    Username: <input type="text" class="userName">
+                </div>
+                <div>
+                    Password: <input type="password" class="password">
+                </div>
+                <div>
+                    Confirm password: <input type="password" class="passwordConfirm">
+                </div>
+                <div>
+                    Gender: <select class="gender">
+                        <option value="Male">Male</option>
+                        <option value="Female">Female</option>
+                    </select>
+                </div>
+                <div>
+                    Date of birth: <input type="date" class="dateOfBirth">
+                </div>
+                <button type="submit">Create</button>
+            </form>
+        </div>
+
+        <div id="loginPage">
+            <h1>Login</h1>
+            <p>LOGGA IN SNÄLLA</p>
+            <div>
+                Email or Username: <input type="text" name="usernameOrEmail">
+            </div>
+            <div>
+                Password: <input type="password" name="password">
+            </div>
+            <button type="submit">Login</button>
+        </div>
+
+        <div id="errorPage">
+            <h1>SOMETHING WENT TERRIBLY WRONG!!</h1>
+            <h4>SHAME ON YOU!!!!</h4>
+        </div>
+    </main>
+
+</body>
+
+</html>

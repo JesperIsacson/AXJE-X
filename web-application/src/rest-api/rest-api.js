@@ -7,6 +7,14 @@ module.exports = function({activityManager, userManager}){
     const serverSecret ="ashdSA/(hslascs8@3i-"
     const expiration = {expiresIn: 160000}
 
+    router.use(function(request, response, next){
+        response.setHeader("Access-Control-Allow-Origin", "*")
+        response.setHeader("Access-Control-Allow-Methods", "*")
+        response.setHeader("Access-Control-Allow-Headers", "*")
+        response.setHeader("Access-Control-Expose-Headers", "*")
+        next()
+    })
+
 
     router.get("/activities", function(request, response){
         const userEmail = response.locals.isLoggedIn
@@ -54,7 +62,6 @@ module.exports = function({activityManager, userManager}){
         }
 
         userManager.createAccount(account, userEmail, function(error, userEmail){
-            console.log(error)
             if(error && error.toString().includes("databaseError")){
                 response.status(500).end()
             }
@@ -69,7 +76,10 @@ module.exports = function({activityManager, userManager}){
                         response.status(500).end()
                     }
                     else{
-                        response.status(200).json({"token":token})
+                        response.status(200).json({
+                            accessToken: token,
+                            userEmail: userEmail
+                        })
                     }
                 })
             }
@@ -120,6 +130,7 @@ module.exports = function({activityManager, userManager}){
                     response.status(401).end()
                 }
                 else{
+                    response.status(200).json(decoded)
                     next()
                 }
             })
