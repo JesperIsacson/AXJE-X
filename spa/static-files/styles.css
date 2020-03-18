@@ -1,5 +1,5 @@
 body{
-    background-color: green;
+    background-image: url("/images/chopper.jpg");
 }
 
 header{
@@ -47,11 +47,13 @@ main > div.current-page{
 input{
     background-color: yellow;
     color: red;
+    border: 10px solid teal
 }
 
 select{
     background-color:  blue;
-    color: pink
+    color: pink;
+    font-size: 50px;
 }
 
 button{

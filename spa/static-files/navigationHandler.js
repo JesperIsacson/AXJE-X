@@ -2,6 +2,17 @@ document.addEventListener("DOMContentLoaded", function(){
 
     changeToPage(location.pathname)
 
+    if(localStorage.accessToken && localStorage.userEmail){
+        userValidator ={
+            accessToken : localStorage.accessToken,
+            userEmail: localStorage.userEmail
+        }
+        login(userValidator)
+    }
+    else{
+        logout()
+    }
+
     document.body.addEventListener("click", function(event){
         if(event.target.tagName == "a"){
             event.preventDefault()
@@ -43,13 +54,30 @@ document.addEventListener("DOMContentLoaded", function(){
                 body: JSON.stringify(account)
             }
         ).then(response =>{
-            console.log(response)
-            return response.json()
-        }).then(userValidator =>{
-            console.log(userValidator)
-            login(userValidator)
+            console.log("RESPONSE: ", response)
+            if(response.status == 201){
+                return response.json()
+            }
+            else if(response.status == 400){
+                return 400
+            }
+            else{
+                return response.headers
+            }
+        }).then(body =>{
+            console.log(body)
+            if(body == 400){
+                window.location.replace("/error")
+            }
+            else if(body == 500){
+                window.location.replace("/error")
+            }
+            else{
+                login(body)
+                window.location.replace("/")
+            }
         }).catch(error =>{
-            console.log(error)
+            window.location.replace("/error")
         })
     })
 
@@ -60,7 +88,7 @@ window.addEventListener("popstate", function(event){
     changeToPage(url)
 })
 
-function gotToPage(url){
+function goToPage(url){
     changeToPage(url)
     history.pushState({}, "", url)
 }
@@ -86,8 +114,12 @@ function changeToPage(url){
     else if(url == "/login"){
         document.getElementById("loginPage").classList.add("current-page")
     }
-
-
+    else if(url == "/logout"){
+        logout()
+    }
+    else{
+        document.getElementById("errorPage").classList.add("current-page")
+    }
 }
 
 function login(userValidator){

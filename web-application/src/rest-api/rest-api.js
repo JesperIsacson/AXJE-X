@@ -63,20 +63,21 @@ module.exports = function({activityManager, userManager}){
 
         userManager.createAccount(account, userEmail, function(error, userEmail){
             if(error && error.toString().includes("databaseError")){
+                response.setHeader("Location", "/error")
                 response.status(500).end()
             }
             else if(error){
-                response.status(400).json(error)
+                response.setHeader("Location", "/error")
+                response.status(400).end()
             }
             else{
                 const payload = {id: userEmail}
                 jwt.sign(payload, serverSecret, function(error, token){
                     if(error){
-                        console.log(error)
                         response.status(500).end()
                     }
                     else{
-                        response.status(200).json({
+                        response.status(201).json({
                             accessToken: token,
                             userEmail: userEmail
                         })
