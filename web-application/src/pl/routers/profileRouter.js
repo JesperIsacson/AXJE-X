@@ -10,9 +10,13 @@ module.exports = function({profileManager}){
             const email = response.locals.isLoggedIn
 
             profileManager.getUserByEmail(email, function(error, user){
-                if(error){
+
+                if(error && error.includes("databaseError")){
                     console.log(error)
                     response.redirect("/error500")
+                }
+                else if(error){
+                    console.log(error)
                 }
                 else{
                     const model ={
@@ -37,9 +41,13 @@ module.exports = function({profileManager}){
         }
 
         profileManager.manageProfile(validator, function(error, user){
-            if(error){
+
+            if(error && error.includes("databaseError")){
                 console.log(error)
                 response.redirect("/error500")
+            }
+            else if(error){
+                console.log(error)
             }
             else{
                 const model ={
@@ -69,7 +77,12 @@ module.exports = function({profileManager}){
         }
 
         profileManager.updateProfile(newUser, validator, function(error, user){
-            if(error){
+
+            if(error && error.includes("databaseError")){
+                console.log(error)
+                response.redirect("/error500")
+            }
+            else if(error){
                 console.log(error)
                 const model = {
                     error,
@@ -92,7 +105,12 @@ module.exports = function({profileManager}){
         }
 
         profileManager.deleteProfile(validator, function(error){
-            if(error){
+
+            if(error && error.includes("databaseError")){
+                console.log(error)
+                response.redirect("/error500")
+            }
+            else if(error){
                 console.log(error)
             }
             else{
@@ -108,7 +126,12 @@ module.exports = function({profileManager}){
         const userEmail = response.locals.isLoggedIn
         
         profileManager.getUserByUsername(username, userEmail, function(error, user){
-            if(error){
+
+            if(error && error.includes("databaseError")){
+                console.log(error)
+                response.redirect("/error500")
+            }
+            else if(error){
                 console.log(error)
                 response.redirect("/error500")
             }

@@ -15,7 +15,12 @@ module.exports = function ({commentManager}){
         }
 
         commentManager.createComment(packet, function(error){
-            if(error){
+
+            if(error && error.includes("databaseError")){
+                console.log(error)
+                response.redirect("/error500")
+            }
+            else if(error){
                 console.log(error)
                 const model = {
                     error,
@@ -34,7 +39,12 @@ module.exports = function ({commentManager}){
         const userEmail = response.locals.isLoggedIn
 
         commentManager.deleteComment(commentId, userEmail, function(error, activityId){
-            if(error){
+            
+            if(error && error.includes("databaseError")){
+                console.log(error)
+                response.redirect("/error500")
+            }
+            else if(error){
                 console.log(error)
                 response.render("activity-detailed.hbs", error)
             }

@@ -62,7 +62,8 @@ module.exports = function({userRepository}){
             if(validationErrors == 0){
                 userRepository.getLoginInformation(usernameOrPassword, function(error, user){
                     if(error){
-                        callback(error)
+                        validationErrors.push("databaseError")
+                        callback(validationErrors)
                     }
                     else if(!user){
                         validationErrors.push("No one by that email or username")

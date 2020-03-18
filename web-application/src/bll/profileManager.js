@@ -12,7 +12,8 @@ module.exports = function({profileRepository}){
             if(validationErrors == 0){
                 profileRepository.getUserByUsername(username, function(error, user){
                     if(error){
-                        callback(error)
+                        validationErrors.push("databaseError")
+                        callback(validationErrors)
                     }
                     else if(user != 0){
                                         
@@ -55,7 +56,8 @@ module.exports = function({profileRepository}){
             if(validationErrors == 0){
                 profileRepository.getUserByEmail(email, function(error, user){
                     if(error){
-                        callback(error)
+                        validationErrors.push("databaseError")
+                        callback(validationErrors)
                     }
                     else if(user != 0){
                         var profileAuth = false
@@ -94,7 +96,8 @@ module.exports = function({profileRepository}){
             if(validator.email != null){
                 profileRepository.getUserByEmail(validator.email, function(error, user){
                     if(error){
-                        callback(error)
+                        validationErrors.push("databaseError")
+                        callback(validationErrors)
                     }
                     else if(validator.username == user[0]._username){
                         const theUser ={
@@ -126,7 +129,8 @@ module.exports = function({profileRepository}){
             if(validator.email != null){
                 profileRepository.getUserByEmail(validator.email, function(error, user){
                     if(error){
-                        callback(error, newUser)
+                        validationErrors.push("databaseError")
+                        callback(validationErrors, newUser)
                     }
                     else if(validator.username == user[0]._username){
 
@@ -149,12 +153,14 @@ module.exports = function({profileRepository}){
                         if(validationErrors == 0){
                             profileRepository.updateProfile(newUser, function(error){
                                 if(error){
-                                    callback(error, newUser)
+                                    validationErrors.push("databaseError")
+                                    callback(validationErrors, newUser)
                                 }
                                 else{
                                     profileRepository.getUserByEmail(validator.email, function(error, user){
                                         if(error){
-                                            callback(error)
+                                            validationErrors.push("databaseError")
+                                            callback(validationErrors)
                                         }
                                         else{
                                             const theUser ={
@@ -191,7 +197,8 @@ module.exports = function({profileRepository}){
             if(validator.email != null){
                 profileRepository.getUserByEmail(validator.email, function(error, user){
                     if(error){
-                        callback(error)
+                        validationErrors.push("databaseError")
+                        callback(validationErrors)
                     }
                     else if(validator.username == user[0]._username){
                         profileRepository.deleteProfile(validator.email, function(error){

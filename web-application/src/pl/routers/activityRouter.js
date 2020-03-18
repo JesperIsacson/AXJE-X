@@ -10,9 +10,13 @@ module.exports = function ({ activityManager }) {
         const userEmail = response.locals.isLoggedIn
 
         activityManager.getAllActivities(userEmail, function (error, theActivities) {
-            if (error) {
+
+            if(error && error.includes("databaseError")){
                 console.log(error)
                 response.redirect("/error500")
+            }
+            else if (error) {
+                console.log(error)
             }
             else {
                 const model = {
@@ -29,14 +33,9 @@ module.exports = function ({ activityManager }) {
 
         if (request.session.isLoggedIn) {
 
-            const model = {
+            response.render("create-activity.hbs")
 
-                validationErrors: []
-            }
-
-            response.render("create-activity.hbs", model)
-
-        } 
+        }
         else {
             response.redirect("/login")
         }
@@ -57,7 +56,12 @@ module.exports = function ({ activityManager }) {
             }
 
             activityManager.createActivity(activity, function (error, activity) {
-                if (error) {
+
+                if (error && error.includes("databaseError")) {
+                    console.log(error)
+                    response.redirect("/error500")
+                }
+                else if (error) {
                     console.log(error)
                     const model = {
                         error,
@@ -68,23 +72,27 @@ module.exports = function ({ activityManager }) {
                     response.redirect("/activities")
                 }
             })
-        } 
+        }
         else {
             response.redirect("/login")
         }
     })
 
     router.get("/update/:id", function (request, response) {
+        
         if (response.locals.isLoggedIn) {
 
             const id = request.params.id
             const userEmail = response.locals.isLoggedIn
 
             activityManager.getActivityById(id, userEmail, function (error, model) {
-                if (error) {
+                if(error && error.includes("databaseError")){
                     console.log(error)
                     response.redirect("/error500")
-                } 
+                }
+                else if (error) {
+                    console.log(error)
+                }
                 else {
                     response.render("update-activity.hbs", model)
                 }
@@ -111,7 +119,12 @@ module.exports = function ({ activityManager }) {
             }
 
             activityManager.updateActivity(activity, userEmail, function (error, activity) {
-                if (error) {
+
+                if (error && error.includes("databaseError")) {
+                    console.log(error)
+                    response.redirect("/error500")
+                }
+                else if (error) {
                     console.log(error)
                     const model = {
                         error,
@@ -123,7 +136,7 @@ module.exports = function ({ activityManager }) {
                 }
             })
 
-        } 
+        }
         else {
             response.redirect("/login")
         }
@@ -137,7 +150,12 @@ module.exports = function ({ activityManager }) {
             const userEmail = response.locals.isLoggedIn
 
             activityManager.deleteActivity(id, userEmail, function (error) {
-                if (error) {
+
+                if (error && error.includes("databaseError")) {
+                    console.log(error)
+                    response.redirect("/error500")
+                }
+                else if (error) {
                     console.log(error)
                 } else {
                     response.redirect("/activities")
@@ -153,7 +171,12 @@ module.exports = function ({ activityManager }) {
         const userEmail = response.locals.isLoggedIn
 
         activityManager.participateInActivity(activityId, userEmail, function (error) {
-            if (error) {
+
+            if(error && error.includes("databaseError")){
+                console.log(error)
+                response.redirect("/error500")
+            }
+            else if (error) {
                 console.log(error)
                 response.render("activity-detailed.hbs", error)
             }
@@ -168,7 +191,12 @@ module.exports = function ({ activityManager }) {
         const userEmail = response.locals.isLoggedIn
 
         activityManager.unparticipateInActivity(activityId, userEmail, function (error) {
-            if (error) {
+
+            if(error && error.includes("databaseError")){
+                console.log(error)
+                response.redirect("/error500")
+            }
+            else if (error) {
                 console.log(error)
                 response.render("activity-detailed.hbs", error)
             }
@@ -182,9 +210,13 @@ module.exports = function ({ activityManager }) {
         const username = request.params._username
 
         activityManager.getAllActivitiesByUser(username, function (error, usersActivities) {
-            if (error) {
+
+            if(error && error.includes("databaseError")){
                 console.log(error)
                 response.redirect("/error500")
+            }
+            else if (error) {
+                console.log(error)
             }
             else {
                 const model = {
@@ -202,7 +234,12 @@ module.exports = function ({ activityManager }) {
         const userEmail = response.locals.isLoggedIn
 
         activityManager.getActivityById(id, userEmail, function (error, model) {
-            if (error) {
+
+            if(error && error.includes("databaseError")){
+                console.log(error)
+                response.redirect("/error500")
+            }
+            else if (error) {
                 console.log(error)
                 response.redirect("activity-detailed.hbs")
             }
@@ -214,4 +251,4 @@ module.exports = function ({ activityManager }) {
 
     return router
 }
-    
+

@@ -2,9 +2,13 @@ module.exports = function ({ activityRepository, commentRepository, profileRepos
     return {
 
         getAllActivities: function (userEmail, callback) {
+
+            const validationErrors = []
+
             activityRepository.getAllActivities(function (error, activities) {
                 if (error) {
-                    callback(error)
+                    validationErrors.push("databaseError")
+                    callback(validationErrors)
                 } else {
                     const theActivities = []
 
@@ -31,9 +35,13 @@ module.exports = function ({ activityRepository, commentRepository, profileRepos
         },
 
         getActivityById: function (id, userEmail, callback) {
+
+            const validationErrors = []
+
             activityRepository.getActivityById(id, function (error, activity) {
                 if (error) {
-                    callback(error)
+                    validationErrors.push("databaseError")
+                    callback(validationErrors)
                 }
                 else {
                     const theActivity = {
@@ -48,7 +56,8 @@ module.exports = function ({ activityRepository, commentRepository, profileRepos
 
                     profileRepository.getUserByEmail(activity[0].UserEmail, function (error, user) {
                         if (error) {
-                            callback(error)
+                            validationErrors.push("databaseError")
+                            callback(validationErrors)
                         }
                         else {
                             const theUser = {
@@ -57,7 +66,8 @@ module.exports = function ({ activityRepository, commentRepository, profileRepos
 
                             commentRepository.getAllCommentsForActivity(id, function (error, comments) {
                                 if (error) {
-                                    callback(error)
+                                    validationErrors.push("databaseError")
+                                    callback(validationErrors)
                                 }
                                 else {
                                     const theComments = []
@@ -73,7 +83,8 @@ module.exports = function ({ activityRepository, commentRepository, profileRepos
 
                                     participantsRepository.getAllParticipantsForActivity(id, function (error, participantsForActivity) {
                                         if (error) {
-                                            callback(error)
+                                            validationErrors.push("databaseError")
+                                            callback(validationErrors)
                                         }
                                         else {
                                             const theParticipants = []
@@ -110,6 +121,7 @@ module.exports = function ({ activityRepository, commentRepository, profileRepos
         },
 
         updateActivity: function (activity, userEmail, callback) {
+
             const validationErrors = []
 
             if (userEmail != null) {
@@ -118,7 +130,7 @@ module.exports = function ({ activityRepository, commentRepository, profileRepos
                     validationErrors.push("Invalid title")
                 }
 
-                if (activity.location.length < 2 || activity.location.length > 20) {
+                if (activity.location.length < 2 || activity.location.length > 40) {
                     validationErrors.push("Invalid location")
                 }
 
@@ -137,11 +149,13 @@ module.exports = function ({ activityRepository, commentRepository, profileRepos
                 if (validationErrors == 0) {
                     activityRepository.updateActivity(activity, userEmail, function (error) {
                         if (error) {
+                            validationErrors.push("databaseError")
                             callback(error)
                         }
                         else {
                             activityRepository.getActivityById(activity.id, function (error, activity) {
                                 if (error) {
+                                    validationErrors.push("databaseError")
                                     callback(error)
                                 }
                                 else {
@@ -171,9 +185,13 @@ module.exports = function ({ activityRepository, commentRepository, profileRepos
         },
 
         deleteActivity: function (id, userEmail, callback) {
+
+            const validationErrors = []
+
             activityRepository.deleteActivity(id, userEmail, function (error) {
                 if (error) {
-                    callback(error)
+                    validationErrors.push("databaseError")
+                    callback(validationErrors)
                 } else {
                     callback(null)
                 }
@@ -181,8 +199,8 @@ module.exports = function ({ activityRepository, commentRepository, profileRepos
         },
 
         createActivity: function (activity, callback) {
-            const validationErrors = []
 
+            const validationErrors = []
 
             if (activity.title.length < 2 || activity.title.length > 40) {
                 validationErrors.push("Invalid title")
@@ -207,6 +225,7 @@ module.exports = function ({ activityRepository, commentRepository, profileRepos
             if (validationErrors == 0) {
                 profileRepository.getUserByEmail(activity.activityAuthor, function (error, user) {
                     if (error) {
+                        validationErrors.push("databaseError")
                         callback(error)
                     }
                     else {
@@ -216,6 +235,7 @@ module.exports = function ({ activityRepository, commentRepository, profileRepos
                         else {
                             activityRepository.createActivity(activity, user[0]._username, function (error, activity) {
                                 if (error) {
+                                    validationErrors.push("databaseError")
                                     console.log(error)
                                     callback(error)
                                 }
@@ -234,16 +254,19 @@ module.exports = function ({ activityRepository, commentRepository, profileRepos
         },
 
         participateInActivity: function (activityId, userEmail, callback) {
-            validationErrors = []
+            
+            const validationErrors = []
 
             if (userEmail != null) {
                 profileRepository.getUserByEmail(userEmail, function (error, user) {
                     if (error) {
+                        validationErrors.push("databaseError")
                         callback(error)
                     }
                     else if (userEmail == user[0]._email) {
                         participantsRepository.participateInActivity(user, activityId, function (error) {
                             if (error) {
+                                validationErrors.push("databaseError")
                                 callback(error)
                             }
                             else {
@@ -264,12 +287,14 @@ module.exports = function ({ activityRepository, commentRepository, profileRepos
         },
 
         unparticipateInActivity: function (activityId, userEmail, callback) {
-            validationErrors = []
+
+            const validationErrors = []
 
             if (userEmail != null) {
                 participantsRepository.unparticipateInActivity(activityId, userEmail, function (error) {
                     if (error) {
-                        callback(error)
+                        validationErrors.push("databaseError")
+                        callback(validationErrors)
                     }
                     else {
                         callback(null)
@@ -283,11 +308,13 @@ module.exports = function ({ activityRepository, commentRepository, profileRepos
         },
 
         getAllActivitiesByUser: function (username, callback) {
-            validationErrors = []
+            
+            const validationErrors = []
 
             activityRepository.getAllActivitiesByUser(username, function (error, activities) {
                 if (error) {
-                    callback(error)
+                    validationErrors.push("databaseError")
+                    callback(validationErrors)
                 }
                 else {
                     const usersActivities = []

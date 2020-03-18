@@ -9,13 +9,20 @@ module.exports = function({userManager}){
     })
 
     router.post("/", function(request, response){
+
+        const validationErrors = []
+
         const usernameOrEmail = request.body.usernameOrEmail
         const password = request.body.password
 
         userManager.login(usernameOrEmail, password, function(error, reqEmail){
-            if(error){
+
+            if(error && error.includes("databaseError")){
                 console.log(error)
                 response.redirect("/error500")
+            }
+            else if(error){
+                console.log(error)
             }
             else{
                 request.session.isLoggedIn = reqEmail
@@ -25,6 +32,9 @@ module.exports = function({userManager}){
     })
 
     router.post("/createAccount", function(request, respone){
+
+        const validationErrors = []
+
         const userEmail = respone.locals.isLoggedIn
 
         const account = {
@@ -39,7 +49,12 @@ module.exports = function({userManager}){
         }
 
         userManager.createAccount(account, userEmail, function(error, userEmail){
-            if(error){
+
+            if(error && error.includes("databaseError")){
+                console.log(error)
+                response.redirect("/error500")
+            }
+            else if(error){
                 console.log(error)
                 const model = {
                     error,

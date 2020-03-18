@@ -3,12 +3,14 @@ module.exports = function({commentRepository, profileRepository}){
     return{
 
         createComment: function(packet, callback){
+
             const validationErrors = []
 
             if(packet.activeUser != null){
                 profileRepository.getUserByEmail(packet.activeUser, function(error, user){
                     if(error){
-                        callback(error)
+                        validationErrors.push("databaseError")
+                        callback(validationErrors)
                     }
                     else{
                         if(packet.content == ""){
@@ -43,12 +45,14 @@ module.exports = function({commentRepository, profileRepository}){
             if(userEmail != null){
                 commentRepository.getCommentById(commentId, function(error, comment){
                     if(error){
-                        callback(error)
+                        validationErrors.push("databaseError")
+                        callback(validationErrors)
                     }
                     else if(comment[0].UserEmail == userEmail){
                         commentRepository.deleteComment(commentId, userEmail, function(error){
                             if(error){
-                                callback(error)
+                                validationErrors.push("databaseError")
+                                callback(validationErrors)
                             }
                             else{
                                 callback(null, comment[0].ActivityId)
