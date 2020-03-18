@@ -9,13 +9,15 @@
                         <h2 class="card-title">{{title}}</h2>
                         <p class="card-text"><b>Date</b>: {{date}}</p>
                         <p class="card-text"><b>Time</b>: {{time}}</p>
-                        <a href="/activities/{{id}}" class="btn btn-primary">Read more</a>
-                        {{#if ../isLoggedIn.length}}
-                        <a href="/activities/update/{{id}}" class="btn btn-secondary">Update</a>
-                        <form action="/activities/delete/{{id}}" method="POST">
-                            <input type="submit" value="Delete" class="btn btn-secondary">
-                        </form>
-                        {{/if}}
+                        <div class="row">
+                            <a href="/activities/{{id}}" class="btn btn-primary m-1">Read more</a>
+                            {{#if ../isLoggedIn.length}}
+                            <a href="/activities/update/{{id}}" class="btn btn-success m-1">Update</a>
+                            <form action="/activities/delete/{{id}}" method="POST">
+                                <input type="submit" value="Delete" class="btn btn-danger m-1">
+                            </form>
+                            {{/if}}
+                        </div>
                     </div>
                     <div class="card-footer text-muted">
                         Posted on: {{createdAt}} by

@@ -7,31 +7,53 @@
 <p>Errors:</p>
 <ul>
     {{#each error}}
-    <li>{{this}}</li>
+    <li class="text-danger">{{this}}</li>
     {{/each}}
 </ul>
 {{/if}}
 
-<div class="col-md-3 col-sm-12">
-    <div class="createactivity-form">
-        <form action="/activities/update/{{activity.id}}" method="POST">
-            <fieldset>
-                <label for="title">Title</label><br>
-                <input type="text" id="input-title" name="title" value="{{activity.title}}" placeholder="Title" class="form-input"><br>
-                <label for="location">Location</label><br>
-                <input type="text" id="input-location" name="location" value="{{activity.location}}" placeholder="Location" class="form-input"><br>
-                <label for="date">Date</label><br>
-                <input type="date" id="input-date" name="date" value="{{activity.date}}" class="form-input"><br>
-                <label for="time">Time</label><br>
-                <input type="time" id="input-time" name="time" value="{{activity.time}}" placeholder="HH:MM" class="form-input"><br>
-                <label for="description">Description</label><br>
-                <textarea name="description" id="input-description" name="description" cols="20" rows="10" type="text"
-                    class="form-input">{{activity.description}}</textarea><br><br>
-                <input type="submit" value="Update Post" class="btn btn-primary">
-            </fieldset>
-        </form>
-    </div>
+<div class="container">
+  <div class="jumbotron">
+    <form action="/activities/update/{{activity.id}}" method="POST">
+      <div class="form-group row">
+        <label for="title" class="col-sm-2 col-form-label" style="font-size:25px">Title</label>
+        <input type="text" class="form-control form-input" id="input-title" name="title" value="{{activity.title}}"
+          placeholder="Title">
+      </div>
+      <div class="form-group row">
+        <label for="location" class="col-sm-2 col-form-label" style="font-size:25px">Location</label>
+        <input type="text" class="form-control form-input" id="input-location" name="location"
+          value="{{activity.location}}" placeholder="Location">
+      </div>
+      <div class="form-group row">
+        <label for="date" class="col-sm-2 col-form-label" style="font-size:25px">Date</label>
+        <input type="date" class="form-control form-input" id="input-date" name="date" value="{{activity.date}}"
+          placeholder="Date">
+      </div>
+      <div class="form-group row">
+        <label for="time" class="col-sm-2 col-form-label" style="font-size:25px">Time</label>
+        <input type="time" class="form-control form-input" id="input-time" name="time" value="{{activity.time}}"
+          placeholder="Time">
+      </div>
+      <div class="form-group row">
+        <label for="description" class="col-sm-2 col-form-label m-1" style="font-size:25px">Description</label>
+        <textarea type="text" class="form-control form-input" id="input-description" name="description" placeholder="Description">{{activity.description}}</textarea>
+      </div>
+      <center>
+        <input type="submit" value="Update Activity" class="btn btn-lg btn-success">
+      </center>
+    </form>
+    {{#if error.length}}
+    <p>Errors:</p>
+    <ul>
+      {{#each error}}
+      <li class="text-danger">{{this}}</li>
+      {{/each}}
+    </ul>
+    {{/if}}
+  </div>
 </div>
+
 {{else}}
     <h1>NO ACTIVITY TO UPDATE HERE...</h1>
 {{/if}}

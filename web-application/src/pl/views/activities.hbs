@@ -1,12 +1,9 @@
 <title>Activities</title>
-<link rel="stylesheet" href="/CSS/activities.css">
-
-<div class="container">
+<div class="container mt-20">
     <div class="row">
         <div class="col-md-8">
-            <h1 class="my-4">Activities</h1>
             <div class="container" id="container">
-                <div class="jumbotron" id="jumbotron">
+                <div class="jumbotron mt-4" id="jumbotron">
                     <h1 class="display-4">Create Activity</h1>
                     {{#if isLoggedIn.length}}
                     {{else}}
@@ -16,18 +13,20 @@
                     <a class="btn btn-primary btn-lg" href="/activities/create" role="button">Create</a>
                 </div>
                 {{#each theActivities}}
-                <div class="card mb-4">
+                <div class="card mb-5">
                     <div class="card-body">
                         <h2 class="card-title">{{title}}</h2>
                         <p class="card-text"><b>Date</b>: {{date}}</p>
                         <p class="card-text"><b>Time</b>: {{time}}</p>
-                        <a href="/activities/{{id}}" class="btn btn-primary">Read more</a>
-                        {{#if isAuthor}}
-                        <a href="/activities/update/{{id}}" class="btn btn-secondary">Update</a>
-                        <form action="/activities/delete/{{id}}" method="POST">
-                            <input type="submit" value="Delete" class="btn btn-secondary">
-                        </form>
-                        {{/if}}
+                        <div class="row">
+                            <a href="/activities/{{id}}" class="btn btn-primary m-1">Read more</a>
+                            {{#if isAuthor}}
+                            <a href="/activities/update/{{id}}" class="btn btn-success m-1">Update</a>
+                            <form action="/activities/delete/{{id}}" method="POST">
+                                <input type="submit" value="Delete" class="btn btn-danger m-1">
+                            </form>
+                            {{/if}}
+                        </div>
                     </div>
                     <div class="card-footer text-muted">
                         Posted on: {{createdAt}} by
