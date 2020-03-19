@@ -132,7 +132,6 @@ module.exports = function({activityManager, userManager}){
                     response.status(401).end()
                 }
                 else{
-                    response.status(200).end()
                     next()
                 }
             })
@@ -191,7 +190,7 @@ module.exports = function({activityManager, userManager}){
             }
             else if(error){
                 console.log(error)
-                response.status(401).end()
+                response.status(400).end()
             }
             else{
                 response.status(200).json(activity)
@@ -221,9 +220,6 @@ module.exports = function({activityManager, userManager}){
             }
         })
     })
-
-
-
 
     return router
 }

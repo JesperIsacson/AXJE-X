@@ -2,11 +2,10 @@
 <html lang="en">
 
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src="/public/fetchHandler.js"></script>
     <title>jumans</title>
-    <link rel="stylesheet" href="/styles.css">
-    <script src="/navigationHandler.js"></script>
+    <link rel="stylesheet" href="/public/styles.css">
+    <script src="/public/navigationHandler.js"></script>
 </head>
 
 <body>
@@ -143,9 +142,17 @@
             </form>
         </div>
 
-        <div id="errorPage">
-            <h1>SOMETHING WENT TERRIBLY WRONG!!</h1>
-            <h4>SHAME ON YOU!!!!</h4>
+        <div id="error400Page">
+            <h1>Bad request</h1>
+        </div>
+        <div id="error401Page">
+            <h1>Unauthorized</h1>
+        </div>
+        <div id="error404Page">
+            <h1>Not found</h1>
+        </div>
+        <div id="error500Page">
+            <h1>Internal server error</h1>
         </div>
     </main>
 
