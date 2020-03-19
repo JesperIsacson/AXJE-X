@@ -181,8 +181,55 @@ document.addEventListener("DOMContentLoaded", function(){
             window.location.replace("/error")
         })
     })
-    
 
+    document.querySelector("#updateActivityPage form").addEventListener("submit", function(event){
+        event.preventDefault()
+
+        const activityId = document.querySelector("#updateActivityPage .activityId").value
+        const title = document.querySelector("#updateActivityPage .title").value
+        const location = document.querySelector("#updateActivityPage .location").value
+        const date = document.querySelector("#updateActivityPage .date").value
+        const time = document.querySelector("#updateActivityPage .time").value
+        const description = document.querySelector("#updateActivityPage .description").value
+
+        const activity ={
+            activityId,
+            title,
+            location,
+            date,
+            time,
+            description,
+            userEmail: (localStorage.userEmail ? localStorage.userEmail : null)
+        }
+
+        fetch(
+            "http://localhost:8080/restAPI/updateActivity/"+activityId,{
+                method: "PUT",
+                headers:{
+                    "Content-Type": "application/json",
+                    "authorization": "Bearer "+localStorage.accessToken
+                },
+                body: JSON.stringify(activity)
+            }
+        )
+        .then(response =>{
+            if(response.status == 401){
+                window.location.replace("/error")
+            }
+            else if(response.status == 400){
+                window.location.replace("/error")
+            }
+            else if(response.status == 500){
+                window.location.replace("/error")
+            }
+            else{
+                window.location.replace("/activities")
+            }
+        })
+        .catch(error =>{
+            window.location.replace("/error")
+        })
+    })
 })
 
 window.addEventListener("popstate", function(event){
@@ -215,6 +262,15 @@ function changeToPage(url){
         document.getElementById("activityPage").classList.add("current-page")
         const activityId = url.split("/")[2]
         fetchActivityById(activityId)
+    }
+    else if(new RegExp("^/updateActivity/[0-9]+$").test(url)){
+        document.getElementById("updateActivityPage").classList.add("current-page")
+        const activityId = url.split("/")[2]
+        fetchActivityById(activityId)
+    }
+    else if(new RegExp("^/deleteActivity/[0-9]+$").test(url)){
+        const activityId = url.split("/")[2]
+        deleteActivity(activityId)
     }
     else if(url == "/register"){
         document.getElementById("registerPage").classList.add("current-page")
@@ -266,7 +322,6 @@ function fetchAllActivities(){
                 author.innerText = "by: " + activity.username
                 anchor.innerText="Read more"
                 anchor.setAttribute("href", '/activities/'+activity.id)
-                console.log(activity.userEmail)
                 
                 li.appendChild(name)
                 li.appendChild(date)
@@ -275,23 +330,18 @@ function fetchAllActivities(){
                 li.appendChild(author)
                 li.appendChild(anchor)
                 if(activity.userEmail == localStorage.userEmail){
-                    const deleteForm = document.createElement("form")
-                    const deleteButton = document.createElement("button")
-                    deleteForm.setAttribute("action", "/deleteActivity/"+activity.id)
-                    deleteForm.setAttribute("method", "DELETE")
-                    deleteButton.setAttribute("type", "submit")
-                    deleteButton.innerText = "Delete"
-                    deleteForm.appendChild(deleteButton)
+                    const deleteActivity = document.createElement("a")
+                    deleteActivity.setAttribute("href", "/deleteActivity/"+activity.id)
+                    deleteActivity.innerText = "Delete Activity"
 
                     const updateForm = document.createElement("form")
                     const updateButton = document.createElement("button")
                     updateForm.setAttribute("action", "/updateActivity/"+activity.id)
-                    updateForm.setAttribute("method", "PUT")
                     updateButton.setAttribute("type", "submit")
                     updateButton.innerText = "Update"
                     updateForm.appendChild(updateButton)
 
-                    li.append(deleteForm)
+                    li.append(deleteActivity)
                     li.append(updateForm)
                 }
                 ul.append(li)
@@ -316,7 +366,6 @@ function fetchActivityById(activityId){
         }
     })
     .then(activity =>{
-        console.log(activity)
         if(activity == 500){
             window.location.replace("/error")
         }
@@ -324,22 +373,77 @@ function fetchActivityById(activityId){
             window.location.replace("/error")
         }
         else{
-            const title = document.querySelector("#activityPage h1")
-            const author = document.querySelector("#activityPage .author")
-            const location = document.querySelector("#activityPage .location")
-            const createdAt = document.querySelector("#activityPage .createdAt")
-            const date = document.querySelector("#activityPage .date")
-            const time = document.querySelector("#activityPage .time")
-            const description = document.querySelector("#activityPage .description")
+            const activityPage = document.getElementById("activityPage")
+            const updateActivityPage = document.getElementById("updateActivityPage")
 
-            title.innerText = activity.activity.title
-            author.innerText = activity.user.username
-            location.innerText = activity.activity.location
-            createdAt.innerText = activity.activity.createdAt
-            date.innerText = activity.activity.date
-            time.innerText = activity.activity.time
-            description.innerText = activity.activity.description
+            if(activityPage.classList.contains("current-page")){
+                const title = document.querySelector("#activityPage h1")
+                const author = document.querySelector("#activityPage .author")
+                const location = document.querySelector("#activityPage .location")
+                const createdAt = document.querySelector("#activityPage .createdAt")
+                const date = document.querySelector("#activityPage .date")
+                const time = document.querySelector("#activityPage .time")
+                const description = document.querySelector("#activityPage .description")
+
+                title.innerText = activity.activity.title
+                author.innerText = activity.user.username
+                location.innerText = activity.activity.location
+                createdAt.innerText = activity.activity.createdAt
+                date.innerText = activity.activity.date
+                time.innerText = activity.activity.time
+                description.innerText = activity.activity.description
+            }
+            else if(updateActivityPage.classList.contains("current-page")){
+                const title = document.querySelector("#updateActivityPage .title")
+                const location = document.querySelector("#updateActivityPage .location")
+                const date = document.querySelector("#updateActivityPage .date")
+                const time = document.querySelector("#updateActivityPage .time")
+                const description = document.querySelector("#updateActivityPage .description")
+                const activityId = document.querySelector("#updateActivityPage .activityId")
+
+                title.setAttribute("value", activity.activity.title)
+                location.setAttribute("value", activity.activity.location)
+                date.setAttribute("value", activity.activity.date)
+                time.setAttribute("value", activity.activity.time)
+                description.setAttribute("value", activity.activity.description)
+                activityId.setAttribute("value", activity.activity.id)
+            }
         }
+    })
+}
+
+function deleteActivity(activityId){
+    const validator ={
+        activityId,
+        userEmail: (localStorage.userEmail ? localStorage.userEmail : null)
+    }
+
+    fetch(
+        "http://localhost:8080/restAPI/deleteActivity/"+activityId,{
+            method: "DELETE",
+            headers:{
+                "Content-Type": "application/json",
+                "authorization": "Bearer "+localStorage.accessToken
+            },
+            body: JSON.stringify(validator)
+        }
+    )
+    .then(response =>{
+        if(response.status == 401){
+            window.location.replace("/error")
+        }
+        else if(response.status == 400){
+            window.location.replace("/error")
+        }
+        else if(response.status == 500){
+            window.location.replace("/error")
+        }
+        else{
+            window.location.replace("/activities")
+        }
+    })
+    .catch(error =>{
+        window.location.replace("/error")
     })
 }
 

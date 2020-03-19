@@ -171,18 +171,19 @@ module.exports = function({activityManager, userManager}){
 
     router.put("/updateActivity/:id", authoriztaion, function(request, response){
 
-        const userEmail = "hasse121@hans.se"
-
         const activity = {
-            id: request.params.id,
+            id: request.body.activityId,
             title: request.body.title.trim(),
             location: request.body.location.trim(),
             date: request.body.date.trim(),
             time: request.body.time.trim(),
-            description: request.body.description.trim()
+            description: request.body.description.trim(),
+            userEmail: request.body.userEmail
         }
 
-        activityManager.updateActivity(activity, userEmail, function(error, activity){
+        console.log(activity)
+
+        activityManager.updateActivity(activity, activity.userEmail, function(error, activity){
 
             if(error && error.toString().includes("databaseError")){
                 console.log(error)
@@ -199,17 +200,21 @@ module.exports = function({activityManager, userManager}){
     })
 
     router.delete("/deleteActivity/:id", authoriztaion, function(request, response){
-        const id = request.params.id
-        const userEmail = "hasse121@hans.se"
 
-        activityManager.deleteActivity(id, userEmail, function(error){
+        const validator ={
+            id: request.body.activityId,
+            userEmail: request.body.userEmail
+        }
+    
+
+        activityManager.deleteActivity(validator.id, validator.userEmail, function(error){
             if(error && error.toString().includes("databaseError")){
                 console.log(error)
                 response.status(500).end()
             }
             else if(error){
                 console.log(error)
-                response.status(401).end()
+                response.status(400).end()
             }
             else{
                 response.status(200).end()
