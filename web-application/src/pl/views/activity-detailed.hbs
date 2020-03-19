@@ -25,10 +25,12 @@
             {{#if isLoggedIn.length}}
             {{#if isParticipated}}
             <form action="/activities/unparticipate/{{activity.id}}" method="POST">
+                <input type="hidden" name="_csrf" value="{{csrfToken}}">
                 <button type="submit" class="btn btn-danger">Unparticipate</button>
             </form>
             {{else}}
             <form action="/activities/participate/{{activity.id}}" method="POST">
+                <input type="hidden" name="_csrf" value="{{csrfToken}}">
                 <button type="submit" class="btn btn-success">Participate</button>
             </form>
             {{/if}}
@@ -36,6 +38,7 @@
                 <h5 class="card-header">Leave a Comment:</h5>
                 <div class="card-body">
                     <form action="/comment/create/{{activity.id}}" method="POST">
+                        <input type="hidden" name="_csrf" value="{{csrfToken}}">
                         <div class="form-group">
                             <textarea class="form-control" rows="3" name="content"></textarea>
                         </div>
@@ -71,6 +74,7 @@
                     <p>{{content}}</p>
                     {{#if isAuthor}}
                     <form action="/comment/delete/{{id}}" method="POST">
+                        <input type="hidden" name="_csrf" value="{{../csrfToken}}">
                         <button class="btn btn-danger" type="submit">Delete</button>
                     </form>
                     {{/if}}

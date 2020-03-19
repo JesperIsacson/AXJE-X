@@ -36,6 +36,7 @@
                 {{#if isLoggedIn.length}}
                 <li class="nav-item">
                     <form action="/login/logout" method="POST">
+                        <input type="hidden" name="_csrf" value="{{csrfToken}}">
                         <button class="nav-link button-borderless bg-dark" id="logoutBtn" type="submit">Logout</button>
                     </form>
                 </li>

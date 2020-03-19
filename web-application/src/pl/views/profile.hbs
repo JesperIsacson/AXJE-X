@@ -15,6 +15,7 @@
                         <button class="btn btn-success m-1" type="submit">Manage Profile</button>
                     </form>
                     <form action="/profile/deleteProfile/{{user._username}}" method="POST">
+                        <input type="hidden" name="_csrf" value="{{csrfToken}}">
                         <button class="btn btn-danger m-1" type="submit">Delete Profile</button>
                     </form>
                 {{/if}}    

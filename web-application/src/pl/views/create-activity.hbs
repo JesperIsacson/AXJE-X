@@ -3,7 +3,8 @@
 <div class="container mt-10" id="container">
   <div class="jumbotron mt-4">
     <form action="/activities/create" method="POST">
-    <h3 class="text-center">Create Activity</h3>
+      <input type="hidden" name="_csrf" value="{{csrfToken}}">
+      <h3 class="text-center">Create Activity</h3>
       <div class="form-group row">
         <label for="title" class="col-sm-2 col-form-label" style="font-size:25px">Title</label>
         <input type="text" class="form-control form-input" id="input-title" name="title" value="{{activity.title}}"

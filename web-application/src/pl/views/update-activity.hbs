@@ -15,6 +15,7 @@
 <div class="container">
   <div class="jumbotron">
     <form action="/activities/update/{{activity.id}}" method="POST">
+      <input type="hidden" name="_csrf" value="{{csrfToken}}">
       <div class="form-group row">
         <label for="title" class="col-sm-2 col-form-label" style="font-size:25px">Title</label>
         <input type="text" class="form-control form-input" id="input-title" name="title" value="{{activity.title}}"

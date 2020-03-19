@@ -16,6 +16,8 @@ const redisClient = redis.createClient({host: 'session-database'})
 const redisStore = require('connect-redis')(expressSession)
 const bodyParser = require('body-parser')
 const awilix = require('awilix')
+const csrf = require('csurf')
+const cookieParser = require('cookie-parser')
 
 const loginRouter = require("./routers/loginRouter")
 const activityRouter = require("./routers/activityRouter")
@@ -58,7 +60,6 @@ const theProfileRouter = container.resolve('profileRouter')
 const theCommentRouter = container.resolve('commentRouter')
 const theRestAPI = container.resolve('rest-api')
 
-
 const app = express()
 
 app.use(express.static(__dirname+"/public"))
@@ -69,10 +70,15 @@ app.engine("hbs", expressHandlebars({
     defaultLayout: "main.hbs"
 }))
 
-app.use(bodyParser.json())
+const csrfProtection = csrf({cookie: true})
+
 app.use(bodyParser.urlencoded({
     extended: false
 }))
+
+app.use(cookieParser())
+
+app.use(bodyParser.json())
 
 redisClient.on("error", function(error) {
     console.error(error)
@@ -85,9 +91,11 @@ app.use(expressSession({
     store: new redisStore({client: redisClient}),
 }))
 
+app.use(csrfProtection)
+
 app.use(function(request, response, next){
     response.locals.isLoggedIn = request.session.isLoggedIn
-    response.locals.userEmail = request.
+    response.locals.csrfToken = request.csrfToken()
     next()
 })
 
