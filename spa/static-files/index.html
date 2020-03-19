@@ -18,7 +18,7 @@
             <li><a class="showIfLoggedIn" href="/createActivity">Create Activity</a></li>
             <li><a class="showIfLoggedOut" href="/register">Register</a></li>
             <li><a class="showIfLoggedOut" href="/login">Login</a></li>
-            <li><a class="showIfLoggedIn" href="/logout">Logut</a></li>
+            <li><a class="showIfLoggedIn" href="/logout">Logout</a></li>
         </ul>
     </nav>
 
@@ -38,6 +38,16 @@
             </ul>
         </div>
 
+        <div id="activityPage">
+            <h1></h1>
+            <div>by <span class="author"></span></div>
+            <div>Location: <span class="location"></span></div>
+            <div>Posted on: <span class="createdAt"></span></div>
+            <div>Date: <span class="date"></span></div>
+            <div>Time: <span class="time"></span></div>
+            <span class="description"></span>
+        </div>
+
         <div id="createActivityPage">
             <h1>Create Activity</h1>
             <p>SKAPA ETT KONTO DÅ!!! XD</p>
@@ -50,6 +60,9 @@
                 </div>
                 <div>
                     Date: <input type="date" class="date">
+                </div>
+                <div>
+                    Time: <input type="time" class="time">
                 </div>
                 <div>
                     Description: <input type="text" class="description">
@@ -96,13 +109,15 @@
         <div id="loginPage">
             <h1>Login</h1>
             <p>LOGGA IN SNÄLLA</p>
-            <div>
-                Email or Username: <input type="text" name="usernameOrEmail">
-            </div>
-            <div>
-                Password: <input type="password" name="password">
-            </div>
-            <button type="submit">Login</button>
+            <form action="">
+                <div>
+                    Email or Username: <input type="text" class="usernameOrEmail">
+                </div>
+                <div>
+                    Password: <input type="password" class="password">
+                </div>
+                <button type="submit">Login</button>
+            </form>
         </div>
 
         <div id="errorPage">
