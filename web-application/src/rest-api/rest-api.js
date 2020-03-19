@@ -7,9 +7,17 @@ module.exports = function({activityManager, userManager}){
     const serverSecret ="ashdSA/(hslascs8@3i-"
     const expiration = {expiresIn: 160000}
 
+    router.use(function(request, response, next){
+        response.setHeader("Access-Control-Allow-Origin", "*")
+        response.setHeader("Access-Control-Allow-Methods", "*")
+        response.setHeader("Access-Control-Allow-Headers", "*")
+        response.setHeader("Access-Control-Expose-Headers", "*")
+        next()
+    })
+
 
     router.get("/activities", function(request, response){
-        const userEmail = response.locals.isLoggedIn
+       userEmail = request.body.userEmail
 
         activityManager.getAllActivities(userEmail, function(error, theActivities){
             if(error){
@@ -40,7 +48,6 @@ module.exports = function({activityManager, userManager}){
     })
 
     router.post("/createAccount", function(request, response){
-        const userEmail = response.locals.isLoggedIn
 
         const account = {
             email : request.body.email.trim(),
@@ -50,26 +57,28 @@ module.exports = function({activityManager, userManager}){
             password : request.body.password,
             passwordConfirm : request.body.passwordConfirm,
             gender : request.body.gender,
-            dateOfBirth : request.body.dateOfBirth.trim()
+            dateOfBirth : request.body.dateOfBirth.trim(),
+            userEmail: request.body.userEmail
         }
 
-        userManager.createAccount(account, userEmail, function(error, userEmail){
-            console.log(error)
+        userManager.createAccount(account, account.userEmail, function(error, userEmail){
             if(error && error.toString().includes("databaseError")){
                 response.status(500).end()
             }
             else if(error){
-                response.status(400).json(error)
+                response.status(400).end()
             }
             else{
                 const payload = {id: userEmail}
                 jwt.sign(payload, serverSecret, function(error, token){
                     if(error){
-                        console.log(error)
                         response.status(500).end()
                     }
                     else{
-                        response.status(200).json({"token":token})
+                        response.status(201).json({
+                            accessToken: token,
+                            userEmail: userEmail
+                        })
                     }
                 })
             }
@@ -79,16 +88,17 @@ module.exports = function({activityManager, userManager}){
 
     router.post("/login", function(request, response){
 
-        const grantType = request.body.grantType
-        const usernameOrEmail = request.body.usernameOrEmail
-        const password = request.body.password
-
-        if(grantType != "password"){
-            response.status(400).json({error: "incorrect-grant-type"})
-            return
+        const loginInfo = {
+        grantType: request.body.grantType,
+        usernameOrEmail: request.body.usernameOrEmail,
+        password: request.body.password
         }
 
-        userManager.login(usernameOrEmail, password, function(error, reqEmail){
+        if(loginInfo.grantType != "password"){
+            response.status(400).json({error: "incorrect-grant-type"})
+        }
+
+        userManager.login(loginInfo.usernameOrEmail, loginInfo.password, function(error, reqEmail){
             if(error && error.toString().includes("databaseError")){
                 response.status(500).end()
             }
@@ -99,11 +109,13 @@ module.exports = function({activityManager, userManager}){
                 const payload = {id: reqEmail}
                 jwt.sign(payload, serverSecret, function(error, token){
                     if(error){
-                        console.log(error)
                         response.status(500).end()
                     }
                     else{
-                        response.status(200).json({"token":token})
+                        response.status(200).json({
+                            accessToken: token,
+                            userEmail: reqEmail
+                        })
                     }
                 })
             }
@@ -143,31 +155,34 @@ module.exports = function({activityManager, userManager}){
 
 
         activityManager.createActivity(activity, function(error, activity){
-            console.log(activity)
-            if(error){
-                console.log(error)
+            if(error && error.toString().includes("databaseError")){
                 response.status(500).end()
             }
+            else if(error){
+                console.log(error)
+                response.status(400).end()
+            }
             else{
-                response.status(201).json(activity)
+                response.status(201).end()
             }
         })
     })
 
     router.put("/updateActivity/:id", authoriztaion, function(request, response){
 
-        const userEmail = "hasse121@hans.se"
-
         const activity = {
-            id: request.params.id,
+            id: request.body.activityId,
             title: request.body.title.trim(),
             location: request.body.location.trim(),
             date: request.body.date.trim(),
             time: request.body.time.trim(),
-            description: request.body.description.trim()
+            description: request.body.description.trim(),
+            userEmail: request.body.userEmail
         }
 
-        activityManager.updateActivity(activity, userEmail, function(error, activity){
+        console.log(activity)
+
+        activityManager.updateActivity(activity, activity.userEmail, function(error, activity){
 
             if(error && error.toString().includes("databaseError")){
                 console.log(error)
@@ -175,7 +190,7 @@ module.exports = function({activityManager, userManager}){
             }
             else if(error){
                 console.log(error)
-                response.status(401).end()
+                response.status(400).end()
             }
             else{
                 response.status(200).json(activity)
@@ -184,26 +199,27 @@ module.exports = function({activityManager, userManager}){
     })
 
     router.delete("/deleteActivity/:id", authoriztaion, function(request, response){
-        const id = request.params.id
-        const userEmail = "hasse121@hans.se"
 
-        activityManager.deleteActivity(id, userEmail, function(error){
+        const validator ={
+            id: request.body.activityId,
+            userEmail: request.body.userEmail
+        }
+    
+
+        activityManager.deleteActivity(validator.id, validator.userEmail, function(error){
             if(error && error.toString().includes("databaseError")){
                 console.log(error)
                 response.status(500).end()
             }
             else if(error){
                 console.log(error)
-                response.status(401).end()
+                response.status(400).end()
             }
             else{
                 response.status(200).end()
             }
         })
     })
-
-
-
 
     return router
 }

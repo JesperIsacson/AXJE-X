@@ -1,0 +1,80 @@
+body{
+    background-image: url("/public/images/chopper.jpg");
+}
+
+header{
+    text-align: center;
+    font-size: 150%;
+}
+
+nav{
+    border-bottom: 25px solid blueviolet;
+    width: 60%;
+    margin: 0 auto;
+    padding: 0.5em;
+}
+
+nav ul{
+    list-style-type: none;
+    padding: 1;
+    margin: 1;
+    text-align: center;
+}
+
+nav ul li{
+    display: inline-block;
+}
+
+nav ul li a{
+    color: cyan;
+    font-size: 200%;
+    padding: 5px;
+}
+
+main{
+    width: 100%;
+    margin: 0 auto;
+}
+
+main > div{
+    display: none;
+}
+
+main > div.current-page{
+    display: block;
+}
+
+input{
+    background-color: yellow;
+    color: red;
+    border: 10px solid teal
+}
+
+select{
+    background-color:  blue;
+    color: pink;
+    font-size: 50px;
+}
+
+button{
+    background-color: orangered;
+    color: brown;
+}
+
+h1{
+    background-color: aquamarine;
+    color: coral;
+}
+
+p{
+    background-color: darkmagenta;
+    color: olive;
+}
+
+body.isLoggedOut .showIfLoggedIn{
+    display: none;
+}
+
+body.isLoggedIn .showIfLoggedOut{
+	display: none;
+}

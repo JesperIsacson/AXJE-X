@@ -23,7 +23,8 @@ module.exports = function ({ activityRepository, commentRepository, profileRepos
                             description: activities[i]._activityDescription,
                             createdAt: activities[i].createdAt.toString().slice(0, 15),
                             username: activities[i]._activityAuthor,
-                            isAuthor: ((userEmail == activities[i].UserEmail) ? true : false)
+                            isAuthor: ((userEmail == activities[i].UserEmail) ? true : false),
+                            userEmail: activities[i].UserEmail
                         }
                         theActivities.push(act)
                     }

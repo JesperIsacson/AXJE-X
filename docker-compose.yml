@@ -20,3 +20,9 @@ services:
         build: session-database
         ports:
             - "6379:6379"
+    spa:
+        build: ./spa
+        ports:
+            - "3000:3000"
+        volumes:
+            - "./spa:/spa"
