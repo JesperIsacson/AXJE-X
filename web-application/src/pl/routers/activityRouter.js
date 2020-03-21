@@ -85,16 +85,25 @@ module.exports = function ({ activityManager }) {
             const id = request.params.id
             const userEmail = response.locals.isLoggedIn
 
-            activityManager.getActivityById(id, userEmail, function (error, model) {
+            activityManager.getToUpdateActivity(id, userEmail, function (error, activity) {
                 if(error && error.includes("databaseError")){
                     console.log(error)
                     response.redirect("/error500")
                 }
-                else if (error) {
+                else if (error && error.includes("Unauthorized")) {
                     console.log(error)
+                    response.redirect("/error401")
+                }
+                else if(error && error.includes("notFound")){
+                    console.log(error)
+                    response.render("error404.hbs")
+                }
+                else if(error){
+                    console.log(error)
+                    
                 }
                 else {
-                    response.render("update-activity.hbs", model)
+                    response.render("update-activity.hbs", activity)
                 }
             })
         }
@@ -155,9 +164,14 @@ module.exports = function ({ activityManager }) {
                     console.log(error)
                     response.redirect("/error500")
                 }
-                else if (error) {
+                else if (error && error.includes("Unauthorized")) {
                     console.log(error)
-                } else {
+                    response.redirect("/error401")
+                }
+                else if(error){
+                    console.log(error)
+                }
+                else {
                     response.redirect("/activities")
                 }
             })
@@ -176,7 +190,11 @@ module.exports = function ({ activityManager }) {
                 console.log(error)
                 response.redirect("/error500")
             }
-            else if (error) {
+            else if (error && error.includes("Unauthorized")) {
+                console.log(error)
+                response.redirect("error401")
+            }
+            else if(error){
                 console.log(error)
                 response.render("activity-detailed.hbs", error)
             }
@@ -196,6 +214,10 @@ module.exports = function ({ activityManager }) {
                 console.log(error)
                 response.redirect("/error500")
             }
+            else if(error && error.includes("Unauthorized")){
+                console.log(error)
+                response.redirect("/error401")
+            }
             else if (error) {
                 console.log(error)
                 response.render("activity-detailed.hbs", error)
@@ -208,8 +230,9 @@ module.exports = function ({ activityManager }) {
 
     router.get("/by/:_username", function (request, response) {
         const username = request.params._username
+        const userEmail = response.locals.isLoggedIn
 
-        activityManager.getAllActivitiesByUser(username, function (error, usersActivities) {
+        activityManager.getAllActivitiesByUser(username, userEmail, function (error, usersActivities) {
 
             if(error && error.includes("databaseError")){
                 console.log(error)
@@ -238,6 +261,10 @@ module.exports = function ({ activityManager }) {
             if(error && error.includes("databaseError")){
                 console.log(error)
                 response.redirect("/error500")
+            }
+            else if(error && error.includes("notFound")){
+                console.log(error)
+                response.render("error404.hbs")
             }
             else if (error) {
                 console.log(error)

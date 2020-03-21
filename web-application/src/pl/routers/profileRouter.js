@@ -46,6 +46,10 @@ module.exports = function({profileManager}){
                 console.log(error)
                 response.redirect("/error500")
             }
+            else if(error && error.includes("Unauthorized")){
+                console.log(error)
+                response.redirect("/error401")
+            }
             else if(error){
                 console.log(error)
             }
@@ -82,6 +86,10 @@ module.exports = function({profileManager}){
                 console.log(error)
                 response.redirect("/error500")
             }
+            else if(error && error.includes("Unauthorized")){
+                console.log(error)
+                response.redirect("/error401")
+            }
             else if(error){
                 console.log(error)
                 const model = {
@@ -109,6 +117,9 @@ module.exports = function({profileManager}){
             if(error && error.includes("databaseError")){
                 console.log(error)
                 response.redirect("/error500")
+            }
+            else if(error && error.includes("Unauthorized")){
+                response.redirect("/error401")
             }
             else if(error){
                 console.log(error)

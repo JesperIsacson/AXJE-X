@@ -28,6 +28,15 @@ module.exports = function({}){
             db.query(query, values, function(error){
                 callback(error)
             })
+        },
+
+        getUsersParticipation: function(activityId, userEmail, callback){
+            const query = "SELECT * FROM Participants WHERE ActivityId = ? AND UserEmail = ?"
+            const values = [activityId, userEmail]
+
+            db.query(query, values, function(error, participation){
+                callback(error, participation)
+            })
         }
     }
 }

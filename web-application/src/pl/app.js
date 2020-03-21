@@ -101,6 +101,13 @@ app.use(function(request, response, next){
     next()
 })
 
+app.use(function(error, request, response, next){
+    if(error.code == 'EBADCSRFTOKEN'){
+        response.render("error403.hbs")
+    }
+    next()
+})
+
 app.use("/login", theLoginRouter)
 app.use("/profile", theProfileRouter)
 app.use("/activities", theActivityRouter)
@@ -127,6 +134,10 @@ app.get("/activities", function(request, response){
 
 app.get("/error500", function(request, response){
     response.render("error500.hbs")
+})
+
+app.get("/error401", function(request, response){
+    response.render("error401.hbs")
 })
 
 app.use(function(request, response){

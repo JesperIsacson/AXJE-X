@@ -46,6 +46,19 @@ module.exports = function({}){
             .catch(error =>{
                 callback(error)
             })
+        },
+
+        getParticipationById: function(activityId, userEmail, callback){
+            Participants.findAll({
+                raw: true,
+                where: [Op.and] [{ActivityId: activityId}, {UserEmail: userEmail}]
+            })
+            .then(participation =>{
+                callback(null, participation)
+            })
+            .catch(error =>{
+                callback(error)
+            })
         }
     }
 }

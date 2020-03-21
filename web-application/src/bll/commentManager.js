@@ -60,7 +60,7 @@ module.exports = function({commentRepository, profileRepository}){
                         })
                     }
                     else{
-                        validationErrors.push("You can not delete others comments")
+                        validationErrors.push("Unauthorized")
                         callback(validationErrors)
                     }
                 })

@@ -111,7 +111,7 @@ module.exports = function({profileRepository}){
                         callback(null, theUser)
                     }
                     else{
-                        validationErrors.push("You can not manage others profiles")
+                        validationErrors.push("Unauthorized")
                         callback(validationErrors)
                     }
                 })
@@ -178,7 +178,7 @@ module.exports = function({profileRepository}){
                         }
                     }
                     else{
-                        validationErrors.push("You can not update others profiles")
+                        validationErrors.push("Unauthorized")
                         callback(validationErrors, newUser)
                     }
                 })
@@ -206,7 +206,7 @@ module.exports = function({profileRepository}){
                         })
                     }
                     else{
-                        validationErrors.push("You can not delete others accounts")
+                        validationErrors.push("Unauthorized")
                         callback(validationErrors)
                     }
                 })

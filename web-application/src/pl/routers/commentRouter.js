@@ -40,6 +40,10 @@ module.exports = function ({commentManager}){
                 console.log(error)
                 response.redirect("/error500")
             }
+            else if(error && error.includes("Unauthorized")){
+                console.log(error)
+                response.redirect("/error401")
+            }
             else if(error){
                 console.log(error)
                 response.render("activity-detailed.hbs", error)

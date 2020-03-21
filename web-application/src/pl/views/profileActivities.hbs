@@ -9,14 +9,14 @@
                         <p class="card-text"><b>Date</b>: {{date}}</p>
                         <p class="card-text"><b>Time</b>: {{time}}</p>
                         <div class="row">
-                            <a href="/activities/{{id}}" class="btn btn-primary m-1">Read more</a>
-                            {{#if ../isLoggedIn.length}}
+                        <a href="/activities/{{id}}" class="btn btn-primary m-1">Read more</a>
+                        {{#if isAuthor}} 
                             <a href="/activities/update/{{id}}" class="btn btn-success m-1">Update</a>
                             <form action="/activities/delete/{{id}}" method="POST">
                                 <input type="hidden" name="_csrf" value="{{../csrfToken}}">
                                 <input type="submit" value="Delete" class="btn btn-danger m-1">
                             </form>
-                            {{/if}}
+                        {{/if}}
                         </div>
                     </div>
                     <div class="card-footer text-muted">
