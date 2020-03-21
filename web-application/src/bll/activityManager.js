@@ -220,8 +220,9 @@ module.exports = function ({ activityRepository, commentRepository, profileRepos
                         if (error) {
                             validationErrors.push("databaseError")
                             callback(validationErrors)
-                        } else {
-                            callback(null)
+                        }
+                        else {
+                            
                         }
                     })
                 }

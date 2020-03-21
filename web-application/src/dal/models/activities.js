@@ -45,7 +45,7 @@ const Activities = db.define("Activities", {
     }
 })
 
-Activities.hasMany(Comments, {as: 'Comments'})
-Activities.hasMany(Participants, {as: 'Participants'})
+Activities.hasMany(Comments, {as: 'Comments', onDelete: 'CASCADE', hooks: true})
+Activities.hasMany(Participants, {as: 'Participants', onDelete: 'CASCADE', hooks: true})
 
 module.exports = Activities
