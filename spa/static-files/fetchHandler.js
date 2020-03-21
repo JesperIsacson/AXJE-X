@@ -22,6 +22,7 @@ document.addEventListener("DOMContentLoaded", function(){
             dateOfBirth,
             userEmail: (localStorage.userEmail ? localStorage.userEmail : null)
         }
+
     
         fetch(
             "http://localhost:8080/restAPI/createAccount", {
@@ -44,6 +45,7 @@ document.addEventListener("DOMContentLoaded", function(){
                 window.location.replace("/")
             })
             .catch(error => {
+                console.log(error)
                 window.location.replace("/error/500")
             })
     })
@@ -82,6 +84,7 @@ document.addEventListener("DOMContentLoaded", function(){
                 window.location.replace("/")
             })
             .catch(error => {
+                console.log(error)
                 window.location.replace("/error/500")
             })
     })
@@ -125,6 +128,7 @@ document.addEventListener("DOMContentLoaded", function(){
                 }
             })
             .catch(error => {
+                console.log(error)
                 window.location.replace("/error/500")
             })
     })
@@ -234,6 +238,7 @@ function fetchAllActivities() {
 
         })
         .catch(error => {
+            console.log(error)
             window.location.replace("/error/500")
         })
 }
@@ -289,6 +294,7 @@ function fetchActivityById(activityId) {
 
         })
         .catch(error => {
+            console.log(error)
             window.location.replace("/error/500")
         })
 }
@@ -318,6 +324,7 @@ function deleteActivity(activityId) {
             }
         })
         .catch(error => {
+            console.log(error)
             window.location.replace("/error/500")
         })
 }

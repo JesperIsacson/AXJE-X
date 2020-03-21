@@ -30,11 +30,11 @@ const activityManager = require('../bll/activityManager')
 const profileManager = require('../bll/profileManager')
 const userManager = require('../bll/userManager')
 const commentManager = require('../bll/commentManager')
-const activityRepository = require('../dal/activityRepository')
-const profileRepository = require('../dal/profileRepository')
-const userRepository = require('../dal/userRepository')
-const commentRepository = require('../dal/commentRepository')
-const participantRepository = require('../dal/participantsRepository')
+const activityRepository = require('../dal-mysql/activityRepository')
+const profileRepository = require('../dal-mysql/profileRepository')
+const userRepository = require('../dal-mysql/userRepository')
+const commentRepository = require('../dal-mysql/commentRepository')
+const participantRepository = require('../dal-mysql/participantsRepository')
 
 
 const container = awilix.createContainer()
@@ -70,6 +70,10 @@ app.engine("hbs", expressHandlebars({
     defaultLayout: "main.hbs"
 }))
 
+app.use(bodyParser.json())
+
+app.use("/restAPI", theRestAPI)
+
 const csrfProtection = csrf({cookie: true})
 
 app.use(bodyParser.urlencoded({
@@ -77,8 +81,6 @@ app.use(bodyParser.urlencoded({
 }))
 
 app.use(cookieParser())
-
-app.use(bodyParser.json())
 
 redisClient.on("error", function(error) {
     console.error(error)
@@ -103,7 +105,7 @@ app.use("/login", theLoginRouter)
 app.use("/profile", theProfileRouter)
 app.use("/activities", theActivityRouter)
 app.use("/comment", theCommentRouter)
-app.use("/restAPI", theRestAPI)
+
 
 app.get('/', function(request, response){
     response.render("home.hbs")

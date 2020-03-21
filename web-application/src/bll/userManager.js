@@ -35,7 +35,13 @@ module.exports = function({userRepository}){
                     const salt = bcrypt.genSaltSync(15)
                     account.password = bcrypt.hashSync(account.password, salt)
                     userRepository.createAccount(account, function(error, createdEmail){
-                        callback(error, createdEmail)
+                        if(error){
+                            validationErrors.push("databaseError")
+                            callback(validationErrors)
+                        }
+                        else{
+                            callback(null, createdEmail)
+                        }
                     })
                 }
                 else{

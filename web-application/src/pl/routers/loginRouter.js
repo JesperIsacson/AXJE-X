@@ -10,8 +10,6 @@ module.exports = function({userManager}){
 
     router.post("/", function(request, response){
 
-        const validationErrors = []
-
         const usernameOrEmail = request.body.usernameOrEmail
         const password = request.body.password
 
@@ -32,8 +30,6 @@ module.exports = function({userManager}){
     })
 
     router.post("/createAccount", function(request, respone){
-
-        const validationErrors = []
 
         const userEmail = respone.locals.isLoggedIn
 

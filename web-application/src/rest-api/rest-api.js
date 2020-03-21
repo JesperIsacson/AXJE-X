@@ -5,7 +5,6 @@ const jwt = require('jsonwebtoken')
 module.exports = function({activityManager, userManager}){
     const router = express.Router()
     const serverSecret ="ashdSA/(hslascs8@3i-"
-    const expiration = {expiresIn: 160000}
 
     router.use(function(request, response, next){
         response.setHeader("Access-Control-Allow-Origin", "*")

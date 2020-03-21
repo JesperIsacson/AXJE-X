@@ -14,10 +14,11 @@ module.exports = function({}){
         },
 
         getLoginInformation: function(usernameOrEmail, callback){
-            const query = "SELECT * Users WHERE _email = ? OR _username = ?"
+            const query = "SELECT * FROM Users WHERE _email = ? OR _username = ?"
             const values = [usernameOrEmail, usernameOrEmail]
 
             db.query(query, values, function(error, user){
+                console.log(error)
                 callback(error, user)
             })
         }

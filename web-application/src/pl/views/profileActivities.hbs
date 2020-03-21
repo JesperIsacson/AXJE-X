@@ -13,7 +13,7 @@
                             {{#if ../isLoggedIn.length}}
                             <a href="/activities/update/{{id}}" class="btn btn-success m-1">Update</a>
                             <form action="/activities/delete/{{id}}" method="POST">
-                                <input type="hidden" name="_csrf" value="{{csrfToken}}">
+                                <input type="hidden" name="_csrf" value="{{../csrfToken}}">
                                 <input type="submit" value="Delete" class="btn btn-danger m-1">
                             </form>
                             {{/if}}

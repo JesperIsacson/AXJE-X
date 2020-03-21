@@ -22,11 +22,7 @@ module.exports = function ({commentManager}){
             }
             else if(error){
                 console.log(error)
-                const model = {
-                    error,
-                    packet
-                }
-                response.render("activity-detailed.hbs", model)
+                response.redirect("/activities/" + activityId)
             }
             else{
                 response.redirect("/activities/" + activityId)
