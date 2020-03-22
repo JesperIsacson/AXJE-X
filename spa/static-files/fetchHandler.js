@@ -211,6 +211,8 @@ function fetchAllActivities() {
                 author.innerText = "by: " + activity.username
                 anchor.innerText = "Read more"
                 anchor.setAttribute("href", '/activities/' + activity.id)
+                const line = document.createElement("hr")
+                
 
                 li.appendChild(name)
                 li.appendChild(date)
@@ -232,9 +234,9 @@ function fetchAllActivities() {
 
                     li.append(deleteActivity)
                     li.append(updateForm)
-                    const line = document.createElement("hr")
-                    li.append(line)
+                    
                 }
+                li.append(line)
                 ul.append(li)
             }
 

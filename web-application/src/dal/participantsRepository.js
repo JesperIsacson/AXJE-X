@@ -3,62 +3,66 @@ const sequelize = require('sequelize')
 
 const Op = sequelize.Op
 
-module.exports = function({}){
+module.exports = function ({ }) {
 
-    return{
+    return {
 
-        getAllParticipantsForActivity: function(activityId, callback){
+        getAllParticipantsForActivity: function (activityId, callback) {
             Participants.findAll({
                 raw: true,
-                where: {ActivityId: activityId}
+                where: { ActivityId: activityId }
             })
-            .then(participants =>{
-                callback(null, participants)
-            })
-            .catch(error =>{
-                callback(error)
-            })
+                .then(participants => {
+                    callback(null, participants)
+                })
+                .catch(error => {
+                    callback(error)
+                })
         },
 
-        participateInActivity: function(user, activityId, callback){
+        participateInActivity: function (user, activityId, callback) {
             Participants.create({
+                raw: true,
                 _username: user[0]._username,
                 ActivityId: activityId,
                 UserEmail: user[0]._email
             })
-            .then(status =>{
-                callback(null)
-            })
-            .catch(error =>{
-                callback(error)
-            })
+                .then(status => {
+                    console.log("SKAPAD HASSE: ", status)
+                    callback(null)
+                })
+                .catch(error => {
+                    callback(error)
+                })
         },
 
-        unparticipateInActivity: function(activityId, userEmail, callback){
+        unparticipateInActivity: function (activityId, userEmail, callback) {
             Participants.destroy({
-                where:{
-                    [Op.and]: [{ActivityId: activityId}, {UserEmail: userEmail}]
+                where: {
+                    [Op.and]: [{ ActivityId: activityId }, { UserEmail: userEmail }]
                 }
             })
-            .then(status =>{
-                callback(null)
-            })
-            .catch(error =>{
-                callback(error)
-            })
+                .then(status => {
+                    callback(null)
+                })
+                .catch(error => {
+                    callback(error)
+                })
         },
 
-        getParticipationById: function(activityId, userEmail, callback){
+        getUsersParticipation: function (activityId, userEmail, callback) {
             Participants.findAll({
                 raw: true,
-                where: [Op.and] [{ActivityId: activityId}, {UserEmail: userEmail}]
+                where: {
+                    [Op.and]: [{ ActivityId: activityId }, { UserEmail: userEmail }]
+                }
             })
-            .then(participation =>{
-                callback(null, participation)
-            })
-            .catch(error =>{
-                callback(error)
-            })
+                .then(participation => {
+                    callback(null, participation)
+                })
+                .catch(error => {
+                    callback(error)
+                })
         }
     }
 }

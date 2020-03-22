@@ -40,7 +40,6 @@ module.exports = function ({ activityRepository, commentRepository, profileRepos
             const validationErrors = []
 
             activityRepository.getActivityById(id, function (error, activity) {
-                console.log(activity)
                 if (error) {
                     validationErrors.push("databaseError")
                     callback(validationErrors)
@@ -250,11 +249,11 @@ module.exports = function ({ activityRepository, commentRepository, profileRepos
                 validationErrors.push("Invalid description")
             }
 
-            if (activity.date.length = "") {
+            if (activity.date.length == "") {
                 validationErrors.push("Invalid date")
             }
 
-            if (activity.time.length = "") {
+            if (activity.time.length == "") {
                 validationErrors.push("Invalid time")
             }
 
@@ -325,6 +324,7 @@ module.exports = function ({ activityRepository, commentRepository, profileRepos
 
             if (userEmail != null) {
                 participantsRepository.getUsersParticipation(activityId, userEmail, function(error, participation){
+                    console.log("THIS IS PARTICIPATE", participation)
                     if(error){
                         validationErrors.push("databaseError")
                         callback(validationErrors)
