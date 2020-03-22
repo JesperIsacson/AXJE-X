@@ -19,7 +19,7 @@ module.exports = function({activityManager, userManager}){
        userEmail = request.body.userEmail
 
         activityManager.getAllActivities(userEmail, function(error, theActivities){
-            if(error){
+            if(error && error.includes("databaseError")){
                 response.status(500).end()
             }
             else{
@@ -34,10 +34,10 @@ module.exports = function({activityManager, userManager}){
         const userEmail = response.locals.isLoggedIn
 
         activityManager.getActivityById(id, userEmail, function(error, model){
-            if(error){
+            if(error && error.includes("databaseError")){
                 response.status(500).end()
             }
-            else if(!model){
+            else if(error && error.includes("notFound")){
                 response.status(404).end()
             }
             else{
@@ -98,7 +98,7 @@ module.exports = function({activityManager, userManager}){
         }
 
         userManager.login(loginInfo.usernameOrEmail, loginInfo.password, function(error, reqEmail){
-            if(error && error.toString().includes("databaseError")){
+            if(error && error.includes("databaseError")){
                 response.status(500).end()
             }
             else if(error){
@@ -154,7 +154,7 @@ module.exports = function({activityManager, userManager}){
 
 
         activityManager.createActivity(activity, function(error, activity){
-            if(error && error.toString().includes("databaseError")){
+            if(error && error.includes("databaseError")){
                 response.status(500).end()
             }
             else if(error){
@@ -179,13 +179,15 @@ module.exports = function({activityManager, userManager}){
             userEmail: request.body.userEmail
         }
 
-        console.log(activity)
-
         activityManager.updateActivity(activity, activity.userEmail, function(error, activity){
 
-            if(error && error.toString().includes("databaseError")){
+            if(error && error.includes("databaseError")){
                 console.log(error)
                 response.status(500).end()
+            }
+            else if(!activity){
+                console.log(error)
+                response.status(404).end()
             }
             else if(error){
                 console.log(error)
@@ -206,7 +208,7 @@ module.exports = function({activityManager, userManager}){
     
 
         activityManager.deleteActivity(validator.id, validator.userEmail, function(error){
-            if(error && error.toString().includes("databaseError")){
+            if(error && error.includes("databaseError")){
                 console.log(error)
                 response.status(500).end()
             }
