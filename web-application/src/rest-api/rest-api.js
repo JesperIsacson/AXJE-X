@@ -7,8 +7,8 @@ module.exports = function({activityManager, userManager}){
     const serverSecret ="ashdSA/(hslascs8@3i-"
 
     router.use(function(request, response, next){
-        response.setHeader("Access-Control-Allow-Origin", "*")
-        response.setHeader("Access-Control-Allow-Methods", "*")
+        response.setHeader("Access-Control-Allow-Origin", "http://localhost:3000")
+        response.setHeader("Access-Control-Allow-Methods", "GET, PUT, POST, DELETE")
         response.setHeader("Access-Control-Allow-Headers", "*")
         response.setHeader("Access-Control-Expose-Headers", "*")
         next()
