@@ -144,7 +144,7 @@ module.exports = function({profileManager}){
             }
             else if(error){
                 console.log(error)
-                response.redirect("/error500")
+                response.redirect("/error404")
             }
             else{
                 const model={

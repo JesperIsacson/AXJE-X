@@ -30,7 +30,8 @@ module.exports = function({profileRepository}){
                             _lastName : user[0]._lastName,
                             _dateOfBirth : user[0]._dateOfBirth,
                             _height : user[0]._height,
-                            _weight : user[0]._weight
+                            _weight : user[0]._weight,
+                            _gender : user[0]._gender
                         }
 
                         callback(null, theUser)
@@ -73,7 +74,8 @@ module.exports = function({profileRepository}){
                         _lastName : user[0]._lastName,
                         _dateOfBirth : user[0]._dateOfBirth,
                         _height : user[0]._height,
-                        _weight : user[0]._weight
+                        _weight : user[0]._weight,
+                        _gender : user[0]._gender
                         }
 
 

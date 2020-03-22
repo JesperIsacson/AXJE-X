@@ -200,13 +200,13 @@ function fetchAllActivities() {
                 const li = document.createElement("li")
                 const anchor = document.createElement("a")
                 const name = document.createElement("p")
-                name.innerText = activity.title
+                name.innerText = "Title: " + activity.title
                 const date = document.createElement("p")
-                date.innerText = activity.date
+                date.innerText = "Date: " + activity.date
                 const time = document.createElement("p")
-                time.innerText = activity.time
+                time.innerText = "Time: " + activity.time
                 const createdAt = document.createElement("p")
-                createdAt.innerText = activity.createdAt.toString().slice(0, 15)
+                createdAt.innerText = "Created at: " + activity.createdAt.toString().slice(0, 15)
                 const author = document.createElement("p")
                 author.innerText = "by: " + activity.username
                 anchor.innerText = "Read more"
@@ -232,6 +232,8 @@ function fetchAllActivities() {
 
                     li.append(deleteActivity)
                     li.append(updateForm)
+                    const line = document.createElement("hr")
+                    li.append(line)
                 }
                 ul.append(li)
             }

@@ -4,8 +4,13 @@
             <h3 class="text-center">{{user._username}}</h3>
             <p><b>Name: </b>{{user._firstName}} {{user._lastName}}</p>
             <p><b>Birth date: </b>{{user._dateOfBirth}}</p>
+            <p><b>Gender: </b>{{user._gender}}</p>
+            {{#if user._height}}
             <p><b>Height: </b>{{user._height}} cm</p>
+            {{/if}}
+            {{#if user._weight}}
             <p><b>Weight: </b>{{user._weight}} kg</p>
+            {{/if}}
             <div class="row">
                 <form action="/activities/by/{{user._username}}" method="GET">
                     <button class="btn btn-primary m-1" type="submit">View Activities</button>

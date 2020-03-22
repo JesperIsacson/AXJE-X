@@ -3,13 +3,14 @@
 
 <head>
     <script src="/public/fetchHandler.js"></script>
-    <title>jumans</title>
+    <title>Sportify</title>
     <link rel="stylesheet" href="/public/styles.css">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css">
     <script src="/public/navigationHandler.js"></script>
 </head>
 
 <body>
-    <header>JUMANS</header>
+    <header>Sportify</header>
     <nav>
         <ul>
             <li><a href="/">Home</a></li>
@@ -24,122 +25,167 @@
     <main>
 
         <div id="homePage">
-            <h1>THIS IS HOME</h1>
-            <p>Jumans</p>
+            <div class="container jumbotron mt-4">
+                <div class="row">
+                    <div class="col-lg-8">
+                        <h1>WELCOME TO SPORTIFY</h1>
+                    </div>
+                </div>
+            </div>
         </div>
 
         <div id="activitiesPage">
-            <h1>Activities</h1>
-            <p>HÄR HITTAR DU ALLA AKTIVITETER</p>
-            <ul>
 
 
-            </ul>
+            <div class="container">
+                <div class="row">
+                    <div class="col-md-8">
+                        <div class="container" id="container">
+                            <div class="jumbotron mt-4" id="jumbotron">
+                                <h1>Activities</h1>
+                                <ul>
+
+
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
         </div>
 
         <div id="activityPage">
-            <h1></h1>
-            <div>by <span class="author"></span></div>
-            <div>Location: <span class="location"></span></div>
-            <div>Posted on: <span class="createdAt"></span></div>
-            <div>Date: <span class="date"></span></div>
-            <div>Time: <span class="time"></span></div>
-            <span class="description"></span>
+
+            <div class="container jumbotron mt-4">
+                <div class="row">
+                    <div class="col-lg-8">
+                        <h1></h1>
+                        <div>by <span class="author"></span></div>
+                        <div>Location: <span class="location"></span></div>
+                        <div>Posted on: <span class="createdAt"></span></div>
+                        <div>Date: <span class="date"></span></div>
+                        <div>Time: <span class="time"></span></div>
+                        <span class="description"></span>
+                    </div>
+                </div>
+            </div>
+
         </div>
 
         <div id="createActivityPage">
-            <h1>Create Activity</h1>
-            <p>SKAPA ETT KONTO DÅ!!! XD</p>
-            <form action="">
-                <div>
-                    Title: <input type="text" class="title">
+            <div class="container jumbotron mt-4">
+                <div class="row">
+                    <div class="col-lg-8">
+                        <h1>Create Activity</h1>
+                        <form action="">
+                            <div>
+                                Title: <input type="text" class="title">
+                            </div>
+                            <div>
+                                Location: <input type="text" class="location">
+                            </div>
+                            <div>
+                                Date: <input type="date" class="date">
+                            </div>
+                            <div>
+                                Time: <input type="time" class="time">
+                            </div>
+                            <div>
+                                Description: <input type="text" class="description">
+                            </div>
+                            <button type="submit">Create</button>
+                        </form>
+                    </div>
                 </div>
-                <div>
-                    Location: <input type="text" class="location">
-                </div>
-                <div>
-                    Date: <input type="date" class="date">
-                </div>
-                <div>
-                    Time: <input type="time" class="time">
-                </div>
-                <div>
-                    Description: <input type="text" class="description">
-                </div>
-                <button type="submit">Create</button>
-            </form>
+            </div>
         </div>
 
         <div id="updateActivityPage">
-            <h1>Update Activity</h1>
-            <form class="updateForm" action="">
-                <input type="hidden" class="activityId">
-                <div>
-                    Title: <input type="text" class="title">
+            <div class="container jumbotron mt-4">
+                <div class="row">
+                    <div class="col-lg-8">
+                        <h1>Update Activity</h1>
+                        <form class="updateForm" action="">
+                            <input type="hidden" class="activityId">
+                            <div>
+                                Title: <input type="text" class="title">
+                            </div>
+                            <div>
+                                Location: <input type="text" class="location">
+                            </div>
+                            <div>
+                                Date: <input type="date" class="date">
+                            </div>
+                            <div>
+                                Time: <input type="time" class="time">
+                            </div>
+                            <div>
+                                Description: <input type="text" class="description">
+                            </div>
+                            <button type="submit">Update</button>
+                        </form>
+                    </div>
                 </div>
-                <div>
-                    Location: <input type="text" class="location">
-                </div>
-                <div>
-                    Date: <input type="date" class="date">
-                </div>
-                <div>
-                    Time: <input type="time" class="time">
-                </div>
-                <div>
-                    Description: <input type="text" class="description">
-                </div>
-                <button type="submit">Update</button>
-            </form>
+            </div>
         </div>
 
         <div id="registerPage">
-            <h1>Create Account</h1>
-            <p>CREATE A ACCOUNT</p>
-            <form action="">
-                <div>
-                    Email: <input type="email" class="email">
+            <div class="container jumbotron mt-4">
+                <div class="row">
+                    <div class="col-lg-8">
+                        <h1>Create Account</h1>
+                        <form action="">
+                            <div>
+                                Email: <input type="email" class="email">
+                            </div>
+                            <div>
+                                First name: <input type="text" class="firstName">
+                            </div>
+                            <div>
+                                Last name: <input type="text" class="lastName">
+                            </div>
+                            <div>
+                                Username: <input type="text" class="userName">
+                            </div>
+                            <div>
+                                Password: <input type="password" class="password">
+                            </div>
+                            <div>
+                                Confirm password: <input type="password" class="passwordConfirm">
+                            </div>
+                            <div>
+                                Gender: <select class="gender">
+                                    <option value="Male">Male</option>
+                                    <option value="Female">Female</option>
+                                </select>
+                            </div>
+                            <div>
+                                Date of birth: <input type="date" class="dateOfBirth">
+                            </div>
+                            <button type="submit">Create</button>
+                        </form>
+                    </div>
                 </div>
-                <div>
-                    First name: <input type="text" class="firstName">
-                </div>
-                <div>
-                    Last name: <input type="text" class="lastName">
-                </div>
-                <div>
-                    Username: <input type="text" class="userName">
-                </div>
-                <div>
-                    Password: <input type="password" class="password">
-                </div>
-                <div>
-                    Confirm password: <input type="password" class="passwordConfirm">
-                </div>
-                <div>
-                    Gender: <select class="gender">
-                        <option value="Male">Male</option>
-                        <option value="Female">Female</option>
-                    </select>
-                </div>
-                <div>
-                    Date of birth: <input type="date" class="dateOfBirth">
-                </div>
-                <button type="submit">Create</button>
-            </form>
+            </div>
         </div>
 
         <div id="loginPage">
-            <h1>Login</h1>
-            <p>LOGGA IN SNÄLLA</p>
-            <form action="">
-                <div>
-                    Email or Username: <input type="text" class="usernameOrEmail">
+            <div class="container jumbotron mt-4">
+                <div class="row">
+                    <div class="col-lg-8">
+                        <h1>Login</h1>
+                        <form action="">
+                            <div>
+                                Email or Username: <input type="text" class="usernameOrEmail">
+                            </div>
+                            <div>
+                                Password: <input type="password" class="password">
+                            </div>
+                            <button type="submit">Login</button>
+                        </form>
+                    </div>
                 </div>
-                <div>
-                    Password: <input type="password" class="password">
-                </div>
-                <button type="submit">Login</button>
-            </form>
+            </div>
         </div>
 
         <div id="error400Page">

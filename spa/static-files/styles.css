@@ -8,7 +8,7 @@ header{
 }
 
 nav{
-    border-bottom: 25px solid blueviolet;
+    border-bottom: 2px solid black;
     width: 60%;
     margin: 0 auto;
     padding: 0.5em;
@@ -26,7 +26,7 @@ nav ul li{
 }
 
 nav ul li a{
-    color: cyan;
+    color: green;
     font-size: 200%;
     padding: 5px;
 }
@@ -44,32 +44,6 @@ main > div.current-page{
     display: block;
 }
 
-input{
-    background-color: yellow;
-    color: red;
-    border: 10px solid teal
-}
-
-select{
-    background-color:  blue;
-    color: pink;
-    font-size: 50px;
-}
-
-button{
-    background-color: orangered;
-    color: brown;
-}
-
-h1{
-    background-color: aquamarine;
-    color: coral;
-}
-
-p{
-    background-color: darkmagenta;
-    color: olive;
-}
 
 body.isLoggedOut .showIfLoggedIn{
     display: none;

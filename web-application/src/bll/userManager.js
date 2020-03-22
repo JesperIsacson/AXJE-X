@@ -5,13 +5,15 @@ module.exports = function({userRepository}){
     return{
         createAccount: function(account, userEmail, callback){
             const validationErrors = []
-
+            var re = /^(([^<>()\[\]\.,;:\s@\"]+(\.[^<>()\[\]\.,;:\s@\"]+)*)|(\".+\"))@(([^<>()[\]\.,;:\s@\"]+\.)+[^<>()[\]\.,;:\s@\"]{2,})$/i;
             if(userEmail == null){
 
                 if(account.email == ""){
                     validationErrors.push("Please enter an email")
                 }
-
+                if(!re.test(String(account.email).toLowerCase())){
+                    validationErrors.push("Invalid email")
+                }
                 if(account.firstName.length < 2 || account.firstName.length > 20){
                     validationErrors.push("Invalid first name")
                 }
