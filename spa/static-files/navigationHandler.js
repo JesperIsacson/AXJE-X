@@ -89,8 +89,6 @@ function changeToPage(url) {
 function login(userValidator) {
     localStorage.accessToken = userValidator.accessToken
     localStorage.userEmail = userValidator.userEmail
-    console.log(localStorage.accessToken)
-    console.log(localStorage.userEmail)
     document.body.classList.remove("isLoggedOut")
     document.body.classList.add("isLoggedIn")
 }
